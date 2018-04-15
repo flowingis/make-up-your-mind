@@ -24,8 +24,6 @@ const generateValues = ({ sides, radius = 400, xOffset, yOffset }) => {
 
   const points = generateChartPoints({ values, radius, xOffset, yOffset })
 
-  console.log(generatePathAttribute(points))
-
   path.setAttribute('d', generatePathAttribute(points))
   path.setAttribute('role', 'values')
 
