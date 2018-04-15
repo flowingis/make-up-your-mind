@@ -19,6 +19,8 @@
     "html-loader": "0.5.1",
     "html-webpack-plugin": "3.2.0",
     "husky": "1.0.0-rc.1",
+    "lint-staged": "7.0.4",
+    "prettier": "1.12.0",
     "standard": "10.0.3",
     "url-loader": "0.5.9",
     "webpack": "4.5.0",
@@ -27,7 +29,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "standard --fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "standard --fix",
+      "git add"
+    ]
   }
 }
