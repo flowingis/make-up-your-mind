@@ -15,7 +15,7 @@ const generatePoly = ({ sides, radius = 400, xOffset, yOffset }) => {
   dPathAttribute += 'z'
 
   path.setAttribute('d', dPathAttribute)
-  path.setAttribute('fill-rule', 'evenodd')
+  path.setAttribute('role', 'chart')
 
   return path
 }
