@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
     "build": "webpack -p",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "deploy": "gh-pages -d dist -r https://${GITHUB_TOKEN}@github.com/francesco-strazzullo/serverless-examples.git"
   },
   "license": "MIT",
   "dependencies": {},
