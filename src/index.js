@@ -1,1 +1,1 @@
-console.log('Start')
+console.log('Framework Compass Chart - WIP')
