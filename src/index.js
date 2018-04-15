@@ -1,21 +1,33 @@
-import generatePolygonPoints from './model/generatePolygonPoints'
+import generateBaseChartPoints from './model/generateBaseChartPoints'
+import generateChartPoints from './model/generateChartPoints'
+import { generatePathAttribute } from './model/svgUtils'
 
 const NS_URI = 'http://www.w3.org/2000/svg'
 
-const generatePoly = ({ sides, radius = 400, xOffset, yOffset }) => {
+const generateEmptyChart = ({ sides, radius = 400, xOffset, yOffset }) => {
   const path = document.createElementNS(NS_URI, 'path')
-  const points = generatePolygonPoints({ sides, radius, xOffset, yOffset })
+  const points = generateBaseChartPoints({ sides, radius, xOffset, yOffset })
 
-  let dPathAttribute = points.reduce((accumulator, point, index) => {
-    return (
-      accumulator + (index === 0 ? 'M' : 'L') + point.x + ' ' + point.y + ' '
-    )
-  }, '')
-
-  dPathAttribute += 'z'
-
-  path.setAttribute('d', dPathAttribute)
+  path.setAttribute('d', generatePathAttribute(points))
   path.setAttribute('role', 'chart')
+
+  return path
+}
+
+const generateValues = ({ sides, radius = 400, xOffset, yOffset }) => {
+  const path = document.createElementNS(NS_URI, 'path')
+  const values = []
+  for (let i = 0; i < sides; i++) {
+    const randomRangeValue = (Math.floor(Math.random() * 2) + 3) * 20
+    values.push(randomRangeValue)
+  }
+
+  const points = generateChartPoints({ values, radius, xOffset, yOffset })
+
+  console.log(generatePathAttribute(points))
+
+  path.setAttribute('d', generatePathAttribute(points))
+  path.setAttribute('role', 'values')
 
   return path
 }
@@ -25,7 +37,12 @@ const onInputChange = value => {
     const parent = document.querySelector('svg g')
     parent.innerHTML = ''
     parent.appendChild(
-      generatePoly({
+      generateEmptyChart({
+        sides: value
+      })
+    )
+    parent.appendChild(
+      generateValues({
         sides: value
       })
     )
