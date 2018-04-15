@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
+  devtool: 'eval-source-map',
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
@@ -19,13 +20,15 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [ {
-          loader: 'html-loader'
-        }]
+        use: [
+          {
+            loader: 'html-loader'
+          }
+        ]
       },
       {
         test: /\.svg$/,
-        use: [ 'url-loader?mimetype=image/svg+xml' ]
+        use: ['url-loader?mimetype=image/svg+xml']
       }
     ]
   },
