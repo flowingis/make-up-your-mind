@@ -1,0 +1,51 @@
+{
+  "name": "framework-compassa-chart-editor",
+  "version": "0.0.1",
+  "scripts": {
+    "predeploy": "npm run build",
+    "build": "webpack -p",
+    "start": "webpack-dev-server",
+    "deploy": "gh-pages -d dist -r https://${GITHUB_TOKEN}@github.com/e-xtrategy/framework-compass-chart-editor.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@webcomponents/custom-elements": "1.1.0",
+    "babel-polyfill": "6.26.0",
+    "regenerator-runtime": "0.11.1"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-custom-element-classes": "0.1.0",
+    "babel-preset-env": "1.6.1",
+    "file-loader": "0.11.2",
+    "gh-pages": "1.0.0",
+    "html-loader": "0.5.1",
+    "html-webpack-plugin": "3.2.0",
+    "husky": "1.0.0-rc.1",
+    "lint-staged": "7.0.4",
+    "prettier": "1.12.0",
+    "standard": "10.0.3",
+    "url-loader": "0.5.9",
+    "webpack": "4.5.0",
+    "webpack-cli": "2.0.14",
+    "webpack-dev-server": "3.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "standard --fix",
+      "git add"
+    ]
+  },
+  "standard": {
+    "globals": [
+      "HTMLElement"
+    ]
+  }
+}
