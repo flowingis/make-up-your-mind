@@ -1,6 +1,6 @@
 import generateBaseChartPoints from './model/generateBaseChartPoints'
 import generateChartValuesPoints from './model/generateChartValuesPoints'
-import { createPath } from 'src/utils/svgUtils'
+import { createPath, updatePath } from 'src/utils/svgUtils'
 
 const LEVELS = 5
 
@@ -22,6 +22,14 @@ const createBaseChartPaths = ({ sides, radius }) =>
 const createChartValuesPath = ({ values, radius }) => {
   const point = generateChartValuesPoints({ values, radius })
   return createPath(point, { role: 'chart-values' })
+}
+
+const updateChartValuesPath = element => {
+  const { values, radius } = element
+  const valuesPath = element.querySelector('[role="chart-values"]')
+  if (valuesPath) {
+    updatePath(valuesPath, generateChartValuesPoints({ values, radius }))
+  }
 }
 
 class Chart extends HTMLElement {
@@ -51,7 +59,7 @@ class Chart extends HTMLElement {
   }
 
   set values (newValues) {
-    this.setAttribute(newValues.join(','))
+    this.setAttribute('values', newValues.join(','))
   }
 
   connectedCallback () {
@@ -73,6 +81,14 @@ class Chart extends HTMLElement {
     })
 
     container.appendChild(createChartValuesPath({ values, radius }))
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    console.log(name, oldValue, newValue)
+    if (name === 'values') {
+      console.log(this)
+      updateChartValuesPath(this)
+    }
   }
 }
 
