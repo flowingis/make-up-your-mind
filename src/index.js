@@ -13,3 +13,5 @@ const updateChart = () => {
 Array.from(document.querySelectorAll('input')).forEach(input => {
   input.addEventListener('input', updateChart)
 })
+
+window.requestAnimationFrame(updateChart)

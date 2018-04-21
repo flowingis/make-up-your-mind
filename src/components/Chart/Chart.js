@@ -34,14 +34,25 @@ const updateChartValuesPath = element => {
 
 class Chart extends HTMLElement {
   static get observedAttributes () {
-    return ['values', 'radius']
+    return ['values']
+  }
+
+  get sides () {
+    if (!this.hasAttribute('sides')) {
+      return 5
+    }
+    return parseInt(this.getAttribute('sides'), 10)
+  }
+
+  set sides (value) {
+    this.setAttribute('sides', value)
   }
 
   get radius () {
     if (!this.hasAttribute('radius')) {
       return 400
     }
-    return parseInt(this.getAttribute('radius'), 100)
+    return parseInt(this.getAttribute('radius'), 10)
   }
 
   set radius (value) {
@@ -64,18 +75,15 @@ class Chart extends HTMLElement {
 
   connectedCallback () {
     this.innerHTML = TEMPLATE
-    const { values, radius } = this
+    const { values, radius, sides } = this
 
-    if (values.length === 0) {
-      return
-    }
+    const container = document.querySelector('svg g')
 
     const baseChartsPaths = createBaseChartPaths({
-      sides: values.length,
+      sides,
       radius
     })
 
-    const container = document.querySelector('svg g')
     baseChartsPaths.forEach(path => {
       container.appendChild(path)
     })
