@@ -84,9 +84,7 @@ class Chart extends HTMLElement {
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    console.log(name, oldValue, newValue)
     if (name === 'values') {
-      console.log(this)
       updateChartValuesPath(this)
     }
   }
