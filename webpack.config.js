@@ -4,10 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
-  entry: './src/index.js',
+  entry: [
+    'babel-polyfill',
+    'regenerator-runtime',
+    '@webcomponents/custom-elements',
+    './src/index.js'
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
+  },
+  resolve: {
+    alias: {
+      src: path.join(__dirname, 'src')
+    }
   },
   module: {
     rules: [

@@ -8,7 +8,11 @@
     "deploy": "gh-pages -d dist -r https://${GITHUB_TOKEN}@github.com/e-xtrategy/framework-compass-chart-editor.git"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@webcomponents/custom-elements": "1.1.0",
+    "babel-polyfill": "6.26.0",
+    "regenerator-runtime": "0.11.1"
+  },
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
@@ -37,6 +41,11 @@
       "prettier --write",
       "standard --fix",
       "git add"
+    ]
+  },
+  "standard": {
+    "globals": [
+      "HTMLElement"
     ]
   }
 }
