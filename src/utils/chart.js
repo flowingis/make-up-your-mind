@@ -7,7 +7,7 @@ export const STARTING_ANGLES_IN_GRAD = {
   8: 22.5
 }
 
-export const gradToRadian = grad => grad * Math.PI / 180
+export const gradsToRadians = grad => grad * Math.PI / 180
 
 export const getAngleIncrement = sides => 2 * Math.PI / sides
 
@@ -20,10 +20,10 @@ export const unitaryCirclePoints = angleIncrement => index => {
   return { x, y }
 }
 
-export const rotatePoints = angle => point => {
+export const rotatePoint = angle => point => {
   const { x, y } = point
 
-  const radians = gradToRadian(angle)
+  const radians = gradsToRadians(angle)
 
   const cos = Math.cos(radians)
   const sin = Math.sin(radians)
@@ -33,12 +33,12 @@ export const rotatePoints = angle => point => {
   }
 }
 
-export const scalePoints = radius => point => ({
+export const scalePoint = radius => point => ({
   x: radius * point.x,
   y: radius * point.y
 })
 
-export const translatePoints = (xOffset, yOffset) => point => ({
+export const translatePoint = (xOffset, yOffset) => point => ({
   x: xOffset + point.x,
   y: yOffset + point.y
 })

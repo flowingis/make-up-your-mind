@@ -1,11 +1,11 @@
 import {
   STARTING_ANGLES_IN_GRAD,
   unitaryCirclePoints,
-  scalePoints,
-  translatePoints,
+  scalePoint,
+  translatePoint,
   floor,
   getAngleIncrement,
-  rotatePoints
+  rotatePoint
 } from 'src/utils/chart'
 
 import { newIndexedArray } from 'src/utils/array'
@@ -17,11 +17,11 @@ export default ({ values, radius = 1, xOffset = 0, yOffset = 0 }) => {
 
   return newIndexedArray(sides)
     .map(unitaryCirclePoints(angleIncrement))
-    .map(rotatePoints(startingAngle))
+    .map(rotatePoint(startingAngle))
     .map((point, index) => {
       const value = radius * values[index] / 100
-      return scalePoints(value)(point)
+      return scalePoint(value)(point)
     })
-    .map(translatePoints(xOffset, yOffset))
+    .map(translatePoint(xOffset, yOffset))
     .map(floor)
 }
