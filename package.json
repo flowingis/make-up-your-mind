@@ -5,7 +5,7 @@
     "predeploy": "npm run build",
     "build": "webpack -p",
     "start": "webpack-dev-server",
-    "deploy": "gh-pages -d dist -r https://${GITHUB_TOKEN}@github.com/e-xtrategy/framework-compass-chart-editor.git"
+    "deploy": "gh-pages -d dist"
   },
   "license": "MIT",
   "dependencies": {
