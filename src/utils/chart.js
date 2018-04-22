@@ -11,8 +11,8 @@ export const gradsToRadians = grad => grad * Math.PI / 180
 
 export const getAngleIncrement = sides => 2 * Math.PI / sides
 
-export const unitaryCirclePoints = angleIncrement => index => {
-  const angle = angleIncrement * index
+export const unitaryCirclePoints = step => index => {
+  const angle = step * index
 
   const x = Math.cos(angle)
   const y = Math.sin(angle)
