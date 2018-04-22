@@ -1,7 +1,6 @@
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
 import { createPath, createPathAttribute, createText } from 'src/utils/svg'
-
 import { newIndexedArray } from 'src/utils/array'
 
 const LEVELS = 5
