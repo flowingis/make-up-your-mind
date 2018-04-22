@@ -1,4 +1,5 @@
 import './components'
+import './style/app.css'
 
 const updateChart = () => {
   const chart = document.querySelector('app-chart')
