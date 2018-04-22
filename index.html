@@ -3,13 +3,17 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <input type="range" min="20" max="100" value="20" step="20">
-        <input type="range" min="20" max="100" value="20" step="20">
-        <input type="range" min="20" max="100" value="20" step="20">
-        <input type="range" min="20" max="100" value="20" step="20">
-        <input type="range" min="20" max="100" value="20" step="20">
-        <div>
-            <app-chart></app-chart>
-        </div>
+        <main class="container">
+            <div class="form">
+                <input type="range" min="20" max="100" value="20" step="20">
+                <input type="range" min="20" max="100" value="20" step="20">
+                <input type="range" min="20" max="100" value="20" step="20">
+                <input type="range" min="20" max="100" value="20" step="20">
+                <input type="range" min="20" max="100" value="20" step="20">            
+            </div>
+            <div class="chart">
+                <app-chart></app-chart>
+            </div>
+        </main>
     </body>
 </html>

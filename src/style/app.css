@@ -16,3 +16,15 @@ path[role="chart-values"] {
     fill: red;
     stroke-opacity: 0;
 }
+
+.container {
+    display: flex;
+}
+
+.container .form {
+    flex: 1;
+}
+
+.container .chart {
+    flex: 1;
+}
