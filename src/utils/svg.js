@@ -11,7 +11,7 @@ export const createPathAttribute = (points = []) => {
     )
   }, '')
 
-  dPathAttribute += 'z'
+  dPathAttribute += 'Z'
 
   return dPathAttribute
 }
