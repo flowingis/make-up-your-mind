@@ -1,6 +1,6 @@
 import generateBaseChartPoints from './model/generateBaseChartPoints'
 import generateChartValuesPoints from './model/generateChartValuesPoints'
-import { createPath, updatePath } from 'src/utils/svgUtils'
+import { createPath, updatePath, createText } from 'src/utils/svgUtils'
 
 const LEVELS = 5
 
@@ -30,6 +30,48 @@ const updateChartValuesPath = element => {
   if (valuesPath) {
     updatePath(valuesPath, generateChartValuesPoints({ values, radius }))
   }
+}
+
+const createLabels = ({ labels, radius }) => {
+  const points = generateBaseChartPoints({
+    sides: labels.length,
+    radius: radius * 1.2
+  })
+
+  return points.map((point, index) => {
+    const { x, y } = point
+    console.log(labels)
+    return createText({
+      text: labels[index],
+      x,
+      y
+    })
+  })
+}
+
+const render = element => {
+  element.innerHTML = TEMPLATE
+  const { values, radius, sides, labels } = element
+
+  const container = document.querySelector('svg g')
+
+  const baseChartsPaths = createBaseChartPaths({
+    sides,
+    radius
+  })
+
+  baseChartsPaths.forEach(path => {
+    container.appendChild(path)
+  })
+
+  container.appendChild(createChartValuesPath({ values, radius }))
+
+  const labelElementes = createLabels({
+    labels,
+    radius
+  })
+
+  labelElementes.forEach(label => container.appendChild(label))
 }
 
 class Chart extends HTMLElement {
@@ -73,22 +115,12 @@ class Chart extends HTMLElement {
     this.setAttribute('values', newValues.join(','))
   }
 
+  get labels () {
+    return [...Array(LEVELS)].map((value, index) => `Label ${index}`)
+  }
+
   connectedCallback () {
-    this.innerHTML = TEMPLATE
-    const { values, radius, sides } = this
-
-    const container = document.querySelector('svg g')
-
-    const baseChartsPaths = createBaseChartPaths({
-      sides,
-      radius
-    })
-
-    baseChartsPaths.forEach(path => {
-      container.appendChild(path)
-    })
-
-    container.appendChild(createChartValuesPath({ values, radius }))
+    render(this)
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
