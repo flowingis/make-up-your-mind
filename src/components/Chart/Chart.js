@@ -2,6 +2,8 @@ import generateBaseChartPoints from './model/generateBaseChartPoints'
 import generateChartValuesPoints from './model/generateChartValuesPoints'
 import { createPath, updatePath, createText } from 'src/utils/svg'
 
+import { newIndexedArray } from 'src/utils/array'
+
 const LEVELS = 5
 
 const TEMPLATE = `
@@ -12,8 +14,8 @@ const TEMPLATE = `
 `
 
 const createBaseChartPaths = ({ sides, radius }) =>
-  [...Array(LEVELS)]
-    .map((value, index) => (index + 1) * (radius / LEVELS))
+  newIndexedArray(LEVELS)
+    .map(index => (index + 1) * (radius / LEVELS))
     .map(aRadius => {
       const points = generateBaseChartPoints({ sides, radius: aRadius })
       return createPath(points, { role: 'chart-base' })
@@ -116,7 +118,7 @@ class Chart extends HTMLElement {
   }
 
   get labels () {
-    return [...Array(LEVELS)].map((value, index) => `Label ${index}`)
+    return newIndexedArray(LEVELS).map(index => `Label ${index}`)
   }
 
   connectedCallback () {

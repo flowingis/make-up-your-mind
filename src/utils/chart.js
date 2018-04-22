@@ -9,14 +9,9 @@ export const STARTING_ANGLES_IN_GRAD = {
 
 export const gradToRadian = grad => grad * Math.PI / 180
 
-export const emptyArray = size => [...Array(parseInt(size, 10))]
-
 export const getAngleIncrement = sides => 2 * Math.PI / sides
 
-export const unitaryCirclePoints = (startingAngle, angleIncrement) => (
-  e,
-  index
-) => {
+export const unitaryCirclePoints = (startingAngle, angleIncrement) => index => {
   const angle = startingAngle + angleIncrement * index
 
   const x = Math.cos(angle)
