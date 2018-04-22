@@ -43,7 +43,6 @@ const createLabels = ({ labels, radius }) => {
 
   return points.map((point, index) => {
     const { x, y } = point
-    console.log(labels)
     return createText({
       text: labels[index],
       x,
