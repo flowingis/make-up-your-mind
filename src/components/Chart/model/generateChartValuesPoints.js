@@ -7,7 +7,7 @@ import {
   translatePoints,
   floor,
   getAngleIncrement
-} from './chartUtils'
+} from 'src/utils/chart'
 
 export default ({ values, radius = 1, xOffset = 0, yOffset = 0 }) => {
   const sides = values.length

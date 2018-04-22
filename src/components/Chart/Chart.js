@@ -1,6 +1,6 @@
 import generateBaseChartPoints from './model/generateBaseChartPoints'
 import generateChartValuesPoints from './model/generateChartValuesPoints'
-import { createPath, updatePath, createText } from 'src/utils/svgUtils'
+import { createPath, updatePath, createText } from 'src/utils/svg'
 
 const LEVELS = 5
 
