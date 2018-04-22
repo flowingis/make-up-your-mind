@@ -35,6 +35,16 @@ const updateChartValuesPath = element => {
   }
 }
 
+const updateChartLabels = element => {
+  const { labels } = element
+  const textElements = element.querySelectorAll('[role="chart-label"]')
+  if (textElements) {
+    Array.from(textElements).forEach((textElement, index) => {
+      textElement.innerHTML = labels[index]
+    })
+  }
+}
+
 const createLabels = ({ labels, radius }) => {
   const points = createBaseChartPoints({
     sides: labels.length,
@@ -46,7 +56,10 @@ const createLabels = ({ labels, radius }) => {
     return createText({
       text: labels[index],
       x,
-      y
+      y,
+      attrs: {
+        role: 'chart-label'
+      }
     })
   })
 }
@@ -78,7 +91,7 @@ const render = element => {
 
 class Chart extends HTMLElement {
   static get observedAttributes () {
-    return ['values']
+    return ['values', 'labels']
   }
 
   get sides () {
@@ -118,7 +131,15 @@ class Chart extends HTMLElement {
   }
 
   get labels () {
-    return newIndexedArray(LEVELS).map(index => `Label ${index}`)
+    if (!this.hasAttribute('labels')) {
+      return newIndexedArray(LEVELS).map(index => `Label ${index}`)
+    }
+
+    return this.getAttribute('labels').split(',')
+  }
+
+  set labels (newLabels) {
+    this.setAttribute('labels', newLabels.join(','))
   }
 
   connectedCallback () {
@@ -126,9 +147,14 @@ class Chart extends HTMLElement {
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    if (name === 'values') {
-      updateChartValuesPath(this)
-    }
+    window.requestAnimationFrame(() => {
+      if (name === 'values') {
+        updateChartValuesPath(this)
+      }
+      if (name === 'labels') {
+        updateChartLabels(this)
+      }
+    })
   }
 }
 
