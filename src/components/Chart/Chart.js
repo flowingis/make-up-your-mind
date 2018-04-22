@@ -7,7 +7,7 @@ import { newIndexedArray } from 'src/utils/array'
 const LEVELS = 5
 
 const TEMPLATE = `
-  <svg width="1000" height="1000" viewBox="0 0 1000 1000">
+  <svg viewBox="0 0 1000 1000">
     <g transform="translate(500,500)">
     </g>
   </svg>
