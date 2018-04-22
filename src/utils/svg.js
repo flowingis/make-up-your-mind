@@ -1,6 +1,6 @@
 export const SVG_NS_URI = 'http://www.w3.org/2000/svg'
 
-export const generatePathAttribute = (points = []) => {
+export const createPathAttribute = (points = []) => {
   if (points.length === 0) {
     return 'M0 0'
   }
@@ -18,7 +18,7 @@ export const generatePathAttribute = (points = []) => {
 
 export const createPath = (points = [], attrs = {}) => {
   const path = document.createElementNS(SVG_NS_URI, 'path')
-  path.setAttribute('d', generatePathAttribute(points))
+  path.setAttribute('d', createPathAttribute(points))
   Object.keys(attrs).forEach(attributeName => {
     path.setAttribute(attributeName, attrs[attributeName])
   })

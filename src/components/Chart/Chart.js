@@ -1,6 +1,6 @@
-import generateBaseChartPoints from './model/generateBaseChartPoints'
-import generateChartValuesPoints from './model/generateChartValuesPoints'
-import { createPath, generatePathAttribute, createText } from 'src/utils/svg'
+import createBaseChartPoints from './model/createBaseChartPoints'
+import createChartValuesPoints from './model/createChartValuesPoints'
+import { createPath, createPathAttribute, createText } from 'src/utils/svg'
 
 import { newIndexedArray } from 'src/utils/array'
 
@@ -17,12 +17,12 @@ const createBaseChartPaths = ({ sides, radius }) =>
   newIndexedArray(LEVELS)
     .map(index => (index + 1) * (radius / LEVELS))
     .map(aRadius => {
-      const points = generateBaseChartPoints({ sides, radius: aRadius })
+      const points = createBaseChartPoints({ sides, radius: aRadius })
       return createPath(points, { role: 'chart-base' })
     })
 
 const createChartValuesPath = ({ values, radius }) => {
-  const point = generateChartValuesPoints({ values, radius })
+  const point = createChartValuesPoints({ values, radius })
   return createPath(point, { role: 'chart-values' })
 }
 
@@ -30,13 +30,13 @@ const updateChartValuesPath = element => {
   const { values, radius } = element
   const valuesPath = element.querySelector('[role="chart-values"]')
   if (valuesPath) {
-    const points = generateChartValuesPoints({ values, radius })
-    valuesPath.setAttribute('d', generatePathAttribute(points))
+    const points = createChartValuesPoints({ values, radius })
+    valuesPath.setAttribute('d', createPathAttribute(points))
   }
 }
 
 const createLabels = ({ labels, radius }) => {
-  const points = generateBaseChartPoints({
+  const points = createBaseChartPoints({
     sides: labels.length,
     radius: radius * 1.2
   })
