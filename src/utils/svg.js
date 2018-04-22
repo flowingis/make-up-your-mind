@@ -16,13 +16,9 @@ export const generatePathAttribute = (points = []) => {
   return dPathAttribute
 }
 
-export const updatePath = (path, points = []) => {
-  path.setAttribute('d', generatePathAttribute(points))
-}
-
 export const createPath = (points = [], attrs = {}) => {
   const path = document.createElementNS(SVG_NS_URI, 'path')
-  updatePath(path, points)
+  path.setAttribute('d', generatePathAttribute(points))
   Object.keys(attrs).forEach(attributeName => {
     path.setAttribute(attributeName, attrs[attributeName])
   })

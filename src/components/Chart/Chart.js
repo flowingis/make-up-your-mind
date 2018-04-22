@@ -1,6 +1,6 @@
 import generateBaseChartPoints from './model/generateBaseChartPoints'
 import generateChartValuesPoints from './model/generateChartValuesPoints'
-import { createPath, updatePath, createText } from 'src/utils/svg'
+import { createPath, generatePathAttribute, createText } from 'src/utils/svg'
 
 import { newIndexedArray } from 'src/utils/array'
 
@@ -30,7 +30,8 @@ const updateChartValuesPath = element => {
   const { values, radius } = element
   const valuesPath = element.querySelector('[role="chart-values"]')
   if (valuesPath) {
-    updatePath(valuesPath, generateChartValuesPoints({ values, radius }))
+    const points = generateChartValuesPoints({ values, radius })
+    valuesPath.setAttribute('d', generatePathAttribute(points))
   }
 }
 
