@@ -2,24 +2,25 @@
     <head>
         <meta charset="utf-8">
         <style>
-            path[role="chart"] {
-                fill: #ffffff;
+            path[role="chart-base"] {
+                fill: transparent;
                 stroke: #000000;
             }
 
-            path[role="values"] {
+            path[role="chart-values"] {
                 fill: red;
                 stroke-opacity: 0;
             }
         </style>
     </head>
     <body>
+        <input type="range" min="20" max="100" value="20" step="20">
+        <input type="range" min="20" max="100" value="20" step="20">
+        <input type="range" min="20" max="100" value="20" step="20">
+        <input type="range" min="20" max="100" value="20" step="20">
+        <input type="range" min="20" max="100" value="20" step="20">
         <div>
-            <input type="number" placeholder="sides..." value="5" min="3" max="8"/>
+            <app-chart></app-chart>
         </div>
-        <svg width="1000" height="1000" viewBox="0 0 1000 1000">
-            <g transform="translate(500,500)">
-            </g>
-        </svg>
     </body>
 </html>
