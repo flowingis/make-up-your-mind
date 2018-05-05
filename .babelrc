@@ -11,6 +11,7 @@
 		]
 	],
     "plugins": [
-        "transform-custom-element-classes"
+		"transform-custom-element-classes",
+		"transform-object-rest-spread"
     ]
 }

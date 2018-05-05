@@ -17,10 +17,14 @@ const updateChart = () => {
     parseInt(value, 10)
   )
 
+  const data = labels.map((label, index) => ({
+    label,
+    value: values[index]
+  }))
+
   const chart = document.querySelector('app-chart')
 
-  chart.values = values
-  chart.labels = labels
+  chart.data = data
 }
 
 Array.from(document.querySelectorAll('input')).forEach(input => {
