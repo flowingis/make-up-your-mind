@@ -9,6 +9,8 @@ const DEFAULT_DATA = newIndexedArray(5).map(() => ({
   value: 0
 }))
 
+const LEVELS = 5
+
 const TEMPLATE = `
   <svg viewBox="0 0 1000 1000">
     <g transform="translate(500,500)">
@@ -17,8 +19,8 @@ const TEMPLATE = `
 `
 
 const createBaseChartPaths = ({ sides, radius }) =>
-  newIndexedArray(sides)
-    .map(index => (index + 1) * (radius / sides))
+  newIndexedArray(LEVELS)
+    .map(index => (index + 1) * (radius / LEVELS))
     .map(aRadius => {
       const points = createBaseChartPoints({ sides, radius: aRadius })
       return createPath(points, { role: 'chart-base' })
