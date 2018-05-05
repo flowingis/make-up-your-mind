@@ -4,9 +4,9 @@ import dataParser from 'src/model/dataParser'
 import { createPath, createPathAttribute, createText } from 'src/utils/svg'
 import { newIndexedArray } from 'src/utils/array'
 
-const DEFAULT_DATA = newIndexedArray(5).map(i => ({
-  label: `Label ${i + 1}`,
-  value: 20
+const DEFAULT_DATA = newIndexedArray(5).map(() => ({
+  label: '',
+  value: 0
 }))
 
 const TEMPLATE = `
