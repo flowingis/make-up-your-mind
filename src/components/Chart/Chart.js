@@ -1,6 +1,6 @@
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
-import dataParser from './model/dataParser'
+import dataParser from 'src/model/dataParser'
 import { createPath, createPathAttribute, createText } from 'src/utils/svg'
 import { newIndexedArray } from 'src/utils/array'
 
@@ -132,7 +132,12 @@ class Chart extends HTMLElement {
   attributeChangedCallback (name, oldValue, newValue) {
     window.requestAnimationFrame(() => {
       if (name === 'data') {
-        updateChart(this)
+        const oldData = dataParser.decode(oldValue)
+        if (oldData.length === this.data.length) {
+          updateChart(this)
+        } else {
+          render(this)
+        }
       }
     })
   }
