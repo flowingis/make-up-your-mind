@@ -2,7 +2,11 @@ import dataParser from 'src/model/dataParser'
 import template from './Form.tpl.html'
 import rowTemplate from './row.tpl.html'
 import { newIndexedArray } from 'src/utils/array'
-import { htmlToElement, bindEvents } from 'src/utils/dom'
+import {
+  htmlToElement,
+  bindEvents,
+  createChildListObserver
+} from 'src/utils/dom'
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'
@@ -69,15 +73,19 @@ class Form extends HTMLElement {
       const row = this.addRow()
       bindEvents(row, this, 'input')
       this.onDataChange()
-      this.numberOfRows++
     }
+  }
+
+  onRowListChange (mutation) {
+    this.numberOfRows = mutation.target.childNodes.length - 1
+    this.addButton.disabled = this.numberOfRows === MAX_ROWS
+    this.removeButton.disabled = this.numberOfRows === MIN_ROWS
   }
 
   onRemoveClick () {
     if (this.numberOfRows > MIN_ROWS) {
       const container = this.querySelector('.vertical-container')
       container.removeChild(container.lastChild)
-      this.numberOfRows--
       this.onDataChange()
     }
   }
@@ -86,6 +94,8 @@ class Form extends HTMLElement {
     const main = htmlToElement(template)
 
     this.formContainer = main.querySelector('.vertical-container')
+    this.addButton = main.querySelector('[role="add-row"]')
+    this.removeButton = main.querySelector('[role="remove-row"]')
 
     newIndexedArray(STARTING_ROWS).forEach(() => this.addRow())
 
@@ -97,6 +107,13 @@ class Form extends HTMLElement {
   connectedCallback () {
     this.render(this)
     this.data = getData(this)
+    this.unsubscribe = createChildListObserver(this.formContainer, e =>
+      this.onRowListChange(e)
+    )
+  }
+
+  disconnectedCallback () {
+    this.unsubscribe()
   }
 
   attributeChangedCallback (name, oldValue, newValue) {}

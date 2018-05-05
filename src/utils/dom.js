@@ -17,3 +17,15 @@ export const bindEvents = (root, context, ...eventNames) => {
     )
   })
 }
+
+export const createChildListObserver = (targetNode, onChange) => {
+  const callback = mutationList => {
+    const mutation = mutationList.find(m => m.type === 'childList')
+    if (mutation) {
+      onChange(mutation)
+    }
+  }
+  const observer = new window.MutationObserver(callback)
+  observer.observe(targetNode, { childList: true })
+  return observer.disconnect
+}
