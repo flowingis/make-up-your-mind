@@ -6,6 +6,7 @@ import { htmlToElement } from 'src/utils/dom'
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'
+const STARTING_ROWS = 5
 
 const getValueFromElements = (element, selector) => {
   return Array.from(element.querySelectorAll(selector)).map(
@@ -26,41 +27,6 @@ const getData = element => {
   }))
 }
 
-const onDataChange = element => {
-  const data = getData(element)
-  const event = new window.CustomEvent('data-change', { detail: data })
-  element.dispatchEvent(event)
-}
-
-const addRow = (element, parent) => {
-  const row = htmlToElement(rowTemplate)
-  parent.appendChild(row)
-
-  Array.from(row.querySelectorAll('input')).forEach(input => {
-    input.addEventListener('input', () => onDataChange(element))
-  })
-}
-
-const render = element => {
-  element.innerHTML = ''
-
-  const main = htmlToElement(template)
-  const container = main.querySelector('.vertical-container')
-  newIndexedArray(5).forEach(() => addRow(element, container))
-
-  main.querySelector('button[data-add]').addEventListener('click', () => {
-    addRow(element, container)
-    onDataChange(element)
-  })
-
-  main.querySelector('button[data-remove]').addEventListener('click', () => {
-    container.removeChild(container.lastChild)
-    onDataChange(element)
-  })
-
-  element.appendChild(main)
-}
-
 class Form extends HTMLElement {
   static get observedAttributes () {
     return ['data']
@@ -78,8 +44,51 @@ class Form extends HTMLElement {
     this.setAttribute('data', dataParser.encode(obj))
   }
 
+  onDataChange () {
+    const data = getData(this)
+    const event = new window.CustomEvent('data-change', { detail: data })
+    this.dispatchEvent(event)
+  }
+
+  addRow (container) {
+    container = container || this.querySelector('.vertical-container')
+    const row = htmlToElement(rowTemplate)
+    container.appendChild(row)
+
+    Array.from(row.querySelectorAll('input')).forEach(input => {
+      input.addEventListener('input', () => this.onDataChange())
+    })
+  }
+
+  onAddClick () {
+    this.addRow()
+    this.onDataChange()
+  }
+
+  onRemoveClick () {
+    const container = this.querySelector('.vertical-container')
+    container.removeChild(container.lastChild)
+    this.onDataChange()
+  }
+
+  render () {
+    const main = htmlToElement(template)
+    const container = main.querySelector('.vertical-container')
+
+    newIndexedArray(STARTING_ROWS).forEach(() => this.addRow(container))
+
+    main
+      .querySelector('button[data-add]')
+      .addEventListener('click', () => this.onAddClick())
+    main
+      .querySelector('button[data-remove]')
+      .addEventListener('click', () => this.onRemoveClick())
+
+    this.appendChild(main)
+  }
+
   connectedCallback () {
-    render(this)
+    this.render(this)
     this.data = getData(this)
   }
 
