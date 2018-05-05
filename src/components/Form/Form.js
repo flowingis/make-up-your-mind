@@ -7,6 +7,8 @@ import { htmlToElement } from 'src/utils/dom'
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'
 const STARTING_ROWS = 5
+const MAX_ROWS = 8
+const MIN_ROWS = 3
 
 const getValueFromElements = (element, selector) => {
   return Array.from(element.querySelectorAll(selector)).map(
@@ -28,6 +30,12 @@ const getData = element => {
 }
 
 class Form extends HTMLElement {
+  constructor () {
+    super()
+    this.formContainer = undefined
+    this.numberOfRows = STARTING_ROWS
+  }
+
   static get observedAttributes () {
     return ['data']
   }
@@ -50,10 +58,9 @@ class Form extends HTMLElement {
     this.dispatchEvent(event)
   }
 
-  addRow (container) {
-    container = container || this.querySelector('.vertical-container')
+  addRow () {
     const row = htmlToElement(rowTemplate)
-    container.appendChild(row)
+    this.formContainer.appendChild(row)
 
     Array.from(row.querySelectorAll('input')).forEach(input => {
       input.addEventListener('input', () => this.onDataChange())
@@ -61,21 +68,28 @@ class Form extends HTMLElement {
   }
 
   onAddClick () {
-    this.addRow()
-    this.onDataChange()
+    if (this.numberOfRows < MAX_ROWS) {
+      this.addRow()
+      this.numberOfRows++
+      this.onDataChange()
+    }
   }
 
   onRemoveClick () {
-    const container = this.querySelector('.vertical-container')
-    container.removeChild(container.lastChild)
-    this.onDataChange()
+    if (this.numberOfRows > MIN_ROWS) {
+      const container = this.querySelector('.vertical-container')
+      container.removeChild(container.lastChild)
+      this.numberOfRows--
+      this.onDataChange()
+    }
   }
 
   render () {
     const main = htmlToElement(template)
-    const container = main.querySelector('.vertical-container')
 
-    newIndexedArray(STARTING_ROWS).forEach(() => this.addRow(container))
+    this.formContainer = main.querySelector('.vertical-container')
+
+    newIndexedArray(STARTING_ROWS).forEach(() => this.addRow())
 
     main
       .querySelector('button[data-add]')
