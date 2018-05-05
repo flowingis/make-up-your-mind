@@ -2,7 +2,7 @@ import dataParser from 'src/model/dataParser'
 import template from './Form.tpl.html'
 import rowTemplate from './row.tpl.html'
 import { newIndexedArray } from 'src/utils/array'
-import { htmlToElement } from 'src/utils/dom'
+import { htmlToElement, bindEvents } from 'src/utils/dom'
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'
@@ -61,17 +61,15 @@ class Form extends HTMLElement {
   addRow () {
     const row = htmlToElement(rowTemplate)
     this.formContainer.appendChild(row)
-
-    Array.from(row.querySelectorAll('input')).forEach(input => {
-      input.addEventListener('input', () => this.onDataChange())
-    })
+    return row
   }
 
   onAddClick () {
     if (this.numberOfRows < MAX_ROWS) {
-      this.addRow()
-      this.numberOfRows++
+      const row = this.addRow()
+      bindEvents(row, this, 'input')
       this.onDataChange()
+      this.numberOfRows++
     }
   }
 
@@ -91,14 +89,9 @@ class Form extends HTMLElement {
 
     newIndexedArray(STARTING_ROWS).forEach(() => this.addRow())
 
-    main
-      .querySelector('button[data-add]')
-      .addEventListener('click', () => this.onAddClick())
-    main
-      .querySelector('button[data-remove]')
-      .addEventListener('click', () => this.onRemoveClick())
-
     this.appendChild(main)
+
+    bindEvents(main, this, 'click', 'input')
   }
 
   connectedCallback () {
