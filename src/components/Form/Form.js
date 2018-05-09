@@ -5,7 +5,8 @@ import { newIndexedArray } from 'src/utils/array'
 import {
   htmlToElement,
   bindEvents,
-  createChildListObserver
+  createChildListObserver,
+  updateProps
 } from 'src/utils/dom'
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
@@ -44,6 +45,14 @@ class Form extends HTMLElement {
     return ['data']
   }
 
+  get addButtonDisabled () {
+    return this.numberOfRows >= MAX_ROWS
+  }
+
+  get removeButtonDisabled () {
+    return this.numberOfRows <= MIN_ROWS
+  }
+
   get data () {
     if (!this.hasAttribute('data')) {
       return []
@@ -78,8 +87,7 @@ class Form extends HTMLElement {
 
   onRowListChange (mutation) {
     this.numberOfRows = mutation.target.childNodes.length - 1
-    this.addButton.disabled = this.numberOfRows === MAX_ROWS
-    this.removeButton.disabled = this.numberOfRows === MIN_ROWS
+    updateProps(this)
   }
 
   onRemoveClick () {
@@ -94,14 +102,13 @@ class Form extends HTMLElement {
     const main = htmlToElement(template)
 
     this.formContainer = main.querySelector('.vertical-container')
-    this.addButton = main.querySelector('[role="add-row"]')
-    this.removeButton = main.querySelector('[role="remove-row"]')
 
     newIndexedArray(STARTING_ROWS).forEach(() => this.addRow())
 
     this.appendChild(main)
 
     bindEvents(main, this, 'click', 'input')
+    updateProps(this)
   }
 
   connectedCallback () {
@@ -115,8 +122,6 @@ class Form extends HTMLElement {
   disconnectedCallback () {
     this.unsubscribe()
   }
-
-  attributeChangedCallback (name, oldValue, newValue) {}
 }
 
 export default Form
