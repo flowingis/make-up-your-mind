@@ -32,6 +32,10 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['url-loader?mimetype=image/svg+xml']
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },

@@ -1,21 +1,24 @@
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
+import dataParser from './model/dataParser'
 import { createPath, createPathAttribute, createText } from 'src/utils/svg'
-
 import { newIndexedArray } from 'src/utils/array'
 
-const LEVELS = 5
+const DEFAULT_DATA = newIndexedArray(5).map(i => ({
+  label: `Label ${i + 1}`,
+  value: 20
+}))
 
 const TEMPLATE = `
-  <svg width="1000" height="1000" viewBox="0 0 1000 1000">
+  <svg viewBox="0 0 1000 1000">
     <g transform="translate(500,500)">
     </g>
   </svg>
 `
 
 const createBaseChartPaths = ({ sides, radius }) =>
-  newIndexedArray(LEVELS)
-    .map(index => (index + 1) * (radius / LEVELS))
+  newIndexedArray(sides)
+    .map(index => (index + 1) * (radius / sides))
     .map(aRadius => {
       const points = createBaseChartPoints({ sides, radius: aRadius })
       return createPath(points, { role: 'chart-base' })
@@ -26,12 +29,23 @@ const createChartValuesPath = ({ values, radius }) => {
   return createPath(point, { role: 'chart-values' })
 }
 
-const updateChartValuesPath = element => {
-  const { values, radius } = element
+const updateChart = element => {
+  const { data, radius } = element
+
+  const values = data.map(e => e.value)
+  const labels = data.map(e => e.label)
+
   const valuesPath = element.querySelector('[role="chart-values"]')
   if (valuesPath) {
     const points = createChartValuesPoints({ values, radius })
     valuesPath.setAttribute('d', createPathAttribute(points))
+  }
+
+  const textElements = element.querySelectorAll('[role="chart-label"]')
+  if (textElements) {
+    Array.from(textElements).forEach((textElement, index) => {
+      textElement.innerHTML = labels[index]
+    })
   }
 }
 
@@ -46,14 +60,21 @@ const createLabels = ({ labels, radius }) => {
     return createText({
       text: labels[index],
       x,
-      y
+      y,
+      attrs: {
+        role: 'chart-label'
+      }
     })
   })
 }
 
 const render = element => {
   element.innerHTML = TEMPLATE
-  const { values, radius, sides, labels } = element
+  const { data, radius } = element
+
+  const sides = data.length
+  const values = data.map(e => e.value)
+  const labels = data.map(e => e.label)
 
   const container = document.querySelector('svg g')
 
@@ -78,18 +99,19 @@ const render = element => {
 
 class Chart extends HTMLElement {
   static get observedAttributes () {
-    return ['values']
+    return ['data']
   }
 
-  get sides () {
-    if (!this.hasAttribute('sides')) {
-      return 5
+  get data () {
+    if (!this.hasAttribute('data')) {
+      return [...DEFAULT_DATA]
     }
-    return parseInt(this.getAttribute('sides'), 10)
+
+    return dataParser.decode(this.getAttribute('data'))
   }
 
-  set sides (value) {
-    this.setAttribute('sides', value)
+  set data (obj) {
+    this.setAttribute('data', dataParser.encode(obj))
   }
 
   get radius () {
@@ -103,32 +125,16 @@ class Chart extends HTMLElement {
     this.setAttribute('radius', value)
   }
 
-  get values () {
-    if (!this.hasAttribute('values')) {
-      return []
-    }
-
-    return this.getAttribute('values')
-      .split(',')
-      .map(value => parseInt(value, 10))
-  }
-
-  set values (newValues) {
-    this.setAttribute('values', newValues.join(','))
-  }
-
-  get labels () {
-    return newIndexedArray(LEVELS).map(index => `Label ${index}`)
-  }
-
   connectedCallback () {
     render(this)
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    if (name === 'values') {
-      updateChartValuesPath(this)
-    }
+    window.requestAnimationFrame(() => {
+      if (name === 'data') {
+        updateChart(this)
+      }
+    })
   }
 }
 

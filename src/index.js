@@ -1,17 +1,36 @@
 import './components'
+import './style/app.css'
+
+const RANGE_SELECTOR = 'input[role="chart-value-input"]'
+const LABEL_SELECTOR = 'input[role="chart-label-input"]'
+
+const getValueFromElements = selector => {
+  return Array.from(document.querySelectorAll(selector)).map(
+    input => input.value
+  )
+}
 
 const updateChart = () => {
+  const labels = getValueFromElements(LABEL_SELECTOR)
+
+  const values = getValueFromElements(RANGE_SELECTOR).map(value =>
+    parseInt(value, 10)
+  )
+
+  const data = labels.map((label, index) => ({
+    label,
+    value: values[index]
+  }))
+
   const chart = document.querySelector('app-chart')
 
-  const values = Array.from(document.querySelectorAll('input'))
-    .map(input => input.value)
-    .map(value => parseInt(value, 10))
-
-  chart.values = values
+  chart.data = data
 }
 
 Array.from(document.querySelectorAll('input')).forEach(input => {
-  input.addEventListener('input', updateChart)
+  input.addEventListener('input', () =>
+    window.requestAnimationFrame(updateChart)
+  )
 })
 
 window.requestAnimationFrame(updateChart)
