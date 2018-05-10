@@ -1,13 +1,15 @@
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
-import dataParser from './model/dataParser'
+import dataParser from 'src/model/dataParser'
 import { createPath, createPathAttribute, createText } from 'src/utils/svg'
 import { newIndexedArray } from 'src/utils/array'
 
-const DEFAULT_DATA = newIndexedArray(5).map(i => ({
-  label: `Label ${i + 1}`,
-  value: 20
+const DEFAULT_DATA = newIndexedArray(5).map(() => ({
+  label: '',
+  value: 0
 }))
+
+const LEVELS = 5
 
 const TEMPLATE = `
   <svg viewBox="0 0 1000 1000">
@@ -17,8 +19,8 @@ const TEMPLATE = `
 `
 
 const createBaseChartPaths = ({ sides, radius }) =>
-  newIndexedArray(sides)
-    .map(index => (index + 1) * (radius / sides))
+  newIndexedArray(LEVELS)
+    .map(index => (index + 1) * (radius / LEVELS))
     .map(aRadius => {
       const points = createBaseChartPoints({ sides, radius: aRadius })
       return createPath(points, { role: 'chart-base' })
@@ -132,7 +134,12 @@ class Chart extends HTMLElement {
   attributeChangedCallback (name, oldValue, newValue) {
     window.requestAnimationFrame(() => {
       if (name === 'data') {
-        updateChart(this)
+        const oldData = dataParser.decode(oldValue)
+        if (oldData.length === this.data.length) {
+          updateChart(this)
+        } else {
+          render(this)
+        }
       }
     })
   }
