@@ -5,24 +5,22 @@ export const htmlToElement = html => {
 }
 
 export const updateProps = (root, context = root) => {
-  Array.from(root.querySelectorAll('[data-prop]')).forEach(clickable => {
-    const attribute = clickable.getAttribute('data-prop')
+  Array.from(root.querySelectorAll('[data-prop]')).forEach(element => {
+    const attribute = element.getAttribute('data-prop')
     const [componentProperty, key] = attribute.split(':')
-    clickable[componentProperty] = context[key]
+    element[componentProperty] = context[key]
   })
 }
 
 export const bindEvents = (root, context, ...eventNames) => {
   eventNames.forEach(eventName => {
     const attributeName = `data-bind-${eventName}`
-    Array.from(root.querySelectorAll(`[${attributeName}]`)).forEach(
-      clickable => {
-        const handler = context[clickable.getAttribute(attributeName)].bind(
-          context
-        )
-        clickable.addEventListener(eventName, handler)
-      }
-    )
+    Array.from(root.querySelectorAll(`[${attributeName}]`)).forEach(element => {
+      const handler = context[element.getAttribute(attributeName)].bind(
+        context
+      )
+      element.addEventListener(eventName, handler)
+    })
   })
 }
 
