@@ -1,6 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 const dist = path.join(__dirname, 'dist')
 
 module.exports = {
@@ -36,8 +38,12 @@ module.exports = {
         use: ['url-loader?mimetype=image/svg+xml']
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.component\.css$/,
+        use: ['css-loader']
+      },
+      {
+        test: /app\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -45,6 +51,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
+    new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, 'src', 'manifest.json'),
