@@ -1,3 +1,4 @@
+import style from './Chart.component.css'
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
 import dataParser from 'src/model/dataParser'
@@ -12,7 +13,10 @@ const DEFAULT_DATA = newIndexedArray(5).map(() => ({
 const LEVELS = 5
 
 const TEMPLATE = `
-  <svg viewBox="0 0 1000 1000">
+  <svg viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      ${style.toString()}
+    </style>
     <g transform="translate(500,500)">
     </g>
   </svg>
