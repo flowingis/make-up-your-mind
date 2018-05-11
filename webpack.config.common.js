@@ -1,10 +1,12 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const dist = path.join(__dirname, 'dist')
 
 module.exports = {
   entry: ['@webcomponents/custom-elements', './src/index.js'],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: dist,
     filename: 'bundle.js'
   },
   resolve: {
@@ -42,6 +44,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, 'src', 'sw.js'),
+        to: dist
+      }
+    ])
   ]
 }
