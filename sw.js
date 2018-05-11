@@ -7,7 +7,7 @@ self.addEventListener('install', e => {
       return cache
         .addAll([
           '/',
-          'framework-compass-chart-editor/',
+          '/framework-compass-chart-editor/',
           'index.html',
           'bundle.js'
         ])
