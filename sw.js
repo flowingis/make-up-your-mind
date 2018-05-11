@@ -4,9 +4,16 @@ const cacheName = `fcre-${version}`
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(cacheName).then(cache => {
-      return cache.addAll(['index.html', 'bundle.js']).then(() => {
-        console.log('WORKER:: install completed')
-      })
+      return cache
+        .addAll([
+          '/',
+          'framework-compass-chart-editor/',
+          'index.html',
+          'bundle.js'
+        ])
+        .then(() => {
+          console.log('WORKER:: install completed')
+        })
     })
   )
 })
