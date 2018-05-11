@@ -14,5 +14,9 @@ path[role="chart-base"] {
 
 path[role="chart-values"] {
     fill: red;
-    stroke-opacity: 0;
+    fill-opacity: 0.2;
+    stroke: red;
+    stroke-width: 10;
+    stroke-opacity: 1;
+    stroke-linejoin: round;
 }
