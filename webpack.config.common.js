@@ -47,6 +47,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
+        from: path.join(__dirname, 'src', 'manifest.json'),
+        to: dist
+      },
+      {
         from: path.join(__dirname, 'src', 'sw.js'),
         to: dist
       }
