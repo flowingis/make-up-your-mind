@@ -25,6 +25,12 @@
     "babel-preset-env": "1.6.1",
     "copy-webpack-plugin": "4.5.1",
     "css-loader": "0.28.11",
+    "eslint": "4.19.1",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.7.0",
+    "eslint-plugin-standard": "3.1.0",
     "file-loader": "0.11.2",
     "gh-pages": "1.0.0",
     "html-loader": "0.5.1",
@@ -34,7 +40,6 @@
     "lint-staged": "7.0.4",
     "mini-css-extract-plugin": "0.4.0",
     "prettier": "1.12.0",
-    "standard": "10.0.3",
     "url-loader": "0.5.9",
     "webpack": "4.5.0",
     "webpack-cli": "2.0.14",
@@ -48,19 +53,8 @@
   "lint-staged": {
     "*.js": [
       "prettier --write",
-      "standard --fix",
+      "eslint --fix",
       "git add"
-    ]
-  },
-  "standard": {
-    "globals": [
-      "fetch",
-      "self",
-      "caches",
-      "HTMLElement",
-      "describe",
-      "test",
-      "expect"
     ]
   }
 }
