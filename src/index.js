@@ -3,7 +3,7 @@ import './style/app.css'
 
 if ('serviceWorker' in navigator) {
   // Service worker registered
-  navigator.serviceWorker.register('./sw.js').then(() => {
+  navigator.serviceWorker.register('sw.js').then(() => {
     console.log('Service Worker Registered')
   })
 } else {
