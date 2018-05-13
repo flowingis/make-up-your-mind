@@ -1,14 +1,13 @@
 import style from './Chart.component.css'
 import createBaseChartPoints from './model/createBaseChartPoints'
 import createChartValuesPoints from './model/createChartValuesPoints'
-import dataParser from 'src/model/dataParser'
-import { createPath, createPathAttribute, createText } from 'src/utils/svg'
+import { createPath, createText } from 'src/utils/svg'
 import { newIndexedArray } from 'src/utils/array'
+const COLORS = ['red', 'blue']
 
-const DEFAULT_DATA = newIndexedArray(5).map(() => ({
-  label: '',
-  value: 0
-}))
+const getColor = index => {
+  return COLORS[index % COLORS.length]
+}
 
 const LEVELS = 5
 
@@ -30,29 +29,13 @@ const createBaseChartPaths = ({ sides, radius }) =>
       return createPath(points, { role: 'chart-base' })
     })
 
-const createChartValuesPath = ({ values, radius }) => {
+const createChartValuesPath = ({ values, radius, color }) => {
   const point = createChartValuesPoints({ values, radius })
-  return createPath(point, { role: 'chart-values' })
-}
-
-const updateChart = element => {
-  const { data, radius } = element
-
-  const values = data.map(e => e.value)
-  const labels = data.map(e => e.label)
-
-  const valuesPath = element.querySelector('[role="chart-values"]')
-  if (valuesPath) {
-    const points = createChartValuesPoints({ values, radius })
-    valuesPath.setAttribute('d', createPathAttribute(points))
-  }
-
-  const textElements = element.querySelectorAll('[role="chart-label"]')
-  if (textElements) {
-    Array.from(textElements).forEach((textElement, index) => {
-      textElement.innerHTML = labels[index]
-    })
-  }
+  return createPath(point, {
+    role: 'chart-values',
+    fill: color,
+    stroke: color
+  })
 }
 
 const createLabels = ({ labels, radius }) => {
@@ -74,12 +57,19 @@ const createLabels = ({ labels, radius }) => {
   })
 }
 
+const extractSeriesFromData = data => Object.keys(data[0].values)
+const extractValuesFromData = (data, serie) =>
+  data.map(dataRow => dataRow.values[serie])
+
 const render = element => {
   element.innerHTML = TEMPLATE
   const { data, radius } = element
 
+  if (!data || data.length === 0) {
+    return
+  }
+
   const sides = data.length
-  const values = data.map(e => e.value)
   const labels = data.map(e => e.label)
 
   const container = document.querySelector('svg g')
@@ -93,14 +83,21 @@ const render = element => {
     container.appendChild(path)
   })
 
-  container.appendChild(createChartValuesPath({ values, radius }))
+  const series = extractSeriesFromData(data)
+  const seriesValues = series.map(serie => extractValuesFromData(data, serie))
+
+  const chartElements = seriesValues.map((values, index) => {
+    return createChartValuesPath({ values, radius, color: getColor(index) })
+  })
 
   const labelElementes = createLabels({
     labels,
     radius
   })
 
-  labelElementes.forEach(label => container.appendChild(label))
+  const items = [...chartElements, ...labelElementes]
+
+  items.forEach(item => container.appendChild(item))
 }
 
 class Chart extends HTMLElement {
@@ -110,14 +107,14 @@ class Chart extends HTMLElement {
 
   get data () {
     if (!this.hasAttribute('data')) {
-      return [...DEFAULT_DATA]
+      return []
     }
 
-    return dataParser.decode(this.getAttribute('data'))
+    return JSON.parse(this.getAttribute('data'))
   }
 
   set data (obj) {
-    this.setAttribute('data', dataParser.encode(obj))
+    this.setAttribute('data', JSON.stringify(obj))
   }
 
   get radius () {
@@ -136,16 +133,7 @@ class Chart extends HTMLElement {
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
-    window.requestAnimationFrame(() => {
-      if (name === 'data') {
-        const oldData = dataParser.decode(oldValue)
-        if (oldData.length === this.data.length) {
-          updateChart(this)
-        } else {
-          render(this)
-        }
-      }
-    })
+    window.requestAnimationFrame(() => render(this))
   }
 }
 

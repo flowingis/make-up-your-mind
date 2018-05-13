@@ -1,4 +1,3 @@
-import dataParser from 'src/model/dataParser'
 import template from './Form.tpl.html'
 import rowTemplate from './row.tpl.html'
 import { newIndexedArray } from 'src/utils/array'
@@ -15,23 +14,24 @@ const STARTING_ROWS = 5
 const MAX_ROWS = 8
 const MIN_ROWS = 3
 
-const getValueFromElements = (element, selector) => {
-  return Array.from(element.querySelectorAll(selector)).map(
-    input => input.value
-  )
-}
-
 const getData = element => {
-  const labels = getValueFromElements(element, LABEL_SELECTOR)
+  const rows = Array.from(element.querySelectorAll('.form-row'))
 
-  const values = getValueFromElements(element, RANGE_SELECTOR).map(value =>
-    parseInt(value, 10)
-  )
+  return rows.map(row => {
+    const label = row.querySelector(LABEL_SELECTOR).value
+    const values = Array.from(row.querySelectorAll(RANGE_SELECTOR)).reduce(
+      (acc, range) => {
+        acc[range.getAttribute('data-series')] = parseInt(range.value, 10)
+        return acc
+      },
+      {}
+    )
 
-  return labels.map((label, index) => ({
-    label,
-    value: values[index]
-  }))
+    return {
+      label,
+      values
+    }
+  })
 }
 
 class Form extends HTMLElement {
@@ -39,10 +39,6 @@ class Form extends HTMLElement {
     super()
     this.formContainer = undefined
     this.numberOfRows = STARTING_ROWS
-  }
-
-  static get observedAttributes () {
-    return ['data']
   }
 
   get addButtonDisabled () {
@@ -58,11 +54,11 @@ class Form extends HTMLElement {
       return []
     }
 
-    return dataParser.decode(this.getAttribute('data'))
+    return JSON.parse(this.getAttribute('data'))
   }
 
   set data (obj) {
-    this.setAttribute('data', dataParser.encode(obj))
+    this.setAttribute('data', JSON.stringify(obj))
   }
 
   onDataChange () {
