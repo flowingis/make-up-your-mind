@@ -5,6 +5,7 @@ module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    https: true
   }
 }

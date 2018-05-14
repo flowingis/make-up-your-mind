@@ -12,9 +12,9 @@ if ('serviceWorker' in navigator) {
 
 const syncChartToAnchor = chart => {
   window.requestIdleCallback(() => {
-    document.querySelector(
-      'a'
-    ).href = `data:image/svg+xml;base64,\n${window.btoa(chart.innerHTML)}`
+    const url = `data:image/svg+xml;base64,\n${window.btoa(chart.innerHTML)}`
+    document.querySelector('a').href = url
+    document.querySelector('app-share-button').url = url
   })
 }
 
