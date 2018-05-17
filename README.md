@@ -6,4 +6,4 @@ GUI to create a [Framework Compass Chart](https://medium.com/@TheStrazz86/framew
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Build Status](https://travis-ci.org/e-xtrategy/framework-compass-chart-editor.svg?branch=master)](https://travis-ci.org/e-xtrategy/framework-compass-chart-editor)
 ## Live Demo
-You can find a live demo [here](https://e-xtrategy.github.io/framework-compass-chart-editor/)
+You can find a live demo [here](https://radar.extrategy.net/)
