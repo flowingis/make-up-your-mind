@@ -1,6 +1,5 @@
 import template from './Form.tpl.html'
 import rowTemplate from './row.tpl.html'
-import { newIndexedArray } from 'src/utils/array'
 import {
   htmlToElement,
   bindEvents,
@@ -99,7 +98,9 @@ class Form extends HTMLElement {
 
     this.formContainer = main.querySelector('.vertical-container')
 
-    newIndexedArray(STARTING_ROWS).forEach(() => this.addRow())
+    for (let i = 0; i < STARTING_ROWS; i++) {
+      this.addRow()
+    }
 
     this.appendChild(main)
 
