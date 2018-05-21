@@ -72,6 +72,10 @@ module.exports = {
       {
         from: path.join(__dirname, 'src', 'sw.js'),
         to: dist
+      },
+      {
+        from: path.join(__dirname, 'src', 'icon.png'),
+        to: dist
       }
     ])
   ]
