@@ -6,6 +6,8 @@ svg {
     padding-bottom: 100%;
     vertical-align: middle;
     overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 path[role="chart-base"] {
