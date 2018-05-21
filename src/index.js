@@ -1,6 +1,11 @@
 import './components'
 import './style/app.scss'
 
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault()
+  e.prompt()
+})
+
 if ('serviceWorker' in navigator) {
   // Service worker registered
   navigator.serviceWorker.register('sw.js').then(() => {
