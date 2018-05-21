@@ -53,10 +53,6 @@ module.exports = {
           }
         ]
       }
-      // {
-      //   test: /app\.css$/,
-      //   use: [MiniCssExtractPlugin.loader, 'css-loader']
-      // }
     ]
   },
   plugins: [
