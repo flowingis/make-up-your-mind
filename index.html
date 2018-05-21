@@ -10,18 +10,40 @@
             window.location.protocol = "https";
         }
     </script>
-<link href="main.css" rel="stylesheet"></head>
+</head>
 
 <body>
-    <main class="container">
-        <app-form class="form"></app-form>
-        <div class="chart">
-            <app-chart></app-chart>
+
+    <div class="layout1">
+        <div class="layout1__bar elevation-z12">
+
+            <div class="header1">
+
+                <div class="header1__title">
+                    Compass Radar
+                </div>
+                <a class="header1__action" href download="chart.svg">
+                    Download
+                </a>
+            </div>
+
         </div>
-        <div>
-            <a href download="chart.svg">Download</a>
+        <div class="layout1__page-flow">
+
+            <main class="layout2 padding-top-2">
+                <div class="layout2__col">
+                    <div class="padding-2">
+                        <app-form class="form"></app-form>
+                    </div>
+                </div>
+                <div class="layout2__col">
+                    <div class="padding-2">
+                        <app-chart></app-chart>
+                    </div>
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 <script type="text/javascript" src="bundle.js"></script></body>
 
 </html>
