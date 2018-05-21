@@ -1,5 +1,11 @@
-<div class="form-row">
-    <input role="chart-label-input" placeholder="Insert Label" value="Label" data-bind-input="onDataChange"/>
-    <input data-series="first" role="chart-value-input" type="range" min="0" max="100" value="20" step="20" data-bind-input="onDataChange"/>
-    <input data-series="second" role="chart-value-input" type="range" min="0" max="100" value="20" step="20" data-bind-input="onDataChange"/>
+<div class="form-row layout2 padding-bottom-1">
+    <div class="layout2__col">
+        <input class="input-text1" role="chart-label-input" placeholder="Insert Label" value="Label" type="text" data-bind-input="onDataChange"/>
+    </div>
+    <div class="layout2__col">
+        <input class="input-slider1 padding-left-1" data-series="first" role="chart-value-input" type="range" min="0" max="100" value="20" step="20" data-bind-input="onDataChange"/>
+    </div>
+    <div class="layout2__col">
+        <input class="input-slider1 padding-left-1" data-series="second" role="chart-value-input" type="range" min="0" max="100" value="20" step="20" data-bind-input="onDataChange"/>
+    </div>
 </div>

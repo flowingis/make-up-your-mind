@@ -1,0 +1,37 @@
+.button1 {
+    display: inline-block;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    background-color: #457B9D;
+    color: #F1FAEE;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 5px 15px;
+    line-height: 1.6;
+    font-size: 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        color: #ffffff;
+        background-color: #A8DADC;
+        border-color: rgba(#A8DADC, .5);;
+    }
+
+    
+    &.focus,
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(#A8DADC, 1);
+        outline: none;
+    }
+
+    &.disabled,
+    &:disabled {
+        color: #eeeeee;
+        background-color: #999999;
+        cursor: not-allowed;
+    }
+}

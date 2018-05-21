@@ -42,9 +42,21 @@ module.exports = {
         use: ['css-loader']
       },
       {
-        test: /app\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        rules: [
+          {
+            test: /app\.scss$/,
+            use: [
+              'style-loader', // creates style nodes from JS strings
+              'css-loader', // translates CSS into CommonJS
+              'sass-loader' // compiles Sass to CSS
+            ]
+          }
+        ]
       }
+      // {
+      //   test: /app\.css$/,
+      //   use: [MiniCssExtractPlugin.loader, 'css-loader']
+      // }
     ]
   },
   plugins: [
