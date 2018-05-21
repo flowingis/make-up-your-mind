@@ -1,5 +1,5 @@
 import './components'
-import './style/app.css'
+import './style/app.scss'
 
 if ('serviceWorker' in navigator) {
   // Service worker registered

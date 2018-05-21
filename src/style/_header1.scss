@@ -1,0 +1,45 @@
+/*
+*
+* Header1
+*
+*/
+
+$header1-height: 50px;
+$header1-background-color: #1D3557;;
+$header1-color: #ffffff;
+$header1-title-font-size: 20px;
+$header1-title-padding-x: 20px;
+$header1-action-padding-x: 20px;
+$header1-action-font-size:  14px;
+
+
+.header1 {
+    width: 100%;
+    height: $header1-height;
+    background-color: $header1-background-color;
+    display: flex;
+    flex-direction: row;
+    color: $header1-color;
+    &__title {
+        font-size: $header1-title-font-size;
+        font-weight: 500;
+        line-height: $header1-height;
+        padding: 0 $header1-title-padding-x;
+        display: flex;
+        flex: 1 1 auto;
+    }
+    &__action {
+        cursor: pointer;
+        font-size: $header1-action-font-size;
+        display: flex;
+        flex: none;
+        line-height: $header1-height;
+        padding: 0 $header1-action-padding-x;
+        color: $header1-color;
+        text-decoration: none;
+        text-transform: uppercase;
+        &:hover {
+            background-color: rgba(0,0,0,0.2);
+        }
+    }
+}

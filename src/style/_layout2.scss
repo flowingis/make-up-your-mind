@@ -1,0 +1,8 @@
+.layout2 {
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    &__col {
+        flex: 1 1 auto;
+    }
+}
