@@ -3,6 +3,13 @@
   "name": "Framework Compass Chart Editor",
   "description": "A Framework Compass Chart Editor WebApp",
   "display": "fullscreen",
+  "background_color": "white",
   "theme_color": "#1D3557",
-  "start_url": "index.html"
+  "start_url": "index.html",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192"
+    }
+  ]
 }
