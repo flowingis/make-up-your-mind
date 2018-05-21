@@ -1,5 +1,8 @@
 {
-    "short_name": "FCRE",
-    "name": "Framework Compass Chart Editor",
-    "start_url": "index.html"
-  }
+  "short_name": "FCRE",
+  "name": "Framework Compass Chart Editor",
+  "description": "A Framework Compass Chart Editor WebApp",
+  "display": "fullscreen",
+  "theme_color": "#1D3557",
+  "start_url": "index.html"
+}
