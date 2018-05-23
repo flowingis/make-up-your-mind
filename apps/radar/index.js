@@ -1,5 +1,5 @@
+import '@webcomponents/custom-elements'
 import './components'
-import './style/app.scss'
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault()
@@ -8,7 +8,7 @@ window.addEventListener('beforeinstallprompt', e => {
 
 if ('serviceWorker' in navigator) {
   // Service worker registered
-  navigator.serviceWorker.register('sw.js').then(() => {
+  navigator.serviceWorker.register('radar.sw.js').then(() => {
     console.log('Service Worker Registered')
   })
 } else {
