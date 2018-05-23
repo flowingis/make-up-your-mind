@@ -66,15 +66,16 @@ class Form extends HTMLElement {
     this.dispatchEvent(event)
   }
 
-  addRow () {
+  addRow (value) {
     const row = htmlToElement(rowTemplate)
+    row.querySelector('input').value = `Value ${value}`
     this.formContainer.appendChild(row)
     return row
   }
 
   onAddClick () {
     if (this.numberOfRows < MAX_ROWS) {
-      const row = this.addRow()
+      const row = this.addRow(this.numberOfRows + 1)
       bindEvents(row, this, 'input')
       this.onDataChange()
     }
@@ -99,7 +100,7 @@ class Form extends HTMLElement {
     this.formContainer = main.querySelector('.vertical-container')
 
     for (let i = 0; i < STARTING_ROWS; i++) {
-      this.addRow()
+      this.addRow(i + 1)
     }
 
     this.appendChild(main)
