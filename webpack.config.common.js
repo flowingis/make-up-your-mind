@@ -8,6 +8,7 @@ const dist = path.join(__dirname, 'dist')
 module.exports = {
   entry: {
     radar: './apps/radar/index.js',
+    board: './apps/options-board/index.js',
     lib: './lib/index.js'
   },
   output: {
@@ -16,7 +17,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      radar: path.join(__dirname, 'apps', 'radar')
+      radar: path.join(__dirname, 'apps', 'radar'),
+      board: path.join(__dirname, 'apps', 'board')
     }
   },
   module: {
@@ -62,6 +64,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
       chunks: ['lib']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'apps', 'options-board', 'index.html'),
+      chunks: ['lib', 'board'],
+      filename: path.join(__dirname, 'dist', 'board.html')
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'apps', 'radar', 'index.html'),
