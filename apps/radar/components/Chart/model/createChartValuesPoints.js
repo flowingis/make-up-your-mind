@@ -6,9 +6,9 @@ import {
   floor,
   getAngleIncrement,
   rotatePoint
-} from 'src/utils/chart'
+} from 'radar/utils/chart'
 
-import { newIndexedArray } from 'src/utils/array'
+import { newIndexedArray } from 'radar/utils/array'
 
 export default ({ values, radius = 1, xOffset = 0, yOffset = 0 }) => {
   const sides = values.length

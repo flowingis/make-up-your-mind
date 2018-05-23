@@ -1,5 +1,5 @@
-import { newIndexedArray } from 'src/utils/array'
-import { createPath } from 'src/utils/svg'
+import { newIndexedArray } from 'radar/utils/array'
+import { createPath } from 'radar/utils/svg'
 import createBaseChartPoints from '../model/createBaseChartPoints'
 
 const createBaseChart = ({ data, radius, levels }) => {

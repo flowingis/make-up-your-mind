@@ -5,7 +5,7 @@ import {
   bindEvents,
   createChildListObserver,
   updateProps
-} from 'src/utils/dom'
+} from 'radar/utils/dom'
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'

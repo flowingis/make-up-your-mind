@@ -5,10 +5,10 @@
   "display": "fullscreen",
   "background_color": "white",
   "theme_color": "#1D3557",
-  "start_url": "index.html",
+  "start_url": "radar.html",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "radar.icon.png",
       "sizes": "192x192"
     }
   ]

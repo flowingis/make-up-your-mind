@@ -6,14 +6,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dist = path.join(__dirname, 'dist')
 
 module.exports = {
-  entry: ['@webcomponents/custom-elements', './src/index.js'],
+  entry: {
+    radar: './apps/radar/index.js',
+    lib: './lib/index.js'
+  },
   output: {
     path: dist,
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   resolve: {
     alias: {
-      src: path.join(__dirname, 'src')
+      radar: path.join(__dirname, 'apps', 'radar')
     }
   },
   module: {
@@ -57,20 +60,26 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './index.html',
+      chunks: ['lib']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'apps', 'radar', 'index.html'),
+      chunks: ['lib', 'radar'],
+      filename: path.join(__dirname, 'dist', 'radar.html')
     }),
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
       {
-        from: path.join(__dirname, 'src', 'manifest.json'),
+        from: path.join(__dirname, 'apps', 'radar', 'radar.manifest.json'),
         to: dist
       },
       {
-        from: path.join(__dirname, 'src', 'sw.js'),
+        from: path.join(__dirname, 'apps', 'radar', 'radar.sw.js'),
         to: dist
       },
       {
-        from: path.join(__dirname, 'src', 'icon.png'),
+        from: path.join(__dirname, 'apps', 'radar', 'radar.icon.png'),
         to: dist
       }
     ])

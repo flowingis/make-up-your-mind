@@ -1,4 +1,4 @@
-import { createText } from 'src/utils/svg'
+import { createText } from 'radar/utils/svg'
 import createBaseChartPoints from '../model/createBaseChartPoints'
 
 const createLabels = ({ data, radius }) => {

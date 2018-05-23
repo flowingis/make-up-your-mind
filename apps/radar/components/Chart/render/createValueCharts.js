@@ -1,5 +1,5 @@
 import createChartValuesPoints from '../model/createChartValuesPoints'
-import { createPath } from 'src/utils/svg'
+import { createPath } from 'radar/utils/svg'
 
 const getColor = (colors, index) => {
   return colors[index % colors.length]

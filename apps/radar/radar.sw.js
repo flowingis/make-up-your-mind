@@ -1,10 +1,17 @@
 const version = '0.0.1'
-const cacheName = `fcre-${version}`
+const cacheName = `radar-${version}`
+
+const CACHABLE_ELEMENTS = [
+  '/',
+  '/radar.html',
+  '/radar.bundle.js',
+  '/lib.bundle.js'
+]
 
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(cacheName).then(cache => {
-      return cache.addAll([`/`, `/index.html`, `/bundle.js`]).then(() => {
+      return cache.addAll(CACHABLE_ELEMENTS).then(() => {
         console.log('WORKER:: install completed')
       })
     })
