@@ -1,11 +1,10 @@
 <html>
 
 <head>
-    <meta name="theme-color" content="#1D3557"/>
+    <meta name="theme-color" content="#1D3557" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="manifest.json">
-    <title>Framework Compass Chart</title>
+    <title>Discovery Tools</title>
     <script>
         if (window.location.host.indexOf('extrategy.net') > -1 && window.location.protocol != "https:") {
             window.location.protocol = "https";
@@ -14,37 +13,22 @@
 </head>
 
 <body>
-
     <div class="layout1">
         <div class="layout1__bar elevation-z12">
-
             <div class="header1">
-
                 <div class="header1__title">
-                    Compass Radar
+                    e-xtrategy Discovery Tools
                 </div>
-                <a class="header1__action" href download="chart.svg">
-                    Download
-                </a>
             </div>
-
         </div>
         <div class="layout1__page-flow">
-
             <main class="layout2 padding-top-2">
-                <div class="layout2__col">
-                    <div class="padding-2">
-                        <app-form class="form"></app-form>
-                    </div>
-                </div>
-                <div class="layout2__col">
-                    <div class="padding-2">
-                        <app-chart></app-chart>
-                    </div>
+                <div class="padding-2">
+                    <h2><a href="/radar.html">Radar Chart</a></h2>
                 </div>
             </main>
         </div>
     </div>
-<script type="text/javascript" src="bundle.js"></script></body>
+<script type="text/javascript" src="lib.bundle.js"></script></body>
 
 </html>
