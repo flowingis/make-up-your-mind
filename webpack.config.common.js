@@ -18,7 +18,7 @@ module.exports = {
   resolve: {
     alias: {
       radar: path.join(__dirname, 'apps', 'radar'),
-      board: path.join(__dirname, 'apps', 'board')
+      board: path.join(__dirname, 'apps', 'options-board')
     }
   },
   module: {
