@@ -1,1 +1,2 @@
-console.log('Option Board')
+import './style/index.scss'
+import './components'
