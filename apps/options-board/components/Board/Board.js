@@ -26,7 +26,19 @@ class Board extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return ['data']
+    return ['data', 'show-legend']
+  }
+
+  get showLegend () {
+    return this.hasAttribute('show-legend')
+  }
+
+  set showLegend (value) {
+    if (value) {
+      this.setAttribute('show-legend', '')
+    } else {
+      this.removeAttribute('show-legend')
+    }
   }
 
   get data () {
@@ -94,6 +106,10 @@ class Board extends HTMLElement {
     this.svg.addEventListener('mousemove', this.onDrag)
     this.svg.addEventListener('mouseup', this.endDrag)
     this.svg.addEventListener('mouseleave', this.endDrag)
+
+    if (!this.showLegend) {
+      this.svg.querySelector('[data-legend]').classList.add('hidden')
+    }
 
     this.data
       .map((element, index) =>
