@@ -30,6 +30,11 @@ window.requestAnimationFrame(() => {
   const board = document.querySelector('app-board')
   const addButton = document.querySelector('button[data-add]')
   const removeButton = document.querySelector('button[data-remove]')
+  const toggleButton = document.querySelector('button[data-toggle-legend]')
+
+  toggleButton.addEventListener('click', () => {
+    board.showLegend = !board.showLegend
+  })
 
   addButton.addEventListener('click', () => {
     onAddClick(board)
