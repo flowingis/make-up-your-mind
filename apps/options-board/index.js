@@ -42,4 +42,6 @@ window.requestAnimationFrame(() => {
   createAttributesObserver(board, () => {
     syncChartToAnchor(board)
   })
+
+  syncChartToAnchor(board)
 })
