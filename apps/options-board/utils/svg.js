@@ -1,3 +1,5 @@
+export const SVG_NS_URI = 'http://www.w3.org/2000/svg'
+
 export const getMousePosition = (svg, event) => {
   const CTM = svg.getScreenCTM()
   return {
