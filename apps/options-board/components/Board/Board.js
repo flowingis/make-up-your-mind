@@ -1,17 +1,6 @@
-import { getMousePosition } from 'board/utils/svg'
-import createPostIt from './createPostIt'
+import postItFactory from './postItFactory'
 import { getPostItColor } from './colors'
 import template from './BoardTemplate.svg.html'
-
-const DRAGGABLE_CLASS = 'draggable'
-
-const DEFAULT_POST_IT_ATTRS = {
-  class: DRAGGABLE_CLASS,
-  width: 127,
-  height: 76
-}
-
-const isDraggable = element => element.classList.contains(DRAGGABLE_CLASS)
 
 class Board extends HTMLElement {
   constructor () {
@@ -23,6 +12,8 @@ class Board extends HTMLElement {
     this.onDrag = this.onDrag.bind(this)
     this.endDrag = this.endDrag.bind(this)
     this.render = this.render.bind(this)
+
+    this.postIts = []
   }
 
   static get observedAttributes () {
@@ -54,47 +45,26 @@ class Board extends HTMLElement {
   }
 
   startDrag (event) {
-    const { target } = event
-    if (isDraggable(target)) {
-      const offset = getMousePosition(this.svg, event)
-
-      offset.x -= parseFloat(target.getAttributeNS(null, 'x'))
-      offset.y -= parseFloat(target.getAttributeNS(null, 'y'))
-
-      this.currentOffset = offset
-      this.currentDraggable = event.target
-    }
+    event.preventDefault()
+    this.postIts.forEach(p => p.startDrag(event))
   }
 
   onDrag (event) {
     event.preventDefault()
-    if (this.currentDraggable) {
-      const { x, y } = getMousePosition(this.svg, event)
-      this.currentDraggable.setAttributeNS(null, 'x', x - this.currentOffset.x)
-      this.currentDraggable.setAttributeNS(null, 'y', y - this.currentOffset.y)
-    }
+    this.postIts.forEach(p => p.onDrag(event))
   }
 
   endDrag (event) {
-    if (this.currentDraggable) {
-      const newData = [...this.data]
-      const currentIndex = parseInt(
-        this.currentDraggable.getAttribute('data-index')
-      )
-      const x = parseInt(this.currentDraggable.getAttribute('x'))
-      const y = parseInt(this.currentDraggable.getAttribute('y'))
+    event.preventDefault()
 
-      newData[currentIndex] = {
-        ...newData[currentIndex],
-        x,
-        y
+    this.postIts.forEach(p => p.endDrag(event))
+
+    this.data = this.data.map((element, index) => {
+      return {
+        ...element,
+        ...this.postIts[index].position
       }
-
-      this.data = newData
-    }
-
-    this.currentDraggable = undefined
-    this.currentOffset = undefined
+    })
   }
 
   render () {
@@ -111,18 +81,18 @@ class Board extends HTMLElement {
       this.svg.querySelector('[data-legend]').classList.add('hidden')
     }
 
-    this.data
-      .map((element, index) =>
-        createPostIt({
-          ...element,
-          index,
-          color: getPostItColor(index),
-          attrs: DEFAULT_POST_IT_ATTRS
-        })
-      )
-      .forEach(postIt => {
-        this.svg.appendChild(postIt)
+    this.postIts = this.data.map((element, index) =>
+      postItFactory({
+        ...element,
+        index,
+        parent: this.svg,
+        color: getPostItColor(index)
       })
+    )
+
+    this.postIts.map(postIt => postIt.node).forEach(node => {
+      this.svg.appendChild(node)
+    })
   }
 
   connectedCallback () {
