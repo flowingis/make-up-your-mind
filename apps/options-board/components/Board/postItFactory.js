@@ -14,8 +14,8 @@ const isMineEvent = (event, index) => {
   return parseInt(indexAttribute, 10) === index
 }
 
-const factory = ({ parent, x, y, color, index, attrs = {} }) => {
-  const node = postItNodeFactory({ x, y, color, index, attrs })
+const factory = ({ parent, x, y, color, index, label, attrs = {} }) => {
+  const node = postItNodeFactory({ x, y, color, index, label, attrs })
   let active = false
   let offset
 
