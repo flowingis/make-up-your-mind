@@ -1,0 +1,13 @@
+svg {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    vertical-align: middle;
+    overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.draggable {
+    cursor: move;
+}
