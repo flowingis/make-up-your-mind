@@ -11,9 +11,14 @@ const syncChartToAnchor = board => {
 }
 
 const onAddClick = board => {
+  const { data } = board
+
+  const label = `Label ${data.length}`
+
   board.data = [
-    ...board.data,
+    ...data,
     {
+      label,
       x: 200,
       y: 400
     }
