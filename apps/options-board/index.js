@@ -10,10 +10,8 @@ const syncChartToAnchor = board => {
   })
 }
 
-const onAddClick = board => {
+const onAddClick = (board, label) => {
   const { data } = board
-
-  const label = `Label ${data.length}`
 
   board.data = [
     ...data,
@@ -33,6 +31,7 @@ const onRemoveClick = board => {
 
 window.requestAnimationFrame(() => {
   const board = document.querySelector('app-board')
+  const labelInput = document.querySelector('input')
   const addButton = document.querySelector('button[data-add]')
   const removeButton = document.querySelector('button[data-remove]')
   const toggleButton = document.querySelector('button[data-toggle-legend]')
@@ -42,7 +41,11 @@ window.requestAnimationFrame(() => {
   })
 
   addButton.addEventListener('click', () => {
-    onAddClick(board)
+    if (!labelInput.value) {
+      return
+    }
+    onAddClick(board, labelInput.value)
+    labelInput.value = ''
   })
 
   removeButton.addEventListener('click', () => {
