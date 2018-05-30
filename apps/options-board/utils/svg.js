@@ -1,10 +1,27 @@
 export const SVG_NS_URI = 'http://www.w3.org/2000/svg'
 
+export const exportCoordsFromEvent = event => {
+  if (!event.touches) {
+    return {
+      clientX: event.clientX,
+      clientY: event.clientY
+    }
+  }
+
+  const touch = event.touches[0]
+
+  return {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  }
+}
+
 export const getMousePosition = (svg, event) => {
   const CTM = svg.getScreenCTM()
+  const { clientX, clientY } = exportCoordsFromEvent(event)
   return {
-    x: Math.floor((event.clientX - CTM.e) / CTM.a),
-    y: Math.floor((event.clientY - CTM.f) / CTM.d)
+    x: Math.floor((clientX - CTM.e) / CTM.a),
+    y: Math.floor((clientY - CTM.f) / CTM.d)
   }
 }
 

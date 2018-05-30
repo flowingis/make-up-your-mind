@@ -2,6 +2,12 @@ import postItFactory from './postItFactory'
 import { getPostItColor } from './colors'
 import template from './BoardTemplate.svg.html'
 
+const START_EVENTS = ['mousedown', 'touchstart']
+
+const DRAG_EVENTS = ['mousemove', 'touchmove']
+
+const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
+
 class Board extends HTMLElement {
   constructor () {
     super()
@@ -72,10 +78,11 @@ class Board extends HTMLElement {
 
     this.svg = this.querySelector('svg')
 
-    this.svg.addEventListener('mousedown', this.startDrag)
-    this.svg.addEventListener('mousemove', this.onDrag)
-    this.svg.addEventListener('mouseup', this.endDrag)
-    this.svg.addEventListener('mouseleave', this.endDrag)
+    START_EVENTS.forEach(event =>
+      this.svg.addEventListener(event, this.startDrag)
+    )
+    DRAG_EVENTS.forEach(event => this.svg.addEventListener(event, this.onDrag))
+    END_EVENTS.forEach(event => this.svg.addEventListener(event, this.endDrag))
 
     if (!this.showLegend) {
       this.svg.querySelector('[data-legend]').classList.add('hidden')
