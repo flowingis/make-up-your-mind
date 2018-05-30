@@ -78,15 +78,15 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
       {
-        from: path.join(__dirname, 'apps', 'radar', 'radar.manifest.json'),
+        from: path.join(__dirname, 'manifest.json'),
         to: dist
       },
       {
-        from: path.join(__dirname, 'apps', 'radar', 'radar.sw.js'),
+        from: path.join(__dirname, 'sw.js'),
         to: dist
       },
       {
-        from: path.join(__dirname, 'apps', 'radar', 'radar.icon.png'),
+        from: path.join(__dirname, 'icon.png'),
         to: dist
       }
     ])

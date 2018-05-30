@@ -1,10 +1,15 @@
-const version = '0.0.1'
-const cacheName = `radar-${version}`
+const version = '0.0.2'
+const cacheName = `make-up-your-mind-${version}`
 
 const CACHABLE_ELEMENTS = [
   '/',
+  '/manifest.json',
+  '/icon.png',
+  '/index.html',
   '/radar.html',
   '/radar.bundle.js',
+  '/board.html',
+  '/board.bundle.js',
   '/lib.bundle.js'
 ]
 

@@ -1,20 +1,6 @@
 import '@webcomponents/custom-elements'
 import './components'
 
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault()
-  e.prompt()
-})
-
-if ('serviceWorker' in navigator) {
-  // Service worker registered
-  navigator.serviceWorker.register('radar.sw.js').then(() => {
-    console.log('Service Worker Registered')
-  })
-} else {
-  // Service worker is not supported
-}
-
 const syncChartToAnchor = chart => {
   window.requestIdleCallback(() => {
     document.querySelector(
