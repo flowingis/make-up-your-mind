@@ -4,10 +4,23 @@
     <meta name="theme-color" content="#1D3557" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Discovery Tools</title>
+    <link rel="manifest" href="manifest.json">
+    <title>Make Up Your Mind</title>
     <script>
         if (window.location.host.indexOf('extrategy.net') > -1 && window.location.protocol != "https:") {
             window.location.protocol = "https";
+        }
+
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault()
+            e.prompt()
+        })
+
+        if ('serviceWorker' in navigator) {
+            // Service worker registered
+            navigator.serviceWorker.register('sw.js').then(() => {
+                console.log('Service Worker Registered')
+            })
         }
     </script>
 </head>
@@ -17,15 +30,19 @@
         <div class="layout1__bar elevation-z12">
             <div class="header1">
                 <div class="header1__title">
-                    e-xtrategy Discovery Tools
+                    Make Up Your Mind
                 </div>
             </div>
         </div>
         <div class="layout1__page-flow">
             <main class="layout2 padding-top-2">
                 <div class="padding-2">
-                    <h2><a href="/radar.html">Radar Chart</a></h2>
-                    <h2><a href="/board.html">Options Board</a></h2>
+                    <h2>
+                        <a href="/radar.html">Radar Chart</a>
+                    </h2>
+                    <h2>
+                        <a href="/board.html">Options Board</a>
+                    </h2>
                 </div>
             </main>
         </div>
