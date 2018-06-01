@@ -3,7 +3,7 @@
 [![framework less](https://img.shields.io/badge/framework-less-blue.svg)](https://github.com/frameworkless-movement/manifesto)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Build Status](https://travis-ci.org/e-xtrategy/framework-compass-chart-editor.svg?branch=master)](https://travis-ci.org/e-xtrategy/framework-compass-chart-editor)
+[![Build Status](https://travis-ci.org/e-xtrategy/make-up-your-mind.svg?branch=master)](https://travis-ci.org/e-xtrategy/make-up-your-mind)
 
 Web based decision-making tools
 
