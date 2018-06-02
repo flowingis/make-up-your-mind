@@ -72,12 +72,11 @@ class Form extends HTMLElement {
     if (this.rowContainer) {
       window.requestAnimationFrame(() => {
         this.rowContainer.data = this.data
+        updateProps(this)
       })
     } else {
       this.render()
     }
-
-    updateProps(this)
   }
 }
 
