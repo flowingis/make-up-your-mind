@@ -13,8 +13,6 @@ try {
   key = process.env.FIREBASE_APP_KEY
 }
 
-console.log(key)
-
 const dist = path.join(__dirname, 'dist')
 
 module.exports = {
