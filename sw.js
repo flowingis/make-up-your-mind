@@ -1,4 +1,4 @@
-const version = '0.1.0'
+const version = '0.1.1'
 const cacheName = `make-up-your-mind-${version}`
 
 const CACHABLE_ELEMENTS = [
