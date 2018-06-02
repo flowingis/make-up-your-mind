@@ -14,6 +14,8 @@
   "dependencies": {
     "@webcomponents/custom-elements": "1.1.0",
     "firebase": "5.0.4",
+    "node-sass": "4.9.0",
+    "sass-loader": "7.0.2",
     "uuid": "3.2.1"
   },
   "devDependencies": {
@@ -38,9 +40,7 @@
     "jest": "22.4.3",
     "lint-staged": "7.0.4",
     "mini-css-extract-plugin": "0.4.0",
-    "node-sass": "4.9.0",
     "prettier": "1.12.0",
-    "sass-loader": "7.0.1",
     "style-loader": "0.21.0",
     "url-loader": "0.5.9",
     "webpack": "^4.5.0",
