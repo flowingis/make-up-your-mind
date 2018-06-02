@@ -58,5 +58,13 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^radar(.*)$": "<rootDir>/apps/radar$1"
+    },
+    "globals": {
+      "FIREBASE_APP_KEY": "blah"
+    }
   }
 }

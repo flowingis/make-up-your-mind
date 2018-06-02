@@ -1,83 +1,73 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
 import defaultData from './defaultData'
+import firebaseClient from './firebaseClient'
 
-let onMessageListeners = []
-let ref
+export const factory = (firebaseClient, defaultData) => {
+  let onMessageListeners = []
+  let url
 
-const addRow = () => {
-  return get().then(data => {
-    const label = `Value ${data.length + 1}`
-    const newData = [
-      ...data,
-      {
-        label,
-        values: {
-          first: 20,
-          second: 20
+  const init = channel => {
+    url = 'radar/' + channel
+    return get().then(data => {
+      firebaseClient.onChange(url, onChange)
+      return data
+    })
+  }
+
+  const get = () => firebaseClient.get(url).then(data => data || defaultData)
+
+  const onChange = data => {
+    onMessageListeners.forEach(cb => {
+      cb(data || defaultData)
+    })
+  }
+
+  const addRow = () => {
+    return get(url).then(data => {
+      const label = `Value ${data.length + 1}`
+      const newData = [
+        ...data,
+        {
+          label,
+          values: {
+            first: 20,
+            second: 20
+          }
         }
-      }
-    ]
+      ]
 
-    set(newData)
+      set(newData)
 
-    return newData
-  })
-}
+      return newData
+    })
+  }
 
-const removeRow = () => {
-  return get().then(data => {
-    const newData = data.slice(0, -1)
+  const removeRow = () => {
+    return get(url).then(data => {
+      const newData = data.slice(0, -1)
 
-    set(newData)
+      set(newData)
 
-    return newData
-  })
-}
+      return newData
+    })
+  }
 
-const config = {
-  apiKey: FIREBASE_APP_KEY,
-  databaseURL: 'https://make-up-your-mind.firebaseio.com'
-}
+  const addOnChangeListener = cb => {
+    onMessageListeners = [...onMessageListeners, cb]
+    return () => {
+      onMessageListeners = onMessageListeners.filter(toCheck => toCheck !== cb)
+    }
+  }
 
-const get = () =>
-  ref.once('value').then(data => {
-    return data.val() || defaultData
-  })
+  const set = data => firebaseClient.set(url, data)
 
-const onValue = snapshot => {
-  const data = snapshot.val()
-  onMessageListeners.forEach(cb => {
-    cb(data || defaultData)
-  })
-}
-
-const init = channel => {
-  firebase.initializeApp(config)
-  ref = firebase.database().ref('radar/' + channel)
-
-  return get().then(data => {
-    ref.on('value', onValue)
-    return data
-  })
-}
-
-const addOnChangeListener = cb => {
-  onMessageListeners = [...onMessageListeners, cb]
-  return () => {
-    onMessageListeners = onMessageListeners.filter(toCheck => toCheck !== cb)
+  return {
+    init,
+    addOnChangeListener,
+    set,
+    get,
+    addRow,
+    removeRow
   }
 }
 
-const set = data => {
-  ref.set(data)
-}
-
-export default {
-  init,
-  addOnChangeListener,
-  set,
-  get,
-  addRow,
-  removeRow
-}
+export default factory(firebaseClient, defaultData)
