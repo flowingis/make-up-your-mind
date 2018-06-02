@@ -9,6 +9,7 @@ if (!window.location.hash) {
 
 const channel = window.location.hash.substr(1)
 let chart
+let form
 
 radarData.init(channel)
 
@@ -21,7 +22,7 @@ const syncChartToAnchor = chart => {
 }
 
 window.requestAnimationFrame(() => {
-  const form = document.querySelector('app-form')
+  form = document.querySelector('app-form')
   chart = document.querySelector('app-chart')
 
   chart.data = form.data
@@ -36,4 +37,5 @@ window.requestAnimationFrame(() => {
 
 radarData.addOnMessageListener(data => {
   chart.data = data
+  form.data = data
 })

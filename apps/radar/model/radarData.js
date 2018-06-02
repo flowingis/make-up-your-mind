@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
+import defaultData from './defaultData'
 
 let onMessageListeners = []
 let ref
@@ -17,7 +18,7 @@ const init = channel =>
     ref.on('value', function (snapshot) {
       const data = snapshot.val()
       onMessageListeners.forEach(cb => {
-        cb(data)
+        cb(data || defaultData)
       })
     })
 
@@ -35,7 +36,10 @@ const set = data => {
   ref.set(data)
 }
 
-const get = () => ref.once('value').then(data => data.val())
+const get = () =>
+  ref.once('value').then(data => {
+    return data.val() || defaultData
+  })
 
 export default {
   init,

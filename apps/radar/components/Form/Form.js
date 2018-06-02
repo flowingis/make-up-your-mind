@@ -9,7 +9,6 @@ import {
 
 const RANGE_SELECTOR = 'input[role="chart-value-input"]'
 const LABEL_SELECTOR = 'input[role="chart-label-input"]'
-const STARTING_ROWS = 5
 const MAX_ROWS = 8
 const MIN_ROWS = 3
 
@@ -37,7 +36,11 @@ class Form extends HTMLElement {
   constructor () {
     super()
     this.formContainer = undefined
-    this.numberOfRows = STARTING_ROWS
+    this.numberOfRows = 0
+  }
+
+  static get observedAttributes () {
+    return ['data']
   }
 
   get addButtonDisabled () {
@@ -66,16 +69,27 @@ class Form extends HTMLElement {
     this.dispatchEvent(event)
   }
 
-  addRow (value) {
+  addRow (rowData) {
     const row = htmlToElement(rowTemplate)
-    row.querySelector('input').value = `Value ${value}`
+    row.querySelector('input').value = rowData.label
+    Object.keys(rowData.values).forEach(series => {
+      const value = rowData.values[series]
+      row.querySelector(`[data-series="${series}"]`).value = value
+    })
     this.formContainer.appendChild(row)
     return row
   }
 
   onAddClick () {
     if (this.numberOfRows < MAX_ROWS) {
-      const row = this.addRow(this.numberOfRows + 1)
+      const row = this.addRow({
+        label: `Value ${this.numberOfRows + 1}`,
+        values: {
+          first: 20,
+          second: 20
+        }
+      })
+
       bindEvents(row, this, 'input')
       this.onDataChange()
     }
@@ -96,29 +110,43 @@ class Form extends HTMLElement {
 
   render () {
     const main = htmlToElement(template)
+    const { data } = this
+    if (data.length === 0) {
+      return
+    }
 
     this.formContainer = main.querySelector('.vertical-container')
 
-    for (let i = 0; i < STARTING_ROWS; i++) {
-      this.addRow(i + 1)
-    }
+    data.forEach(value => {
+      this.addRow(value)
+    })
+
+    this.numberOfRows = data.length
 
     this.appendChild(main)
 
     bindEvents(main, this, 'click', 'input')
     updateProps(this)
-  }
-
-  connectedCallback () {
-    this.render(this)
-    this.data = getData(this)
     this.unsubscribe = createChildListObserver(this.formContainer, e =>
       this.onRowListChange(e)
     )
   }
 
+  connectedCallback () {
+    this.render()
+  }
+
   disconnectedCallback () {
     this.unsubscribe()
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    if (newValue !== JSON.stringify(getData(this))) {
+      window.requestAnimationFrame(() => {
+        this.innerHTML = ''
+        this.render()
+      })
+    }
   }
 }
 
