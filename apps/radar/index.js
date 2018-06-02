@@ -10,6 +10,7 @@ if (!window.location.hash) {
 const channel = window.location.hash.substr(1)
 let chart
 let form
+let data
 
 radarData.init(channel)
 
@@ -21,21 +22,53 @@ const syncChartToAnchor = chart => {
   })
 }
 
+const onDataChange = event => {
+  data = event.detail
+  chart.data = data
+  radarData.set(data)
+  window.requestAnimationFrame(() => syncChartToAnchor(chart))
+}
+
+const onAddClick = () => {
+  const label = `Value ${data.length + 1}`
+  data = [
+    ...data,
+    {
+      label,
+      values: {
+        first: 20,
+        second: 20
+      }
+    }
+  ]
+
+  chart.data = data
+  form.data = data
+  radarData.set(data)
+  window.requestAnimationFrame(() => syncChartToAnchor(chart))
+}
+
+const onRemoveClick = () => {
+  data = data.slice(0, -1)
+  chart.data = data
+  form.data = data
+  radarData.set(data)
+  window.requestAnimationFrame(() => syncChartToAnchor(chart))
+}
+
 window.requestAnimationFrame(() => {
   form = document.querySelector('app-form')
   chart = document.querySelector('app-chart')
 
-  chart.data = form.data
   syncChartToAnchor(chart)
 
-  form.addEventListener('data-change', event => {
-    chart.data = event.detail
-    radarData.set(event.detail)
-    window.requestAnimationFrame(() => syncChartToAnchor(chart))
-  })
+  form.addEventListener('data-change', onDataChange)
+  form.addEventListener('add-row', onAddClick)
+  form.addEventListener('remove-row', onRemoveClick)
 })
 
-radarData.addOnMessageListener(data => {
+radarData.addOnMessageListener(newData => {
+  data = newData
   chart.data = data
   form.data = data
 })
