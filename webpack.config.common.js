@@ -1,7 +1,19 @@
 const path = require('path')
+const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
+
+let key
+
+try {
+  fs.readFileSync('.key', 'utf8')
+} catch (e) {
+  key = process.env.FIREBASE_APP_KEY
+}
+
+console.log(key)
 
 const dist = path.join(__dirname, 'dist')
 
@@ -61,6 +73,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      FIREBASE_APP_KEY: JSON.stringify(key)
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
       chunks: ['lib']

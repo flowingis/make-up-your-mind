@@ -7,6 +7,7 @@
         "HTMLElement":false,
         "describe":false,
         "test":false,
-        "expect":false
+        "expect":false,
+        "FIREBASE_APP_KEY": false
     }
 }
