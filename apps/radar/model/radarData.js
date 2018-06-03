@@ -41,6 +41,12 @@ export const factory = (firebaseClient, defaultData) => {
     })
   }
 
+  const reset = () => {
+    console.log(defaultData)
+    set(defaultData)
+    return defaultData
+  }
+
   const removeRow = () => {
     return get(url).then(data => {
       const newData = data.slice(0, -1)
@@ -66,7 +72,8 @@ export const factory = (firebaseClient, defaultData) => {
     set,
     get,
     addRow,
-    removeRow
+    removeRow,
+    reset
   }
 }
 

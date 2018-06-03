@@ -29,6 +29,7 @@ radarData.init(channel).then(initialData => {
     form.addEventListener('data-change', event => radarData.set(event.detail))
     form.addEventListener('add-row', radarData.addRow)
     form.addEventListener('remove-row', radarData.removeRow)
+    form.addEventListener('reset', radarData.reset)
   })
 })
 

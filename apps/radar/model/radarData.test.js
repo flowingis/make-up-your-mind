@@ -118,4 +118,25 @@ describe('radarData', () => {
       expect(data).toBeFalsy()
     })
   })
+
+  test('reset should set the defaultData and then return that', () => {
+    let data = false
+    const DEFAULT_DATA = [
+      {
+        label: 'A_LABEL'
+      }
+    ]
+
+    const dummyRealtimeClient = createDummyRealtimeClient()
+    dummyRealtimeClient.set = (url, value) => {
+      data = value
+    }
+
+    const radarData = factory(dummyRealtimeClient, DEFAULT_DATA)
+
+    const result = radarData.reset()
+
+    expect(result).toEqual(DEFAULT_DATA)
+    expect(data).toEqual(DEFAULT_DATA)
+  })
 })

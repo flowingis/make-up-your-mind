@@ -49,6 +49,11 @@ class Form extends HTMLElement {
     }
   }
 
+  onResetClick () {
+    const event = new window.CustomEvent('reset', { bubbles: true })
+    this.dispatchEvent(event)
+  }
+
   render () {
     const main = htmlToElement(template)
     const { data } = this
