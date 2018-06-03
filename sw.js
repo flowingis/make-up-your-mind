@@ -1,5 +1,5 @@
-const version = '0.1.1'
-const cacheName = `make-up-your-mind-${version}`
+const VERSION = '0.1.2'
+const CACHE_NAME = `make-up-your-mind-${VERSION}`
 
 const CACHABLE_ELEMENTS = [
   '/',
@@ -15,7 +15,7 @@ const CACHABLE_ELEMENTS = [
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(cacheName).then(cache => {
+    caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(CACHABLE_ELEMENTS).then(() => {
         console.log('WORKER:: install completed')
       })
@@ -30,7 +30,7 @@ self.addEventListener('activate', function (event) {
       .then(keys =>
         Promise.all(
           keys
-            .filter(key => !key.endsWith(version))
+            .filter(key => !key.endsWith(VERSION))
             .map(key => caches.delete(key))
         )
       )
