@@ -8,7 +8,8 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.prod.js",
     "start": "webpack-dev-server --config ./webpack.config.dev.js",
-    "test": "jest"
+    "test": "jest",
+    "sync-version": "node ./scripts/syncVersion.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -49,7 +50,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run sync-version && git add sw.js && lint-staged"
     }
   },
   "lint-staged": {
