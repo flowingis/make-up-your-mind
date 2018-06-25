@@ -1,5 +1,6 @@
 import defaultData from './defaultData'
 import firebaseClient from './firebaseClient'
+import invariant from 'radar/utils/invariant'
 
 export const factory = (firebaseClient, defaultData) => {
   let onMessageListeners = []
@@ -22,23 +23,25 @@ export const factory = (firebaseClient, defaultData) => {
   }
 
   const addRow = () => {
-    return get(url).then(data => {
-      const label = `Value ${data.length + 1}`
-      const newData = [
-        ...data,
-        {
-          label,
-          values: {
-            first: 20,
-            second: 20
-          }
+    return get(url)
+      .then(data => data || defaultData)
+      .then(data => {
+        const label = `Value ${data.dataset.length + 1}`
+        const newData = {
+          ...data,
+          dataset: [
+            ...data.dataset,
+            {
+              label,
+              values: [20, 20]
+            }
+          ]
         }
-      ]
 
-      set(newData)
+        set(newData)
 
-      return newData
-    })
+        return newData
+      })
   }
 
   const reset = () => {
@@ -47,13 +50,18 @@ export const factory = (firebaseClient, defaultData) => {
   }
 
   const removeRow = () => {
-    return get(url).then(data => {
-      const newData = data.slice(0, -1)
+    return get(url)
+      .then(data => data || defaultData)
+      .then(data => {
+        const newData = {
+          ...data,
+          dataset: data.dataset.slice(0, -1)
+        }
 
-      set(newData)
+        set(newData)
 
-      return newData
-    })
+        return newData
+      })
   }
 
   const addOnChangeListener = cb => {
@@ -63,7 +71,26 @@ export const factory = (firebaseClient, defaultData) => {
     }
   }
 
-  const set = data => firebaseClient.set(url, data)
+  const validate = data => {
+    invariant(data, 'data is undefined')
+    invariant(
+      data.series && Array.isArray(data.series),
+      'series is not an array'
+    )
+    invariant(
+      data.dataset && Array.isArray(data.dataset),
+      'dataset not an array'
+    )
+    data.dataset.forEach(row => {
+      invariant(row.values, 'row is not defined')
+      invariant(Array.isArray(row.values), 'row is not an array')
+    })
+  }
+
+  const set = data => {
+    validate(data)
+    return firebaseClient.set(url, data)
+  }
 
   return {
     init,

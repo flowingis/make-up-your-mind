@@ -1,5 +1,15 @@
 import { factory } from './radarData'
 
+const VALID_DATA = {
+  dataset: [
+    {
+      label: 'Value 1',
+      values: [20, 20]
+    }
+  ],
+  series: ['first', 'second']
+}
+
 const createDummyRealtimeClient = dummyResult => ({
   onChange: (url, cb) => cb(dummyResult),
   get: () => Promise.resolve(dummyResult),
@@ -39,51 +49,28 @@ describe('radarData', () => {
   })
 
   test('addRow should add a row to exisent data with a specific format', () => {
-    const dummyRealtimeClient = createDummyRealtimeClient([])
+    const dummyRealtimeClient = createDummyRealtimeClient({
+      series: [],
+      dataset: []
+    })
     const radarData = factory(dummyRealtimeClient)
 
     return radarData.addRow().then(data => {
-      expect(data).toEqual([
+      expect(data.dataset).toEqual([
         {
           label: 'Value 1',
-          values: {
-            first: 20,
-            second: 20
-          }
+          values: [20, 20]
         }
       ])
     })
   })
 
   test('removeRow should remove last row to exisent data', () => {
-    const dummyRealtimeClient = createDummyRealtimeClient([
-      {
-        label: 'Value 1',
-        values: {
-          first: 20,
-          second: 20
-        }
-      },
-      {
-        label: 'Value 2',
-        values: {
-          first: 80,
-          second: 100
-        }
-      }
-    ])
+    const dummyRealtimeClient = createDummyRealtimeClient(VALID_DATA)
     const radarData = factory(dummyRealtimeClient)
 
     return radarData.removeRow().then(data => {
-      expect(data).toEqual([
-        {
-          label: 'Value 1',
-          values: {
-            first: 20,
-            second: 20
-          }
-        }
-      ])
+      expect(data.dataset).toEqual([])
     })
   })
 
@@ -121,22 +108,17 @@ describe('radarData', () => {
 
   test('reset should set the defaultData and then return that', () => {
     let data = false
-    const DEFAULT_DATA = [
-      {
-        label: 'A_LABEL'
-      }
-    ]
 
     const dummyRealtimeClient = createDummyRealtimeClient()
     dummyRealtimeClient.set = (url, value) => {
       data = value
     }
 
-    const radarData = factory(dummyRealtimeClient, DEFAULT_DATA)
+    const radarData = factory(dummyRealtimeClient, VALID_DATA)
 
     const result = radarData.reset()
 
-    expect(result).toEqual(DEFAULT_DATA)
-    expect(data).toEqual(DEFAULT_DATA)
+    expect(result).toEqual(VALID_DATA)
+    expect(data).toEqual(VALID_DATA)
   })
 })
