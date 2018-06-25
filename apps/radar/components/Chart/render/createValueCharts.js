@@ -20,9 +20,11 @@ const createValueChart = ({ values, radius, color }) => {
   })
 }
 
-const createValueCharts = ({ data, radius, colors }) => {
-  const series = extractSeriesFromData(data)
-  const seriesValues = series.map(serie => extractValuesFromData(data, serie))
+const createValueCharts = ({ dataset, radius, colors }) => {
+  const series = extractSeriesFromData(dataset)
+  const seriesValues = series.map(serie =>
+    extractValuesFromData(dataset, serie)
+  )
   return seriesValues.map((values, index) =>
     createValueChart({ values, radius, color: getColor(colors, index) })
   )

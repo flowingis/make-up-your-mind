@@ -2,8 +2,8 @@ import { newIndexedArray } from 'radar/utils/array'
 import { createPath } from 'radar/utils/svg'
 import createBaseChartPoints from '../model/createBaseChartPoints'
 
-const createBaseChart = ({ data, radius, levels }) => {
-  const sides = data.length
+const createBaseChart = ({ dataset, radius, levels }) => {
+  const sides = dataset.length
   return newIndexedArray(levels)
     .map(index => (index + 1) * (radius / levels))
     .map(aRadius => {

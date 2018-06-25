@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import template from './Form.tpl.html'
 
 import { htmlToElement, bindEvents, updateProps } from 'radar/utils/dom'
@@ -5,6 +6,11 @@ import { htmlToElement, bindEvents, updateProps } from 'radar/utils/dom'
 const MAX_ROWS = 8
 const MIN_ROWS = 3
 
+const extractSeries = element => {
+  return Array.from(element.querySelectorAll('[data-series-input]')).map(
+    input => input.value
+  )
+}
 class Form extends HTMLElement {
   constructor () {
     super()
@@ -17,16 +23,18 @@ class Form extends HTMLElement {
   }
 
   get addButtonDisabled () {
-    return this.data.length >= MAX_ROWS
+    const dataset = get(this.data, 'dataset', [])
+    return dataset.length >= MAX_ROWS
   }
 
   get removeButtonDisabled () {
-    return this.data.length <= MIN_ROWS
+    const dataset = get(this.data, 'dataset', [])
+    return dataset.length <= MIN_ROWS
   }
 
   get data () {
     if (!this.hasAttribute('data')) {
-      return []
+      return
     }
 
     return JSON.parse(this.getAttribute('data'))
@@ -37,14 +45,16 @@ class Form extends HTMLElement {
   }
 
   onAddClick () {
-    if (this.data.length < MAX_ROWS) {
+    const dataset = get(this.data, 'dataset', [])
+    if (dataset.length < MAX_ROWS) {
       const event = new window.CustomEvent('add-row', { bubbles: true })
       this.dispatchEvent(event)
     }
   }
 
   onRemoveClick () {
-    if (this.data.length > MIN_ROWS) {
+    const dataset = get(this.data, 'dataset', [])
+    if (dataset.length > MIN_ROWS) {
       const event = new window.CustomEvent('remove-row', { bubbles: true })
       this.dispatchEvent(event)
     }
@@ -55,24 +65,52 @@ class Form extends HTMLElement {
     this.dispatchEvent(event)
   }
 
+  onSeriesChange () {
+    const newData = {
+      ...this.data,
+      series: extractSeries(this)
+    }
+
+    this.dispatchDataChange(newData)
+  }
+
+  onDatasetChange ({ detail }) {
+    const newData = {
+      ...this.data,
+      dataset: detail
+    }
+
+    this.dispatchDataChange(newData)
+  }
+
+  dispatchDataChange (data) {
+    const event = new window.CustomEvent('data-change', {
+      detail: data,
+      bubbles: true
+    })
+
+    this.dispatchEvent(event)
+  }
+
   updateProps () {
     updateProps(this)
     const seriesInput = this.querySelectorAll('[data-series-input]')
-    Object.keys(this.data[0].values).forEach((series, index) => {
-      seriesInput[index].value = series
+    const series = get(this.data, 'series', [])
+    series.forEach((serie, index) => {
+      seriesInput[index].value = serie
     })
   }
 
   render () {
     const main = htmlToElement(template)
     const { data } = this
-    if (data.length === 0) {
+    if (!data) {
       return
     }
 
     this.appendChild(main)
 
-    bindEvents(main, this, 'click')
+    bindEvents(main, this, 'click', 'dataset-change', 'input')
     this.updateProps()
 
     this.rowContainer = this.querySelector('app-form-row-container')
@@ -83,14 +121,17 @@ class Form extends HTMLElement {
   }
 
   attributeChangedCallback (name, oldValue, newValue) {
+    if (!this.data) {
+      return
+    }
+
     if (this.rowContainer) {
-      window.requestAnimationFrame(() => {
-        this.rowContainer.data = this.data
+      return window.requestAnimationFrame(() => {
         this.updateProps()
       })
-    } else {
-      this.render()
     }
+
+    this.render()
   }
 }
 

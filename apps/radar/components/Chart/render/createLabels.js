@@ -1,8 +1,8 @@
 import { createText } from 'radar/utils/svg'
 import createBaseChartPoints from '../model/createBaseChartPoints'
 
-const createLabels = ({ data, radius }) => {
-  const labels = data.map(e => e.label)
+const createLabels = ({ dataset, radius }) => {
+  const labels = dataset.map(e => e.label)
 
   const points = createBaseChartPoints({
     sides: labels.length,
