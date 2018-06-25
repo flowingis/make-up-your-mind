@@ -30,10 +30,13 @@ const generateRow = rowData => {
   const row = htmlToElement(rowTemplate)
 
   row.querySelector('input').value = rowData.label
+  const ranges = row.querySelectorAll('[data-series]')
 
-  Object.keys(rowData.values).forEach(series => {
+  Object.keys(rowData.values).forEach((series, index) => {
     const value = rowData.values[series]
-    row.querySelector(`[data-series="${series}"]`).value = value
+    const range = ranges[index]
+    range.value = value
+    range.setAttribute('data-series', series)
   })
 
   return row
