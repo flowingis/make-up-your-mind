@@ -4,3 +4,6 @@ export const newIndexedArray = size => {
   }
   return [...Array(parseInt(size, 10))].map((value, index) => index)
 }
+
+export const flatten = list =>
+  list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [])

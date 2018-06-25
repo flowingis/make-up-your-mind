@@ -6,3 +6,11 @@
         flex: 1 1 auto;
     }
 }
+
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: 34% 33% 33%;
+    &__col {
+        text-align: center
+    }
+}

@@ -16,7 +16,7 @@ const createLabels = ({ data, radius }) => {
       x,
       y,
       attrs: {
-        role: 'chart-label'
+        class: 'label'
       }
     })
   })

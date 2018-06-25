@@ -43,19 +43,21 @@ export const createText = ({ text, x, y, attrs = {} }) => {
   return textElement
 }
 
-export const createCircle = ({ radius, cx = 0, cy = 0, stroke = 'black' }) => {
-  const circleElement = document.createElementNS(SVG_NS_URI, 'circle')
-  const attrs = {
-    cx,
-    cy,
-    r: radius,
-    stroke,
-    'fill-opacity': 0
-  }
+export const createRect = ({ x, y, width, height, color, attrs = {} }) => {
+  const rect = document.createElementNS(SVG_NS_URI, 'rect')
 
-  Object.keys(attrs).forEach(attributeName => {
-    circleElement.setAttribute(attributeName, attrs[attributeName])
+  const allAttrs = Object.assign({}, attrs, {
+    x,
+    y,
+    width,
+    height,
+    fill: color,
+    stroke: color
   })
 
-  return circleElement
+  Object.keys(allAttrs).forEach(attributeName => {
+    rect.setAttribute(attributeName, allAttrs[attributeName])
+  })
+
+  return rect
 }

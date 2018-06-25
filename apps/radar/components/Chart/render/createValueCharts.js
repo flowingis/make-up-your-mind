@@ -14,7 +14,7 @@ const extractValuesFromData = (data, serie) => {
 const createValueChart = ({ values, radius, color }) => {
   const point = createChartValuesPoints({ values, radius })
   return createPath(point, {
-    role: 'chart-values',
+    'semi-trasparent': true,
     fill: color,
     stroke: color
   })

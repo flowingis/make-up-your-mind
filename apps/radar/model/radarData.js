@@ -42,7 +42,6 @@ export const factory = (firebaseClient, defaultData) => {
   }
 
   const reset = () => {
-    console.log(defaultData)
     set(defaultData)
     return defaultData
   }

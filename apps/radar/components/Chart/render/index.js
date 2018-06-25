@@ -2,13 +2,16 @@ import style from './Chart.component.css'
 import createBaseChart from './createBaseChart'
 import createLabels from './createLabels'
 import createValueCharts from './createValueCharts'
+import createLegend from './createLegend'
 
 const TEMPLATE = `
-    <svg viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 1000 1200" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <style>
             ${style.toString()}
         </style>
-        <g transform="translate(500,500)">
+        <g data-chart transform="translate(500,500)">
+        </g>
+        <g data-legend transform="translate(0,1000)">
         </g>
     </svg>
 `
@@ -41,11 +44,18 @@ const render = (element, data, radius) => {
     colors: COLORS
   })
 
-  const items = [...labelElementes, ...baseChartsPaths, ...valueCharts]
+  const chartElements = [...labelElementes, ...baseChartsPaths, ...valueCharts]
 
-  const container = document.querySelector('svg g')
+  const chartContainer = document.querySelector('svg g[data-chart]')
 
-  items.forEach(item => container.appendChild(item))
+  chartElements.forEach(item => chartContainer.appendChild(item))
+
+  const legendContainer = document.querySelector('svg g[data-legend]')
+
+  createLegend({
+    data,
+    colors: COLORS
+  }).forEach(item => legendContainer.appendChild(item))
 }
 
 export default render

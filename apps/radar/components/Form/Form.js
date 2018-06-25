@@ -9,6 +9,7 @@ class Form extends HTMLElement {
   constructor () {
     super()
     this.rowContainer = undefined
+    this.updateProps = this.updateProps.bind(this)
   }
 
   static get observedAttributes () {
@@ -54,6 +55,14 @@ class Form extends HTMLElement {
     this.dispatchEvent(event)
   }
 
+  updateProps () {
+    updateProps(this)
+    const seriesInput = this.querySelectorAll('[data-series-input]')
+    Object.keys(this.data[0].values).forEach((series, index) => {
+      seriesInput[index].value = series
+    })
+  }
+
   render () {
     const main = htmlToElement(template)
     const { data } = this
@@ -64,7 +73,7 @@ class Form extends HTMLElement {
     this.appendChild(main)
 
     bindEvents(main, this, 'click')
-    updateProps(this)
+    this.updateProps()
 
     this.rowContainer = this.querySelector('app-form-row-container')
   }
@@ -77,7 +86,7 @@ class Form extends HTMLElement {
     if (this.rowContainer) {
       window.requestAnimationFrame(() => {
         this.rowContainer.data = this.data
-        updateProps(this)
+        this.updateProps()
       })
     } else {
       this.render()
