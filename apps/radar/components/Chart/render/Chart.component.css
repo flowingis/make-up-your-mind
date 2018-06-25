@@ -15,7 +15,15 @@ path[role="chart-base"] {
     stroke: #000000;
 }
 
-path[role="chart-values"] {
+text.label {
+    font-size: 25px;
+}
+
+text.legend {
+    font-size: 40px;
+}
+
+[semi-trasparent] {
     fill-opacity: 0.2;
     stroke-width: 10;
     stroke-opacity: 1;
