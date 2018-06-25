@@ -5,6 +5,15 @@ import { htmlToElement, bindEvents, updateProps } from 'radar/utils/dom'
 const MAX_ROWS = 8
 const MIN_ROWS = 3
 
+const EVENTS_NAMESPACE = 'FORM'
+
+export const EVENTS = {
+  ADD_ROW: `${EVENTS_NAMESPACE}/ADD_ROW`,
+  REMOVE_ROW: `${EVENTS_NAMESPACE}/REMOVE_ROW`,
+  DATA_CHANGE: `${EVENTS_NAMESPACE}/DATA_CHANGE`,
+  RESET: `${EVENTS_NAMESPACE}/RESET`
+}
+
 const extractSeries = element => {
   return Array.from(element.querySelectorAll('[data-series-input]')).map(
     input => input.value
@@ -46,7 +55,7 @@ class Form extends HTMLElement {
   onAddClick () {
     const dataset = get(this.data, 'dataset', [])
     if (dataset.length < MAX_ROWS) {
-      const event = new window.CustomEvent('add-row', { bubbles: true })
+      const event = new window.CustomEvent(EVENTS.ADD_ROW, { bubbles: true })
       this.dispatchEvent(event)
     }
   }
@@ -54,13 +63,15 @@ class Form extends HTMLElement {
   onRemoveClick () {
     const dataset = get(this.data, 'dataset', [])
     if (dataset.length > MIN_ROWS) {
-      const event = new window.CustomEvent('remove-row', { bubbles: true })
+      const event = new window.CustomEvent(EVENTS.REMOVE_ROW, {
+        bubbles: true
+      })
       this.dispatchEvent(event)
     }
   }
 
   onResetClick () {
-    const event = new window.CustomEvent('reset', { bubbles: true })
+    const event = new window.CustomEvent(EVENTS.RESET, { bubbles: true })
     this.dispatchEvent(event)
   }
 
@@ -83,7 +94,7 @@ class Form extends HTMLElement {
   }
 
   dispatchDataChange (data) {
-    const event = new window.CustomEvent('data-change', {
+    const event = new window.CustomEvent(EVENTS.DATA_CHANGE, {
       detail: data,
       bubbles: true
     })

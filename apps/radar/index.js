@@ -2,6 +2,7 @@ import '@webcomponents/custom-elements'
 import uuidv1 from 'uuid/v1'
 import './components'
 import radarData from './model/radarData'
+import { EVENTS } from './components/Form/Form'
 
 if (!window.location.hash) {
   window.location.hash = uuidv1()
@@ -26,10 +27,12 @@ radarData.init(channel).then(_ => {
 
     syncChartToAnchor(chart)
 
-    form.addEventListener('data-change', event => radarData.set(event.detail))
-    form.addEventListener('add-row', radarData.addRow)
-    form.addEventListener('remove-row', radarData.removeRow)
-    form.addEventListener('reset', radarData.reset)
+    form.addEventListener(EVENTS.DATA_CHANGE, event =>
+      radarData.set(event.detail)
+    )
+    form.addEventListener(EVENTS.ADD_ROW, radarData.addRow)
+    form.addEventListener(EVENTS.REMOVE_ROW, radarData.removeRow)
+    form.addEventListener(EVENTS.RESET, radarData.reset)
   })
 })
 
