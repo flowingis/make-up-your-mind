@@ -121,4 +121,60 @@ describe('radarData', () => {
     expect(result).toEqual(VALID_DATA)
     expect(data).toEqual(VALID_DATA)
   })
+
+  test('setting not valid data should throw error', () => {
+    const dummyRealtimeClient = createDummyRealtimeClient()
+    const radarData = factory(dummyRealtimeClient, VALID_DATA)
+
+    const DATA_WITHOUT_SERIES = {
+      dataset: []
+    }
+
+    const DATA_WITH_INVALID_DATASET = {
+      dataset: 'a-string'
+    }
+
+    const DATA_WITHOUT_DATASET = {
+      series: []
+    }
+
+    const DATA_WITH_INVALID_SERIES = {
+      series: 'a-string'
+    }
+
+    const DATA_WITHOUT_VALUES = {
+      series: [],
+      dataset: [{}]
+    }
+
+    const DATA_WITH_INVALID_VALUES = {
+      series: [],
+      dataset: [
+        {
+          values: 'values'
+        }
+      ]
+    }
+
+    const NOT_VALID_DATA = [
+      undefined,
+      {},
+      DATA_WITHOUT_DATASET,
+      DATA_WITHOUT_SERIES,
+      DATA_WITHOUT_VALUES,
+      DATA_WITH_INVALID_VALUES,
+      DATA_WITH_INVALID_SERIES,
+      DATA_WITH_INVALID_DATASET
+    ]
+
+    NOT_VALID_DATA.forEach(data => {
+      expect(() => {
+        radarData.set(data)
+      }).toThrow()
+    })
+
+    expect(() => {
+      radarData.set(VALID_DATA)
+    }).not.toThrow()
+  })
 })
