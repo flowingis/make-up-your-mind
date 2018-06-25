@@ -8,12 +8,12 @@ const getColor = (colors, index) => {
   return colors[index % colors.length]
 }
 
-export default ({ data, colors }) => {
-  if (!data.length) {
+export default ({ series, colors }) => {
+  if (!series.length) {
     return
   }
 
-  const items = Object.keys(data[0].values).map((series, index) => {
+  const items = series.map((label, index) => {
     const block = createRect({
       x: BLOCK_SPACING + index * (BLOCK_SPACING + BLOCK_WIDTH + TEXT_SPACING),
       y: 0,
@@ -26,7 +26,7 @@ export default ({ data, colors }) => {
     })
 
     const text = createText({
-      text: series,
+      text: label,
       x: parseInt(block.getAttribute('x')) + TEXT_SPACING,
       y: BLOCK_WIDTH / 2,
       attrs: {

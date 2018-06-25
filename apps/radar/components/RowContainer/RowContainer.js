@@ -11,12 +11,8 @@ const getData = element => {
 
   return rows.map(row => {
     const label = row.querySelector(LABEL_SELECTOR).value
-    const values = Array.from(row.querySelectorAll(RANGE_SELECTOR)).reduce(
-      (acc, range) => {
-        acc[range.getAttribute('data-series')] = parseInt(range.value, 10)
-        return acc
-      },
-      {}
+    const values = Array.from(row.querySelectorAll(RANGE_SELECTOR)).map(range =>
+      parseInt(range.value, 10)
     )
 
     return {
@@ -61,9 +57,9 @@ class RowContainer extends HTMLElement {
 
   onDataChange () {
     const data = getData(this)
-    const event = new window.CustomEvent('data-change', {
+    const event = new window.CustomEvent('dataset-change', {
       detail: data,
-      bubbles: true
+      bubbles: false
     })
     this.dispatchEvent(event)
   }
