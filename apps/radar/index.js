@@ -19,7 +19,7 @@ const syncChartToAnchor = chart => {
   })
 }
 
-radarData.init(channel).then(initialData => {
+radarData.init(channel).then(_ => {
   window.requestAnimationFrame(() => {
     form = document.querySelector('app-form')
     chart = document.querySelector('app-chart')

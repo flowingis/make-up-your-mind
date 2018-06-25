@@ -5,6 +5,7 @@ class Chart extends HTMLElement {
     super()
     this.render = this.render.bind(this)
   }
+
   static get observedAttributes () {
     return ['data']
   }
