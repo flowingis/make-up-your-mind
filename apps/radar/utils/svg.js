@@ -55,8 +55,6 @@ export const createRect = ({ x, y, width, height, color, attrs = {} }) => {
     stroke: color
   })
 
-  console.log(allAttrs)
-
   Object.keys(allAttrs).forEach(attributeName => {
     rect.setAttribute(attributeName, allAttrs[attributeName])
   })
