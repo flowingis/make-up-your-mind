@@ -1,4 +1,4 @@
-import { newIndexedArray } from './array'
+import { newIndexedArray, flat } from './array'
 
 describe('array utils', () => {
   describe('newIndexedArray', () => {
@@ -19,6 +19,13 @@ describe('array utils', () => {
       expect(newIndexedArray(0)).toEqual([])
       expect(newIndexedArray(undefined)).toEqual([])
       expect(newIndexedArray(null)).toEqual([])
+    })
+  })
+
+  describe('flat', () => {
+    test('should flat an array at any depth', () => {
+      const ARRAY = [1, [2, [3, [4]], 5]]
+      expect(flat(ARRAY)).toEqual([1, 2, 3, 4, 5])
     })
   })
 })

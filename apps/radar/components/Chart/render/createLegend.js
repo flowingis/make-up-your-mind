@@ -1,5 +1,5 @@
 import { createRect, createText } from 'radar/utils/svg'
-import { flatten } from 'radar/utils/array'
+import { flat } from 'radar/utils/array'
 const BLOCK_WIDTH = 50
 const BLOCK_SPACING = 50
 
@@ -38,5 +38,5 @@ export default ({ series, colors }) => {
     return [block, text]
   })
 
-  return flatten(items)
+  return flat(items)
 }
