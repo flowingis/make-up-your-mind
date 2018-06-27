@@ -6,7 +6,7 @@ const createLabels = ({ dataset, radius }) => {
 
   const points = createBaseChartPoints({
     sides: labels.length,
-    radius: radius * 1.2
+    radius: radius * 1.25
   })
 
   return points.map((point, index) => {
