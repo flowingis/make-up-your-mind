@@ -1,5 +1,6 @@
 import render from './render'
 
+const DEFAULT_RADIUS = 350
 class Chart extends HTMLElement {
   constructor () {
     super()
@@ -24,7 +25,7 @@ class Chart extends HTMLElement {
 
   get radius () {
     if (!this.hasAttribute('radius')) {
-      return 400
+      return DEFAULT_RADIUS
     }
     return parseInt(this.getAttribute('radius'), 10)
   }
