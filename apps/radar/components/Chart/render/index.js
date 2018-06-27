@@ -21,7 +21,7 @@ const COLORS = ['red', 'blue']
 
 const LEVELS = 5
 
-const render = (element, data, radius) => {
+const render = (element, data, radius, hideLegend) => {
   element.innerHTML = TEMPLATE
   const dataset = get(data, 'dataset', [])
   if (dataset.length === 0) {
@@ -53,12 +53,14 @@ const render = (element, data, radius) => {
 
   const legendContainer = document.querySelector('svg g[data-legend]')
 
-  const series = get(data, 'series', [])
+  if (!hideLegend) {
+    const series = get(data, 'series', [])
 
-  createLegend({
-    series,
-    colors: COLORS
-  }).forEach(item => legendContainer.appendChild(item))
+    createLegend({
+      series,
+      colors: COLORS
+    }).forEach(item => legendContainer.appendChild(item))
+  }
 }
 
 export default render

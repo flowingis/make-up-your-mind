@@ -20,6 +20,14 @@ const syncChartToAnchor = chart => {
   })
 }
 
+const onToggleShowLegend = checkbox => {
+  if (!chart) {
+    return
+  }
+
+  chart.hideLegend = !checkbox.checked
+}
+
 radarData.init(channel).then(_ => {
   window.requestAnimationFrame(() => {
     form = document.querySelector('app-form')
@@ -33,6 +41,10 @@ radarData.init(channel).then(_ => {
     form.addEventListener(EVENTS.ADD_ROW, radarData.addRow)
     form.addEventListener(EVENTS.REMOVE_ROW, radarData.removeRow)
     form.addEventListener(EVENTS.RESET, radarData.reset)
+
+    document
+      .querySelector('input[type="checkbox"')
+      .addEventListener('change', e => onToggleShowLegend(e.target))
   })
 })
 

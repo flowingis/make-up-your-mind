@@ -8,7 +8,7 @@ class Chart extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return ['data']
+    return ['data', 'hide-legend']
   }
 
   get data () {
@@ -34,8 +34,20 @@ class Chart extends HTMLElement {
     this.setAttribute('radius', value)
   }
 
+  get hideLegend () {
+    return this.hasAttribute('hide-legend')
+  }
+
+  set hideLegend (val) {
+    if (val) {
+      this.setAttribute('hide-legend', '')
+    } else {
+      this.removeAttribute('hide-legend')
+    }
+  }
+
   render () {
-    render(this, this.data, this.radius)
+    render(this, this.data, this.radius, this.hideLegend)
   }
 
   connectedCallback () {
