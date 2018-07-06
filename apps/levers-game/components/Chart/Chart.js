@@ -1,4 +1,5 @@
 import shuffle from 'lodash.shuffle'
+import { htmlToElement } from 'radar/utils/dom'
 
 import template from './Chart.svg.html'
 
@@ -41,14 +42,19 @@ class Chart extends HTMLElement {
   }
 
   render () {
-    this.innerHTML = template
+    this.innerHTML = ''
+
+    const chart = htmlToElement(template)
+
     this.data.forEach((element, index) => {
-      const block = this.querySelector(`[data-block="${element}"]`)
+      const block = chart.querySelector(`[data-block="${element}"]`)
       block.setAttribute(
         'transform',
         `translate(${BLOCKS_COORDS[index].x} ${BLOCKS_COORDS[index].y})`
       )
     })
+
+    this.appendChild(chart)
   }
 
   connectedCallback () {
