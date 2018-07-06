@@ -1,4 +1,4 @@
-import { encodeTransformAttribute, SVG_NS_URI } from 'board/utils/svg'
+import { encodeTransformAttribute, SVG_NS_URI } from 'lib/utils/svg'
 
 const DRAGGABLE_CLASS = 'draggable'
 const HEIGHT = 76

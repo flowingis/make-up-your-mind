@@ -30,7 +30,8 @@ module.exports = {
     alias: {
       radar: path.join(__dirname, 'apps', 'radar'),
       board: path.join(__dirname, 'apps', 'options-board'),
-      levers: path.join(__dirname, 'apps', 'levers-game')
+      levers: path.join(__dirname, 'apps', 'levers-game'),
+      lib: path.join(__dirname, 'lib')
     }
   },
   module: {

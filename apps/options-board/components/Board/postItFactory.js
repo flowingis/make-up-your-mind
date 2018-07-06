@@ -2,7 +2,7 @@ import {
   getMousePosition,
   encodeTransformAttribute,
   decodeTransformAttribute
-} from 'board/utils/svg'
+} from 'lib/utils/svg'
 import postItNodeFactory from './postItNodeFactory'
 
 const isMineEvent = (event, index) => {
