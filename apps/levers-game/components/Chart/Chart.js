@@ -1,6 +1,6 @@
-import sortBy from 'lodash.sortby'
 import { htmlToElement } from 'radar/utils/dom'
-import blockFactory, { BLOCKS_COORDS } from './block'
+import blockFactory from './block'
+
 import style from './Chart.component.css'
 
 import template from './Chart.svg.html'
@@ -11,24 +11,11 @@ const DRAG_EVENTS = ['mousemove', 'touchmove']
 
 const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
 
-const orderDataByY = ({ name, lastCoords, allCoords, data }) => {
-  let temporaryData = allCoords.map((coords, i) => {
-    return {
-      coords,
-      name: data[i]
-    }
-  })
+const EVENTS_NAMESPACE = 'LEVERS_CHART'
 
-  temporaryData = temporaryData.filter(element => element.name !== name)
-
-  temporaryData.push({
-    name,
-    coords: lastCoords
-  })
-
-  return sortBy(temporaryData, 'coords.y').map(element => element.name)
+export const EVENTS = {
+  CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
 }
-
 class Chart extends HTMLElement {
   constructor () {
     super()
@@ -70,12 +57,15 @@ class Chart extends HTMLElement {
     event.preventDefault()
     this.blocks.forEach(p => p.endDrag(event))
     if (this.activeBlock) {
-      this.data = orderDataByY({
-        name: this.activeBlock.name,
-        allCoords: BLOCKS_COORDS,
-        data: this.data,
-        lastCoords: this.activeBlock.coords
+      const event = new window.CustomEvent(EVENTS.CHANGE_POSITION, {
+        detail: {
+          name: this.activeBlock.name,
+          coords: this.activeBlock.coords
+        },
+        bubbles: true
       })
+
+      this.dispatchEvent(event)
     }
   }
 

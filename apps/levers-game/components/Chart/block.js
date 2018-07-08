@@ -4,24 +4,7 @@ import {
   decodeTransformAttribute
 } from 'lib/utils/svg'
 
-export const BLOCKS_COORDS = [
-  {
-    x: 50.5,
-    y: 68.967
-  },
-  {
-    x: 50.5,
-    y: 115.51
-  },
-  {
-    x: 50.5,
-    y: 163.134
-  },
-  {
-    x: 50.5,
-    y: 209.677
-  }
-]
+import { BLOCKS_COORDS } from 'levers/levers'
 
 const isMineEvent = (node, event) => {
   const group = event.target.closest('g[data-block]')

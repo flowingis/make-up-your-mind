@@ -1,7 +1,8 @@
-import shuffle from 'lodash.shuffle'
 import './components'
+import levers from './levers'
 
 import { createAttributesObserver } from './utils/dom'
+import { EVENTS } from './components/Chart/Chart'
 
 const syncChartToAnchor = chart => {
   window.requestIdleCallback(() => {
@@ -12,12 +13,18 @@ const syncChartToAnchor = chart => {
 }
 
 const board = document.querySelector('app-chart')
-board.data = shuffle(['quality', 'budget', 'scope', 'deadline'])
+board.data = levers.shuffle().get()
 
-createAttributesObserver(board, () => {
+const onChangePosition = event => {
+  const { name, coords } = event.detail
+  board.data = levers.changePosition(name, coords).get()
+}
+
+window.requestAnimationFrame(() => {
+  board.addEventListener(EVENTS.CHANGE_POSITION, onChangePosition)
   syncChartToAnchor(board)
 })
 
-window.requestAnimationFrame(() => {
+createAttributesObserver(board, () => {
   syncChartToAnchor(board)
 })
