@@ -11,7 +11,7 @@
     "test": "jest",
     "sync-version": "node ./scripts/syncVersion.js",
     "predeploy": "npm run build",
-    "deploy": "now --public ./dist"
+    "deploy": "now --public --name make-up-your-mind ./dist"
   },
   "license": "MIT",
   "dependencies": {
