@@ -3,7 +3,7 @@ script: npm run build
 deploy:
   provider: pages
   local-dir: ./dist
-  fqdn: radar.extrategy.net
+  fqdn: makeupyourmind.extrategy.net
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true

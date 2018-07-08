@@ -13,4 +13,4 @@ Web based decision-making tools
 ![Alt Text](http://media.riffsy.com/images/3ca3e3df4aef0f07989588f16e326cb5/tenor.gif)
 
 ## Live Demo
-You can find a live demo [here](https://radar.extrategy.net/)
+You can find a live demo [here](https://makeupyourmind.extrategy.net/)
