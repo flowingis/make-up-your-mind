@@ -4,7 +4,7 @@ import {
   decodeTransformAttribute
 } from 'lib/utils/svg'
 
-const BLOCKS_COORDS = [
+export const BLOCKS_COORDS = [
   {
     x: 50.5,
     y: 68.967
@@ -54,8 +54,6 @@ export default ({ parent, node, index }) => {
         node.getAttributeNS(null, 'transform')
       )
 
-      console.log(node.getAttributeNS(null, 'transform'), traslateCoords)
-
       offset = {
         x: coords.x - traslateCoords.x,
         y: coords.y - traslateCoords.y
@@ -80,15 +78,20 @@ export default ({ parent, node, index }) => {
   const endDrag = e => {
     active = false
     offset = undefined
-    translate(node, index)
   }
 
   return {
     startDrag,
     onDrag,
     endDrag,
-    get node () {
-      return node
+    get name () {
+      return node.getAttribute('data-block')
+    },
+    get coords () {
+      return decodeTransformAttribute(node.getAttribute('transform'))
+    },
+    get active () {
+      return active
     }
   }
 }
