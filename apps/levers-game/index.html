@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <meta name="theme-color" content="#1D3557" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compass Chart</title>
+    <script>
+        if (window.location.host.indexOf('extrategy.net') > -1 && window.location.protocol != "https:") {
+            window.location.protocol = "https";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="layout1">
+        <div class="layout1__bar elevation-z12">
+            <div class="header1">
+                <div class="header1__title">
+                    Levers Game
+                </div>
+                <a class="header1__action" href download="chart.svg">
+                    Download
+                </a>
+            </div>
+        </div>
+        <div class="layout1__page-flow">
+            <main class="grid-3-cols padding-top-4">
+                <div class="grid-3-cols__col">
+                </div>
+                <div class="grid-3-cols__col">
+                    <app-chart></app-chart>
+                </div>
+                <div class="grid-3-cols__col">
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

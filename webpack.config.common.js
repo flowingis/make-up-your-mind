@@ -19,6 +19,7 @@ module.exports = {
   entry: {
     radar: './apps/radar/index.js',
     board: './apps/options-board/index.js',
+    levers: './apps/levers-game/index.js',
     lib: './lib/index.js'
   },
   output: {
@@ -28,7 +29,9 @@ module.exports = {
   resolve: {
     alias: {
       radar: path.join(__dirname, 'apps', 'radar'),
-      board: path.join(__dirname, 'apps', 'options-board')
+      board: path.join(__dirname, 'apps', 'options-board'),
+      levers: path.join(__dirname, 'apps', 'levers-game'),
+      lib: path.join(__dirname, 'lib')
     }
   },
   module: {
@@ -87,6 +90,11 @@ module.exports = {
       template: path.join(__dirname, 'apps', 'radar', 'index.html'),
       chunks: ['lib', 'radar'],
       filename: path.join(__dirname, 'dist', 'radar.html')
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'apps', 'levers-game', 'index.html'),
+      chunks: ['lib', 'levers'],
+      filename: path.join(__dirname, 'dist', 'levers.html')
     }),
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([

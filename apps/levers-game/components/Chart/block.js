@@ -3,24 +3,34 @@ import {
   encodeTransformAttribute,
   decodeTransformAttribute
 } from 'lib/utils/svg'
-import postItNodeFactory from './postItNodeFactory'
 
-const isMineEvent = (event, index) => {
-  const indexAttribute = event.target.getAttribute('data-index')
-  if (!indexAttribute) {
+import { BLOCKS_COORDS } from 'levers/levers'
+
+const isMineEvent = (node, event) => {
+  const group = event.target.closest('g[data-block]')
+
+  if (!group) {
     return false
   }
 
-  return parseInt(indexAttribute, 10) === index
+  return group.getAttribute('data-block') === node.getAttribute('data-block')
 }
 
-const factory = ({ parent, x, y, color, index, label, attrs = {} }) => {
-  const node = postItNodeFactory({ x, y, color, index, label, attrs })
+const translate = (node, index) => {
+  node.setAttribute(
+    'transform',
+    encodeTransformAttribute(BLOCKS_COORDS[index])
+  )
+}
+
+export default ({ parent, node, index }) => {
+  translate(node, index)
+
   let active = false
   let offset
 
   const startDrag = event => {
-    if (isMineEvent(event, index)) {
+    if (isMineEvent(node, event)) {
       const coords = getMousePosition(parent, event)
 
       const traslateCoords = decodeTransformAttribute(
@@ -57,13 +67,14 @@ const factory = ({ parent, x, y, color, index, label, attrs = {} }) => {
     startDrag,
     onDrag,
     endDrag,
-    get node () {
-      return node
+    get name () {
+      return node.getAttribute('data-block')
     },
-    get position () {
-      return decodeTransformAttribute(node.getAttributeNS(null, 'transform'))
+    get coords () {
+      return decodeTransformAttribute(node.getAttribute('transform'))
+    },
+    get active () {
+      return active
     }
   }
 }
-
-export default factory

@@ -10,6 +10,8 @@ const CACHABLE_ELEMENTS = [
   '/radar.bundle.js',
   '/board.html',
   '/board.bundle.js',
+  '/levers.html',
+  '/levers.bundle.js',
   '/lib.bundle.js'
 ]
 
