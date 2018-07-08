@@ -1,12 +1,9 @@
-import shuffle from 'lodash.shuffle'
 import sortBy from 'lodash.sortby'
 import { htmlToElement } from 'radar/utils/dom'
 import blockFactory, { BLOCKS_COORDS } from './block'
 import style from './Chart.component.css'
 
 import template from './Chart.svg.html'
-
-const DATA = shuffle(['quality', 'budget', 'scope', 'deadline'])
 
 const START_EVENTS = ['mousedown', 'touchstart']
 
@@ -48,7 +45,7 @@ class Chart extends HTMLElement {
 
   get data () {
     if (!this.hasAttribute('data')) {
-      return DATA
+      return []
     }
 
     return JSON.parse(this.getAttribute('data'))
