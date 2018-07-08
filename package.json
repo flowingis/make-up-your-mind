@@ -68,7 +68,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^radar(.*)$": "<rootDir>/apps/radar$1"
+      "^radar(.*)$": "<rootDir>/apps/radar$1",
+      "^lib(.*)$": "<rootDir>/lib$1"
     },
     "globals": {
       "FIREBASE_APP_KEY": "blah"

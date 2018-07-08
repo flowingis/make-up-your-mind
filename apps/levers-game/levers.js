@@ -22,7 +22,10 @@ export const BLOCKS_COORDS = [
 
 const DEFAULT_DATA = ['quality', 'budget', 'scope', 'deadline']
 
-const factory = (initialData = DEFAULT_DATA, coordinates = BLOCKS_COORDS) => {
+export const factory = (
+  initialData = DEFAULT_DATA,
+  coordinates = BLOCKS_COORDS
+) => {
   let data = [...initialData]
 
   let toReturn
@@ -34,7 +37,7 @@ const factory = (initialData = DEFAULT_DATA, coordinates = BLOCKS_COORDS) => {
     return toReturn
   }
   const changePosition = (name, coords) => {
-    let temporaryData = BLOCKS_COORDS.map((coords, i) => {
+    let temporaryData = coordinates.map((coords, i) => {
       return {
         coords,
         name: data[i]
