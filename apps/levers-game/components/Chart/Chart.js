@@ -14,7 +14,7 @@ const DRAG_EVENTS = ['mousemove', 'touchmove']
 
 const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
 
-const order = ({ name, lastCoords, allCoords, data }) => {
+const orderDataByY = ({ name, lastCoords, allCoords, data }) => {
   let temporaryData = allCoords.map((coords, i) => {
     return {
       coords,
@@ -73,7 +73,7 @@ class Chart extends HTMLElement {
     event.preventDefault()
     this.blocks.forEach(p => p.endDrag(event))
     if (this.activeBlock) {
-      this.data = order({
+      this.data = orderDataByY({
         name: this.activeBlock.name,
         allCoords: BLOCKS_COORDS,
         data: this.data,
