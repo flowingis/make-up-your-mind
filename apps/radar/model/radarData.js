@@ -1,5 +1,5 @@
 import defaultData from './defaultData'
-import firebaseClient from './firebaseClient'
+import firebaseClient from 'lib/firebaseClient'
 import invariant from 'radar/utils/invariant'
 
 export const factory = (firebaseClient, defaultData) => {
