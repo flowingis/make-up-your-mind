@@ -1,5 +1,5 @@
 import './components'
-import levers from './levers'
+import levers from './model/levers'
 
 import { createAttributesObserver } from './utils/dom'
 import { EVENTS } from './components/Chart/Chart'
