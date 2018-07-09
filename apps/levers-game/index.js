@@ -1,8 +1,15 @@
 import './components'
-import levers from './levers'
+import uuidv1 from 'uuid/v1'
+import levers from './model/levers'
 
 import { createAttributesObserver } from './utils/dom'
 import { EVENTS } from './components/Chart/Chart'
+
+if (!window.location.hash) {
+  window.location.hash = uuidv1()
+}
+
+const channel = window.location.hash.substr(1)
 
 const syncChartToAnchor = chart => {
   window.requestIdleCallback(() => {
@@ -12,19 +19,27 @@ const syncChartToAnchor = chart => {
   })
 }
 
-const board = document.querySelector('app-chart')
-board.data = levers.shuffle().get()
+let leversChart
 
 const onChangePosition = event => {
   const { name, coords } = event.detail
-  board.data = levers.changePosition(name, coords).get()
+  levers.changePosition(name, coords)
 }
 
-window.requestAnimationFrame(() => {
-  board.addEventListener(EVENTS.CHANGE_POSITION, onChangePosition)
-  syncChartToAnchor(board)
+levers.init(channel).then(_ => {
+  window.requestAnimationFrame(() => {
+    leversChart = document.querySelector('app-chart')
+
+    leversChart.addEventListener(EVENTS.CHANGE_POSITION, onChangePosition)
+
+    createAttributesObserver(leversChart, () => {
+      syncChartToAnchor(leversChart)
+    })
+  })
 })
 
-createAttributesObserver(board, () => {
-  syncChartToAnchor(board)
+levers.addOnChangeListener(data => {
+  leversChart.data = data
 })
+
+document.querySelector('button').addEventListener('click', levers.shuffle)
