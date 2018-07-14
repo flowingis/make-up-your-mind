@@ -22,6 +22,10 @@ export const factory = (firebaseClient, defaultData) => {
     })
   }
 
+  const changePosition = board => {
+    set(board.data)
+  }
+
   const addOption = (board, label) => {
     const { data } = board
 
@@ -33,6 +37,14 @@ export const factory = (firebaseClient, defaultData) => {
         y: 400
       }
     ]
+
+    set(board.data)
+  }
+
+  const removeOption = board => {
+    const newData = [...board.data]
+    newData.pop()
+    board.data = newData
 
     set(board.data)
   }
@@ -64,6 +76,8 @@ export const factory = (firebaseClient, defaultData) => {
     set,
     get,
     addOption,
+    removeOption,
+    changePosition,
     reset
   }
 }

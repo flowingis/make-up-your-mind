@@ -8,6 +8,12 @@ const DRAG_EVENTS = ['mousemove', 'touchmove']
 
 const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
 
+const EVENTS_NAMESPACE = 'LEVERS_CHART'
+
+export const EVENTS = {
+  CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
+}
+
 class Board extends HTMLElement {
   constructor () {
     super()
@@ -43,6 +49,10 @@ class Board extends HTMLElement {
       return []
     }
 
+    if (this.getAttribute('data') === 'undefined') {
+      return []
+    }
+
     return JSON.parse(this.getAttribute('data'))
   }
 
@@ -71,6 +81,9 @@ class Board extends HTMLElement {
         ...this.postIts[index].position
       }
     })
+
+    const changePositionEvent = new window.CustomEvent(EVENTS.CHANGE_POSITION)
+    this.dispatchEvent(changePositionEvent)
   }
 
   render () {
