@@ -1,0 +1,14 @@
+app-capacity-canvas {
+    text-align: center;
+    display: block;
+}
+
+svg {
+    height: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.draggable {
+    cursor: move;
+}
