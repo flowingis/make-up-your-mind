@@ -20,6 +20,7 @@ module.exports = {
     radar: './apps/radar/index.js',
     board: './apps/options-board/index.js',
     levers: './apps/levers-game/index.js',
+    capacity: './apps/capacity-canvas/index.js',
     lib: './lib/index.js'
   },
   output: {
@@ -31,6 +32,7 @@ module.exports = {
       radar: path.join(__dirname, 'apps', 'radar'),
       board: path.join(__dirname, 'apps', 'options-board'),
       levers: path.join(__dirname, 'apps', 'levers-game'),
+      capacity: path.join(__dirname, 'apps', 'capacity-canvas'),
       lib: path.join(__dirname, 'lib')
     }
   },
@@ -95,6 +97,11 @@ module.exports = {
       template: path.join(__dirname, 'apps', 'levers-game', 'index.html'),
       chunks: ['lib', 'levers'],
       filename: path.join(__dirname, 'dist', 'levers.html')
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'apps', 'capacity-canvas', 'index.html'),
+      chunks: ['lib', 'capacity'],
+      filename: path.join(__dirname, 'dist', 'capacity-canvas.html')
     }),
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
