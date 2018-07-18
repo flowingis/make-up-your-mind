@@ -1,1 +1,1 @@
-console.log('Capacity Canvas')
+import './components'
