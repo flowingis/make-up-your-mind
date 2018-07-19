@@ -1,5 +1,7 @@
 import rowTemplate from './row.tpl.html'
-import { htmlToElement, bindEvents, updateProps } from 'radar/utils/dom'
+import { bindEvents, updateProps } from 'radar/utils/dom'
+
+import { htmlToElement } from 'lib/utils/dom'
 
 const TEMPLATE = `<div class="vertical-container"></div>`
 

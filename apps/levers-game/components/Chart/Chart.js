@@ -1,4 +1,4 @@
-import { htmlToElement } from 'radar/utils/dom'
+import { htmlToElement } from 'lib/utils/dom'
 import blockFactory from './block'
 
 import style from './Chart.component.css'

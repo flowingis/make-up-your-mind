@@ -1,11 +1,5 @@
 import get from 'lodash.get'
 
-export const htmlToElement = html => {
-  const template = document.createElement('template')
-  template.innerHTML = html
-  return template.content.firstChild
-}
-
 export const updateProps = (root, context = root) => {
   Array.from(root.querySelectorAll('[data-prop]')).forEach(element => {
     const attribute = element.getAttribute('data-prop')
