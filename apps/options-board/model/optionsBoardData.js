@@ -1,25 +1,29 @@
 import firebaseClient from 'lib/firebaseClient'
 import invariant from 'radar/utils/invariant'
 
-const defaultData = {}
+const DEFAULT_DATA = {}
 
-export const factory = (firebaseClient, defaultData) => {
+export const factory = ({
+  initialData = DEFAULT_DATA,
+  realtimeDatabaseClient = firebaseClient
+}) => {
   let onMessageListeners = []
   let url
 
   const init = channel => {
     url = 'options-board/' + channel
     return get().then(data => {
-      firebaseClient.onChange(url, onChange)
+      realtimeDatabaseClient.onChange(url, onChange)
       return data
     })
   }
 
-  const get = () => firebaseClient.get(url).then(data => data || defaultData)
+  const get = () =>
+    realtimeDatabaseClient.get(url).then(data => data || initialData)
 
   const onChange = data => {
     onMessageListeners.forEach(cb => {
-      cb(data || defaultData)
+      cb(data || initialData)
     })
   }
 
@@ -51,8 +55,8 @@ export const factory = (firebaseClient, defaultData) => {
   }
 
   const reset = () => {
-    set(defaultData)
-    return defaultData
+    set(initialData)
+    return initialData
   }
 
   const addOnChangeListener = cb => {
@@ -64,11 +68,12 @@ export const factory = (firebaseClient, defaultData) => {
 
   const validate = data => {
     invariant(data, 'data is undefined')
+    invariant(data && data.label, 'label is empty')
   }
 
   const set = data => {
     validate(data)
-    return firebaseClient.set(url, data)
+    return realtimeDatabaseClient.set(url, data)
   }
 
   return {
@@ -83,4 +88,4 @@ export const factory = (firebaseClient, defaultData) => {
   }
 }
 
-export default factory(firebaseClient, defaultData)
+export default factory({})

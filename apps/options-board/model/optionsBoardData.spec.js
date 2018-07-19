@@ -1,6 +1,10 @@
 import { factory } from './optionsBoardData'
 
-const VALID_DATA = {}
+const VALID_DATA = {
+  label: 'I am a valid label',
+  x: 200,
+  y: 200
+}
 
 const createDummyRealtimeClient = dummyResult => ({
   onChange: (url, cb) => cb(dummyResult),
@@ -12,14 +16,18 @@ describe('optionsBoardData', () => {
   test('it should return the value from the client', () => {
     const dummyResult = [
       {
-        label: 'I am a dummy result'
+        label: 'I am a dummy label',
+        x: 200,
+        y: 200
       }
     ]
 
     const dummyRealtimeClient = createDummyRealtimeClient(dummyResult)
-    const radarData = factory(dummyRealtimeClient)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient
+    })
 
-    return radarData.init('DUMMY_CHANNEL').then(data => {
+    return optionsBoardData.init('DUMMY_CHANNEL').then(data => {
       expect(data).toEqual(dummyResult)
     })
   })
@@ -33,9 +41,12 @@ describe('optionsBoardData', () => {
       }
     ]
 
-    const radarData = factory(dummyRealtimeClient, defaultData)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient,
+      initialData: defaultData
+    })
 
-    return radarData.init('DUMMY_CHANNEL').then(data => {
+    return optionsBoardData.init('DUMMY_CHANNEL').then(data => {
       expect(data).toEqual(defaultData)
     })
   })
@@ -44,13 +55,15 @@ describe('optionsBoardData', () => {
     let data = false
 
     const dummyRealtimeClient = createDummyRealtimeClient([])
-    const radarData = factory(dummyRealtimeClient)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient
+    })
 
-    radarData.addOnChangeListener(value => {
+    optionsBoardData.addOnChangeListener(value => {
       data = value
     })
 
-    return radarData.init('A_CHANNEL').then(() => {
+    return optionsBoardData.init('A_CHANNEL').then(() => {
       expect(data).toEqual([])
     })
   })
@@ -59,15 +72,17 @@ describe('optionsBoardData', () => {
     let data = false
 
     const dummyRealtimeClient = createDummyRealtimeClient([])
-    const radarData = factory(dummyRealtimeClient)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient
+    })
 
-    const unsubscribe = radarData.addOnChangeListener(value => {
+    const unsubscribe = optionsBoardData.addOnChangeListener(value => {
       data = value
     })
 
     unsubscribe()
 
-    return radarData.init('A_CHANNEL').then(() => {
+    return optionsBoardData.init('A_CHANNEL').then(() => {
       expect(data).toBeFalsy()
     })
   })
@@ -80,9 +95,12 @@ describe('optionsBoardData', () => {
       data = value
     }
 
-    const radarData = factory(dummyRealtimeClient, VALID_DATA)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient,
+      initialData: VALID_DATA
+    })
 
-    const result = radarData.reset()
+    const result = optionsBoardData.reset()
 
     expect(result).toEqual(VALID_DATA)
     expect(data).toEqual(VALID_DATA)
@@ -90,18 +108,28 @@ describe('optionsBoardData', () => {
 
   test('setting not valid data should throw error', () => {
     const dummyRealtimeClient = createDummyRealtimeClient()
-    const radarData = factory(dummyRealtimeClient, VALID_DATA)
+    const optionsBoardData = factory({
+      realtimeDatabaseClient: dummyRealtimeClient,
+      initialData: VALID_DATA
+    })
 
-    const NOT_VALID_DATA = [undefined]
+    const NOT_VALID_DATA = [
+      undefined,
+      {
+        label: '',
+        x: 35,
+        y: 50
+      }
+    ]
 
     NOT_VALID_DATA.forEach(data => {
       expect(() => {
-        radarData.set(data)
+        optionsBoardData.set(data)
       }).toThrow()
     })
 
     expect(() => {
-      radarData.set(VALID_DATA)
+      optionsBoardData.set(VALID_DATA)
     }).not.toThrow()
   })
 })
