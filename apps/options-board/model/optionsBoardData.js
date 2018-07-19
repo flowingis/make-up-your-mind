@@ -1,6 +1,7 @@
-import defaultData from './defaultData'
 import firebaseClient from 'lib/firebaseClient'
 import invariant from 'radar/utils/invariant'
+
+const defaultData = {}
 
 export const factory = (firebaseClient, defaultData) => {
   let onMessageListeners = []

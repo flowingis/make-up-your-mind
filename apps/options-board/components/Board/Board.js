@@ -49,14 +49,14 @@ class Board extends HTMLElement {
       return []
     }
 
-    if (this.getAttribute('data') === 'undefined') {
-      return []
-    }
-
     return JSON.parse(this.getAttribute('data'))
   }
 
   set data (obj) {
+    if (!obj) {
+      return
+    }
+
     this.setAttribute('data', JSON.stringify(obj))
   }
 
