@@ -24,6 +24,7 @@ class Canvas extends HTMLElement {
   }
 
   render () {
+    console.log('Rendering', this.data)
     this.innerHTML = template
   }
 
