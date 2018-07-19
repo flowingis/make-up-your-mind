@@ -1,10 +1,12 @@
 import { factory } from './optionsBoardData'
 
-const VALID_DATA = {
-  label: 'I am a valid label',
-  x: 200,
-  y: 200
-}
+const VALID_DATA = [
+  {
+    label: 'I am a valid label',
+    x: 200,
+    y: 200
+  }
+]
 
 const createDummyRealtimeClient = dummyResult => ({
   onChange: (url, cb) => cb(dummyResult),
@@ -113,14 +115,7 @@ describe('optionsBoardData', () => {
       initialData: VALID_DATA
     })
 
-    const NOT_VALID_DATA = [
-      undefined,
-      {
-        label: '',
-        x: 35,
-        y: 50
-      }
-    ]
+    const NOT_VALID_DATA = [undefined, {}]
 
     NOT_VALID_DATA.forEach(data => {
       expect(() => {

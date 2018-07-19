@@ -8,7 +8,7 @@ const DRAG_EVENTS = ['mousemove', 'touchmove']
 
 const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
 
-const EVENTS_NAMESPACE = 'LEVERS_CHART'
+const EVENTS_NAMESPACE = 'OPTIONS_BOARD'
 
 export const EVENTS = {
   CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
@@ -53,10 +53,6 @@ class Board extends HTMLElement {
   }
 
   set data (obj) {
-    if (!obj) {
-      return
-    }
-
     this.setAttribute('data', JSON.stringify(obj))
   }
 

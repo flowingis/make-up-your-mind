@@ -1,7 +1,7 @@
 import firebaseClient from 'lib/firebaseClient'
 import invariant from 'radar/utils/invariant'
 
-const DEFAULT_DATA = {}
+const DEFAULT_DATA = []
 
 export const factory = ({
   initialData = DEFAULT_DATA,
@@ -68,7 +68,7 @@ export const factory = ({
 
   const validate = data => {
     invariant(data, 'data is undefined')
-    invariant(data && data.label, 'label is empty')
+    invariant(Array.isArray(data), 'label is not an array')
   }
 
   const set = data => {
