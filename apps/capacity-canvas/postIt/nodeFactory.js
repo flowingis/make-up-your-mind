@@ -1,10 +1,5 @@
 import { encodeTransformAttribute, SVG_NS_URI } from 'lib/utils/svg'
 
-const HEIGHT = 76
-const WIDTH = 127
-const DIMENSION_RATIO = WIDTH / HEIGHT
-const DEFAULT_COLOR = '#E4EF49'
-
 const DRAGGABLE_CLASS = 'draggable'
 const BASE_FONTSIZE = 20
 
@@ -41,7 +36,7 @@ const createTextNode = (width, height, label, index) => {
   return textNode
 }
 
-const create = ({ color, width, height }) => ({ x, y, index, label }) => {
+export default ({ color, width, height, x, y, index, label }) => {
   const group = document.createElementNS(SVG_NS_URI, 'g')
 
   const textLabel = label || index + 1
@@ -53,47 +48,4 @@ const create = ({ color, width, height }) => ({ x, y, index, label }) => {
   group.appendChild(createTextNode(width, height, textLabel, index))
 
   return group
-}
-
-export default () => {
-  const toReturn = {}
-
-  let data = {
-    width: WIDTH,
-    height: HEIGHT,
-    color: DEFAULT_COLOR
-  }
-
-  toReturn.withWidth = width => {
-    data = {
-      ...data,
-      width,
-      height: width / DIMENSION_RATIO
-    }
-
-    return toReturn
-  }
-
-  toReturn.withHeight = height => {
-    data = {
-      ...data,
-      height,
-      width: DIMENSION_RATIO / height
-    }
-
-    return toReturn
-  }
-
-  toReturn.withColor = color => {
-    data = {
-      ...data,
-      color
-    }
-  }
-
-  toReturn.create = ({ x, y, index, label }) => {
-    return create(data)({ x, y, index, label })
-  }
-
-  return toReturn
 }

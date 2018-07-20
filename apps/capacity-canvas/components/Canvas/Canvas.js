@@ -1,8 +1,10 @@
 import template from './Canvas.svg.html'
 import { htmlToElement } from 'lib/utils/dom'
-import postItBuilder from '../../postItBuilder'
+import postItBuilder from '../../postIt/builder'
 
-const builder = postItBuilder()
+const POSTIT_WIDTH = 50
+
+const builder = postItBuilder().withWidth(POSTIT_WIDTH)
 
 class Canvas extends HTMLElement {
   constructor () {
