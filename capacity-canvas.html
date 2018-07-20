@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <meta name="theme-color" content="#1D3557" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capacity Canvas</title>
+    <script>
+        if (window.location.host.indexOf('extrategy.net') > -1 && window.location.protocol != "https:") {
+            window.location.protocol = "https";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="layout1">
+        <div class="layout1__bar elevation-z12">
+            <div class="header1">
+                <div class="header1__title">
+                    Capacity Canvas
+                </div>
+                <a class="header1__action" href download="chart.svg">
+                    Download
+                </a>
+            </div>
+        </div>
+        <div class="layout1__page-flow">
+            <main class="layout2 padding-top-2">
+                <div class="layout2__col">
+                    <div class="padding-2">
+                        <button data-add class="button1">+ add</button>
+                        <button data-remove class="button1">- remove</button>
+                        <input class="input-text1" placeholder="Insert Label..." type="text" />
+                        <app-capacity-canvas></app-capacity-canvas>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+<script type="text/javascript" src="capacity.bundle.js"></script><script type="text/javascript" src="lib.bundle.js"></script></body>
+
+</html>
