@@ -1,6 +1,6 @@
 import template from './Canvas.svg.html'
 import { htmlToElement } from 'lib/utils/dom'
-import postItBuilder from '../../postIt/builder'
+import postItBuilder from 'lib/postIt/builder'
 
 const POSTIT_WIDTH = 50
 
