@@ -6,6 +6,8 @@ const CACHABLE_ELEMENTS = [
   '/manifest.json',
   '/icon.png',
   '/index.html',
+  '/capacity-canvas.html',
+  '/capacity.bundle.js',
   '/radar.html',
   '/radar.bundle.js',
   '/board.html',
