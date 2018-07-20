@@ -1,4 +1,8 @@
 import template from './Canvas.svg.html'
+import { htmlToElement } from 'lib/utils/dom'
+import postItBuilder from '../../postItBuilder'
+
+const builder = postItBuilder()
 
 class Canvas extends HTMLElement {
   constructor () {
@@ -24,8 +28,24 @@ class Canvas extends HTMLElement {
   }
 
   render () {
-    console.log('Rendering', this.data)
-    this.innerHTML = template
+    const canvas = htmlToElement(template)
+
+    this.postIts = this.data.map((element, index) => {
+      return builder.create({
+        ...element,
+        index
+      })
+    })
+
+    this.postIts.forEach(postIt => {
+      canvas.appendChild(postIt)
+    })
+
+    if (this.childElementCount) {
+      this.replaceChild(canvas, this.childNodes[0])
+    } else {
+      this.appendChild(canvas)
+    }
   }
 
   connectedCallback () {
