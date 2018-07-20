@@ -2,7 +2,7 @@ import './components'
 import uuidv1 from 'uuid/v1'
 import levers from './model/levers'
 
-import { createAttributesObserver } from './utils/dom'
+import { createAttributesObserver } from 'lib/utils/dom'
 import { EVENTS } from './components/Chart/Chart'
 
 if (!window.location.hash) {

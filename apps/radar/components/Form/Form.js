@@ -1,6 +1,7 @@
 import get from 'lodash.get'
 import template from './Form.tpl.html'
-import { htmlToElement, bindEvents, updateProps } from 'radar/utils/dom'
+import { bindEvents, updateProps } from 'radar/utils/dom'
+import { htmlToElement } from 'lib/utils/dom'
 
 const MAX_ROWS = 8
 const MIN_ROWS = 3

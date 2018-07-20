@@ -2,7 +2,7 @@ import './style/index.scss'
 import './components'
 import uuidv1 from 'uuid/v1'
 import optionsBoardData from './model/optionsBoardData'
-import { createAttributesObserver } from './utils/dom'
+import { createAttributesObserver } from 'lib/utils/dom'
 import { EVENTS } from './components/Board/Board'
 
 if (!window.location.hash) {
