@@ -18,8 +18,8 @@ const onAddClick = (canvas, label) => {
     ...data,
     {
       label,
-      x: 200,
-      y: 400
+      x: 100,
+      y: 75
     }
   ]
 }
