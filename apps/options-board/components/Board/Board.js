@@ -1,14 +1,11 @@
-import postItFactory from './postItFactory'
 import { getPostItColor } from './colors'
 import template from './BoardTemplate.svg.html'
-
-const START_EVENTS = ['mousedown', 'touchstart']
-
-const DRAG_EVENTS = ['mousemove', 'touchmove']
-
-const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
+import postItBuilder from 'lib/postIt/builder'
+import draggable, { DRAGGABLE_EVENTS } from 'lib/draggable'
 
 const EVENTS_NAMESPACE = 'OPTIONS_BOARD'
+
+const builder = postItBuilder()
 
 export const EVENTS = {
   CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
@@ -87,28 +84,31 @@ class Board extends HTMLElement {
 
     this.svg = this.querySelector('svg')
 
-    START_EVENTS.forEach(event =>
+    DRAGGABLE_EVENTS.START_EVENTS.forEach(event =>
       this.svg.addEventListener(event, this.startDrag)
     )
-    DRAG_EVENTS.forEach(event => this.svg.addEventListener(event, this.onDrag))
-    END_EVENTS.forEach(event => this.svg.addEventListener(event, this.endDrag))
+    DRAGGABLE_EVENTS.DRAG_EVENTS.forEach(event =>
+      this.svg.addEventListener(event, this.onDrag)
+    )
+    DRAGGABLE_EVENTS.END_EVENTS.forEach(event =>
+      this.svg.addEventListener(event, this.endDrag)
+    )
 
     if (!this.showLegend) {
       this.svg.querySelector('[data-legend]').classList.add('hidden')
     }
 
-    this.postIts = this.data.map((element, index) =>
-      postItFactory({
+    this.postIts = this.data.map((element, index) => {
+      const node = builder.create({
         ...element,
         index,
-        parent: this.svg,
         color: getPostItColor(index)
       })
-    )
 
-    this.postIts.map(postIt => postIt.node).forEach(node => {
-      this.svg.appendChild(node)
+      return draggable({ parent: this.svg, node, index })
     })
+
+    this.postIts.forEach(postIt => this.svg.appendChild(postIt.node))
   }
 
   connectedCallback () {
