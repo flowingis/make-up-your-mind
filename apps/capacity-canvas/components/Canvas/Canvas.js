@@ -9,8 +9,17 @@ const builder = postItBuilder().withWidth(POSTIT_WIDTH)
 
 const EVENTS_NAMESPACE = 'OPTIONS_BOARD'
 
+const DEFAULT_ZOOM = 1
+
 export const EVENTS = {
   CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
+}
+
+const CONTAINER_SELECTOR = 'g[data-container]'
+
+const setZoom = (container, zoom) => {
+  container.style.width = `${window.innerWidth * zoom}px`
+  container.style.height = `${window.innerHeight * zoom}px`
 }
 
 class Canvas extends HTMLElement {
@@ -28,7 +37,15 @@ class Canvas extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return ['data']
+    return ['data', 'zoom']
+  }
+
+  get zoom () {
+    return window.parseFloat(this.getAttribute('zoom')) || DEFAULT_ZOOM
+  }
+
+  set zoom (value) {
+    this.setAttribute('zoom', value)
   }
 
   get data () {
@@ -41,6 +58,14 @@ class Canvas extends HTMLElement {
 
   set data (obj) {
     this.setAttribute('data', JSON.stringify(obj))
+  }
+
+  zoomIn () {
+    this.zoom = this.zoom * 1.1
+  }
+
+  zoomOut () {
+    this.zoom = this.zoom / 1.1
   }
 
   startDrag (event) {
@@ -93,7 +118,9 @@ class Canvas extends HTMLElement {
       return draggable({ parent: canvas, node, index })
     })
 
-    this.postIts.forEach(postIt => canvas.appendChild(postIt.node))
+    this.postIts.forEach(postIt =>
+      canvas.querySelector(CONTAINER_SELECTOR).appendChild(postIt.node)
+    )
 
     if (this.childElementCount) {
       this.replaceChild(canvas, this.childNodes[0])
@@ -102,6 +129,8 @@ class Canvas extends HTMLElement {
     }
 
     this.attachDragListeners(canvas)
+
+    setZoom(this, this.zoom)
   }
 
   connectedCallback () {
