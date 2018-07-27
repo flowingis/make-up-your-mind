@@ -1,60 +1,4 @@
-export const calculateWidth = ({ legendWidth, windowWidth, canvasWidth }) => {
-  const ratio = canvasWidth / windowWidth
-  return Math.floor(legendWidth / ratio)
-}
-
-export const calculateHeight = ({
-  legendHeight,
-  canvasHeight,
-  windowHeight
-}) => {
-  const ratio = canvasHeight / windowHeight
-  return Math.floor(legendHeight / ratio)
-}
-
-export const calculateX = ({ canvasX, legendWidth, canvasWidth }) => {
-  const ratio = canvasX / canvasWidth
-  return -1 * Math.floor(legendWidth * ratio)
-}
-
-export const calculateY = ({ canvasY, legendHeight, canvasHeight }) => {
-  const ratio = canvasY / canvasHeight
-  return Math.floor(legendHeight * ratio)
-}
-
-const getDimensions = ({
-  legendWidth,
-  legendHeight,
-  windowWidth,
-  windowHeight,
-  canvasWidth,
-  canvasHeight,
-  canvasX,
-  canvasY
-}) => {
-  return {
-    width: calculateWidth({
-      legendWidth,
-      windowWidth,
-      canvasWidth
-    }),
-    height: calculateHeight({
-      legendHeight,
-      windowHeight,
-      canvasHeight
-    }),
-    x: calculateX({
-      canvasX,
-      legendWidth,
-      canvasWidth
-    }),
-    y: calculateY({
-      canvasY,
-      legendHeight,
-      canvasHeight
-    })
-  }
-}
+import getMarkerPostionData from './getMarkerPositionData'
 
 export default (legend, observedElement) => {
   const { innerWidth, innerHeight } = window
@@ -66,7 +10,7 @@ export default (legend, observedElement) => {
   const canvasWidth = canvasDOMRect.width
   const canvasHeight = canvasDOMRect.height
 
-  const dimensions = getDimensions({
+  const positionData = getMarkerPostionData({
     legendHeight,
     legendWidth,
     canvasHeight,
@@ -80,10 +24,10 @@ export default (legend, observedElement) => {
   const div = document.createElement('div')
 
   div.classList.add('marker')
-  div.style.width = `${dimensions.width}px`
-  div.style.height = `${dimensions.height}px`
-  div.style.left = `${dimensions.x}px`
-  div.style.top = `${dimensions.y}px`
+  div.style.width = `${positionData.width}px`
+  div.style.height = `${positionData.height}px`
+  div.style.left = `${positionData.x}px`
+  div.style.top = `${positionData.y}px`
 
   return div
 }

@@ -5,9 +5,9 @@ import { createAttributesObserver } from 'lib/utils/dom'
 
 const syncChartToAnchor = canvas => {
   window.requestIdleCallback(() => {
-    // document.querySelector(
-    //   'a'
-    // ).href = `data:image/svg+xml;base64,\n${window.btoa(canvas.innerHTML)}`
+    document.querySelector(
+      'a'
+    ).href = `data:image/svg+xml;base64,\n${window.btoa(canvas.innerHTML)}`
   })
 }
 
