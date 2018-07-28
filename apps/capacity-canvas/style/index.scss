@@ -15,11 +15,13 @@ app-capacity-canvas {
 }
 
 .form {
-    position: fixed;
-    top:0;
-    width: 100%;
-    height: 50;
-    z-index: 10;
+    border: 2px solid black;
+    height: 50px; 
+    display: flex; 
+    z-index: 100; 
+    position: fixed; 
+    top: 50px; 
+    left: 0;
 }
 
 .draggable {

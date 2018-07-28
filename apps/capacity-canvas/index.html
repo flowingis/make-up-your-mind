@@ -12,7 +12,7 @@
     </script>
 </head>
 <body>
-    <div class="layout1" style="z-index: 100;">
+    <div class="layout1">
         <div class="layout1__bar elevation-z12">
             <div class="header1">
                 <div class="header1__title">
@@ -26,14 +26,18 @@
         <div class="layout1__page-flow">
             <main class="layout2 padding-top-2">
                 <div class="layout2__col">
-                    <div class="padding-2">
-                        <button data-add class="button1">add</button>
-                        <button data-remove class="button1">remove</button>
-                        <button data-zoom-in class="button1">+</button>
-                        <button data-zoom-out class="button1">-</button>
-                        <button data-left class="button1">l</button>
-                        <button data-right class="button1">r</button>
-                        <input class="input-text1" placeholder="Insert Label..." type="text" />
+                    <div class="padding-2 form">
+                        <div style="flex: 1 1 auto">
+                                <button data-add class="button1">add</button>
+                                <button data-remove class="button1">remove</button>
+                                <button data-zoom-in class="button1">+</button>
+                                <button data-zoom-out class="button1">-</button>
+                                <button data-left class="button1">l</button>
+                                <button data-right class="button1">r</button>
+                        </div>
+                        <div style="flex: 1 1 auto">
+                            <input class="input-text1" placeholder="Insert Label..." type="text" />
+                        </div>
                     </div>
                 </div>
             </main>
