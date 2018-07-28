@@ -60,14 +60,6 @@ class Canvas extends HTMLElement {
     this.setAttribute('data', JSON.stringify(obj))
   }
 
-  zoomIn () {
-    this.zoom = this.zoom * 1.1
-  }
-
-  zoomOut () {
-    this.zoom = this.zoom / 1.1
-  }
-
   startDrag (event) {
     event.preventDefault()
     this.postIts.forEach(p => p.startDrag(event))
@@ -129,16 +121,24 @@ class Canvas extends HTMLElement {
     }
 
     this.attachDragListeners(canvas)
-
-    setZoom(this, this.zoom)
   }
 
   connectedCallback () {
     this.render()
+    setZoom(this, this.zoom)
   }
 
-  attributeChangedCallback () {
-    window.requestAnimationFrame(this.render)
+  attributeChangedCallback (name) {
+    if (name === 'data') {
+      window.requestAnimationFrame(this.render)
+      return
+    }
+
+    if (name === 'zoom') {
+      window.requestAnimationFrame(() => {
+        setZoom(this, this.zoom)
+      })
+    }
   }
 }
 

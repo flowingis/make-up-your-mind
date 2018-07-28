@@ -23,12 +23,12 @@ const onRightClick = () => {
 
 const onZoomInClick = () => {
   const canvas = document.querySelector('app-capacity-canvas')
-  canvas.zoomIn()
+  canvas.zoom *= 1.1
 }
 
 const onZoomOutClick = () => {
   const canvas = document.querySelector('app-capacity-canvas')
-  canvas.zoomOut()
+  canvas.zoom /= 1.1
 }
 
 const onAddClick = (canvas, label) => {
