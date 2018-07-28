@@ -1,5 +1,6 @@
 import { createAttributesObserver } from 'lib/utils/dom'
 import markerFactory from './marker'
+import draggableFactory from './draggable'
 
 class Legend extends HTMLElement {
   constructor () {
@@ -38,8 +39,11 @@ class Legend extends HTMLElement {
   }
 
   syncMarker () {
-    this.marker = markerFactory(this, this.observedElement)
-    this.appendChild(this.marker)
+    this.marker = draggableFactory(
+      markerFactory(this, this.observedElement),
+      this
+    )
+    this.appendChild(this.marker.node)
   }
 
   syncDimensions () {

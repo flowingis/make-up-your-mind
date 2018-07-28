@@ -1,4 +1,4 @@
-import getMarkerPostionData from './getMarkerPositionData'
+import getMarkerPostionData from './model/getMarkerPositionData'
 
 export default (legend, observedElement) => {
   const { innerWidth, innerHeight } = window
@@ -24,6 +24,7 @@ export default (legend, observedElement) => {
   const div = document.createElement('div')
 
   div.classList.add('marker')
+
   div.style.width = `${positionData.width}px`
   div.style.height = `${positionData.height}px`
   div.style.left = `${positionData.x}px`
