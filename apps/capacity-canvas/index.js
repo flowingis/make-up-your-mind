@@ -3,6 +3,7 @@ import './components'
 
 import { createAttributesObserver } from 'lib/utils/dom'
 import { EVENTS } from './components/Legend/Legend'
+import markerToCanvasPostionData from './model/markerToCanvasPostionData'
 
 let canvas
 let legend
@@ -15,28 +16,28 @@ const syncChartToAnchor = canvas => {
   })
 }
 
-const onLeftClick = () => {
-  const container = document.querySelector('app-capacity-canvas')
-  container.style.left = `${container.getBoundingClientRect().left + 100}px`
-}
-
-const onRightClick = () => {
-  const container = document.querySelector('app-capacity-canvas')
-  container.style.left = `${container.getBoundingClientRect().left - 100}px`
-}
-
 const onZoomInClick = () => {
-  const canvas = document.querySelector('app-capacity-canvas')
   canvas.zoom *= 1.1
 }
 
 const onZoomOutClick = () => {
-  const canvas = document.querySelector('app-capacity-canvas')
   canvas.zoom /= 1.1
 }
 
 const onMarkerPositionChange = e => {
-  canvas.offset = e.detail
+  const canvasDOMRect = canvas.getBoundingClientRect()
+  const legendDOMRect = legend.getBoundingClientRect()
+
+  const offset = markerToCanvasPostionData({
+    markerX: e.detail.x,
+    markerY: e.detail.y,
+    canvasWidth: canvasDOMRect.width,
+    canvasHeight: canvasDOMRect.height,
+    legendWidth: legendDOMRect.width,
+    legendHeight: legendDOMRect.height
+  })
+
+  canvas.offset = offset
 }
 
 const onAddClick = (canvas, label) => {
@@ -66,8 +67,6 @@ window.requestAnimationFrame(() => {
   const removeButton = document.querySelector('button[data-remove]')
   const zoomInButton = document.querySelector('button[data-zoom-in]')
   const zoomOutButton = document.querySelector('button[data-zoom-out]')
-  const leftButton = document.querySelector('button[data-left]')
-  const rightButton = document.querySelector('button[data-right]')
 
   legend.addEventListener(
     EVENTS.MARKER_POSITION_CHANGE,
@@ -92,14 +91,6 @@ window.requestAnimationFrame(() => {
 
   zoomOutButton.addEventListener('click', () => {
     onZoomOutClick()
-  })
-
-  leftButton.addEventListener('click', () => {
-    onLeftClick()
-  })
-
-  rightButton.addEventListener('click', () => {
-    onRightClick()
   })
 
   createAttributesObserver(canvas, () => {
