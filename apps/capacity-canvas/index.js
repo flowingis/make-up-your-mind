@@ -2,6 +2,10 @@ import './style/index.scss'
 import './components'
 
 import { createAttributesObserver } from 'lib/utils/dom'
+import { EVENTS } from './components/Legend/Legend'
+
+let canvas
+let legend
 
 const syncChartToAnchor = canvas => {
   window.requestIdleCallback(() => {
@@ -31,6 +35,10 @@ const onZoomOutClick = () => {
   canvas.zoom /= 1.1
 }
 
+const onMarkerPositionChange = e => {
+  canvas.offset = e.detail
+}
+
 const onAddClick = (canvas, label) => {
   const { data } = canvas
 
@@ -51,7 +59,8 @@ const onRemoveClick = canvas => {
 }
 
 window.requestAnimationFrame(() => {
-  const canvas = document.querySelector('app-capacity-canvas')
+  canvas = document.querySelector('app-capacity-canvas')
+  legend = document.querySelector('app-legend')
   const labelInput = document.querySelector('input')
   const addButton = document.querySelector('button[data-add]')
   const removeButton = document.querySelector('button[data-remove]')
@@ -59,6 +68,11 @@ window.requestAnimationFrame(() => {
   const zoomOutButton = document.querySelector('button[data-zoom-out]')
   const leftButton = document.querySelector('button[data-left]')
   const rightButton = document.querySelector('button[data-right]')
+
+  legend.addEventListener(
+    EVENTS.MARKER_POSITION_CHANGE,
+    onMarkerPositionChange
+  )
 
   addButton.addEventListener('click', () => {
     if (!labelInput.value) {

@@ -1,11 +1,16 @@
-import { createAttributesObserver } from 'lib/utils/dom'
 import markerFactory from './marker'
 import draggableFactory from './draggable'
 
+const EVENTS_NAMESPACE = 'LEGEND'
+
+export const EVENTS = {
+  MARKER_POSITION_CHANGE: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
+}
 class Legend extends HTMLElement {
   constructor () {
     super()
     this.sync = this.syncContent.bind(this)
+    this.onMarkerMove = this.onMarkerMove.bind(this)
     this.observedElement = undefined
     this.unsubscribe = () => {}
   }
@@ -18,17 +23,34 @@ class Legend extends HTMLElement {
     this.setAttribute('selector', value)
   }
 
+  get updateOnEventName () {
+    return this.getAttribute('update-on')
+  }
+
+  set updateOnEventName (event) {
+    this.setAttribute('update-on', event)
+  }
+
   attachObserver () {
     this.syncContent()
     this.syncMarker()
 
-    this.unsubscribe = createAttributesObserver(this.observedElement, () => {
-      window.requestIdleCallback(() => {
-        this.innerHTML = ''
-        this.syncContent()
-        this.syncMarker()
-      })
-    })
+    const updateOnEventName = this.updateOnEventName
+    if (!updateOnEventName) {
+      return
+    }
+
+    this.observedElement.addEventListener(
+      updateOnEventName,
+      () => {
+        window.requestIdleCallback(() => {
+          this.innerHTML = ''
+          this.syncContent()
+          this.syncMarker()
+        })
+      },
+      false
+    )
   }
 
   syncContent () {
@@ -38,10 +60,20 @@ class Legend extends HTMLElement {
     this.appendChild(canvasCopy)
   }
 
+  onMarkerMove (position) {
+    const event = new window.CustomEvent(EVENTS.MARKER_POSITION_CHANGE, {
+      detail: position,
+      bubbles: true
+    })
+
+    this.dispatchEvent(event)
+  }
+
   syncMarker () {
     this.marker = draggableFactory(
       markerFactory(this, this.observedElement),
-      this
+      this,
+      this.onMarkerMove
     )
     this.appendChild(this.marker.node)
   }

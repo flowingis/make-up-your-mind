@@ -4,7 +4,7 @@ const START_EVENTS = ['mousedown', 'touchstart']
 const DRAG_EVENTS = ['mousemove', 'touchmove']
 const END_EVENTS = ['mouseleave', 'mouseup', 'touchend']
 
-export default (node, parent) => {
+export default (node, parent, onMoveListener = () => {}) => {
   node.classList.add('draggable')
 
   const { left, top, width, height } = parent.getBoundingClientRect()
@@ -28,6 +28,8 @@ export default (node, parent) => {
 
     node.style.left = `${newPosition.x}px`
     node.style.top = `${newPosition.y}px`
+
+    onMoveListener(newPosition)
   }
 
   const onStart = e => {

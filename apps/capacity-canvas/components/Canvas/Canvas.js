@@ -11,7 +11,8 @@ const EVENTS_NAMESPACE = 'OPTIONS_BOARD'
 const DEFAULT_ZOOM = 1
 
 export const EVENTS = {
-  CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`
+  CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`,
+  ZOOM_CHANGE: `ZOOM_CHANGE`
 }
 
 const CONTAINER_SELECTOR = 'g[data-container]'
@@ -19,6 +20,17 @@ const CONTAINER_SELECTOR = 'g[data-container]'
 const setZoom = (container, zoom) => {
   container.style.width = `${window.innerWidth * zoom}px`
   container.style.height = `${window.innerHeight * zoom}px`
+  const event = new window.CustomEvent(EVENTS.ZOOM_CHANGE, {
+    detail: zoom,
+    bubbles: true
+  })
+
+  container.dispatchEvent(event)
+}
+
+const setOffset = (container, position) => {
+  container.style.left = `${position.x}px`
+  container.style.top = `${position.y}px`
 }
 
 class Canvas extends HTMLElement {
@@ -36,7 +48,33 @@ class Canvas extends HTMLElement {
   }
 
   static get observedAttributes () {
-    return ['data', 'zoom']
+    return ['data', 'zoom', 'offset']
+  }
+
+  get offset () {
+    if (!this.hasAttribute('offset')) {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+
+    const [x, y] = this.getAttribute('offset')
+      .split(',')
+      .map(parseFloat)
+
+    return {
+      x,
+      y
+    }
+  }
+
+  set offset (value) {
+    if (!value) {
+      this.removeAttribute('offset')
+    }
+
+    this.setAttribute('offset', `${value.x},${value.y}`)
   }
 
   get zoom () {
@@ -119,6 +157,7 @@ class Canvas extends HTMLElement {
   connectedCallback () {
     this.render()
     setZoom(this, this.zoom)
+    setOffset(this, this.offset)
   }
 
   attributeChangedCallback (name) {
@@ -130,6 +169,12 @@ class Canvas extends HTMLElement {
     if (name === 'zoom') {
       window.requestAnimationFrame(() => {
         setZoom(this, this.zoom)
+      })
+    }
+
+    if (name === 'offset') {
+      window.requestAnimationFrame(() => {
+        setOffset(this, this.offset)
       })
     }
   }
