@@ -1,4 +1,4 @@
-import getMarkerPostionData from './model/getMarkerPositionData'
+import canvasToMarkerPosition from './model/canvasToMarkerPosition'
 
 export default (legend, observedElement) => {
   const { innerWidth, innerHeight } = window
@@ -10,7 +10,7 @@ export default (legend, observedElement) => {
   const canvasWidth = canvasDOMRect.width
   const canvasHeight = canvasDOMRect.height
 
-  const positionData = getMarkerPostionData({
+  const positionData = canvasToMarkerPosition({
     legendHeight,
     legendWidth,
     canvasHeight,

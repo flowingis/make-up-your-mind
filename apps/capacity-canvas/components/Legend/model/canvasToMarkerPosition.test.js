@@ -1,14 +1,14 @@
-import getMarkerPostionData from './getMarkerPositionData'
+import canvasToMarkerPosition from './canvasToMarkerPosition'
 
-describe('getMarkerPostionData', () => {
+describe('canvasToMarkerPosition', () => {
   test('should calculate the right x coordinate', () => {
     const canvasX = -50
     const legendWidth = 200
     const canvasWidth = 1000
 
-    expect(getMarkerPostionData({ canvasX, legendWidth, canvasWidth }).x).toBe(
-      10
-    )
+    expect(
+      canvasToMarkerPosition({ canvasX, legendWidth, canvasWidth }).x
+    ).toBe(10)
   })
 
   test('should calculate the right y coordinate', () => {
@@ -17,7 +17,7 @@ describe('getMarkerPostionData', () => {
     const canvasHeight = 1000
 
     expect(
-      getMarkerPostionData({ canvasY, legendHeight, canvasHeight }).y
+      canvasToMarkerPosition({ canvasY, legendHeight, canvasHeight }).y
     ).toBe(10)
   })
 
@@ -27,7 +27,7 @@ describe('getMarkerPostionData', () => {
     const windowWidth = 1000
 
     expect(
-      getMarkerPostionData({ canvasWidth, legendWidth, windowWidth }).width
+      canvasToMarkerPosition({ canvasWidth, legendWidth, windowWidth }).width
     ).toBe(100)
   })
 
@@ -37,7 +37,8 @@ describe('getMarkerPostionData', () => {
     const windowHeight = 1000
 
     expect(
-      getMarkerPostionData({ canvasHeight, legendHeight, windowHeight }).height
+      canvasToMarkerPosition({ canvasHeight, legendHeight, windowHeight })
+        .height
     ).toBe(100)
   })
 })
