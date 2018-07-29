@@ -1,7 +1,6 @@
-import template from './Canvas.svg.html'
-import { htmlToElement } from 'lib/utils/dom'
 import postItBuilder from 'lib/postIt/builder'
 import draggable, { DRAGGABLE_EVENTS } from 'lib/draggable'
+import render from './Canvas.render'
 
 const POSTIT_WIDTH = 50
 
@@ -99,7 +98,7 @@ class Canvas extends HTMLElement {
   }
 
   render () {
-    const canvas = htmlToElement(template)
+    const canvas = render(this)
 
     this.postIts = this.data.map((element, index) => {
       const node = builder.create({
@@ -113,12 +112,6 @@ class Canvas extends HTMLElement {
     this.postIts.forEach(postIt =>
       canvas.querySelector(CONTAINER_SELECTOR).appendChild(postIt.node)
     )
-
-    if (this.childElementCount) {
-      this.replaceChild(canvas, this.childNodes[0])
-    } else {
-      this.appendChild(canvas)
-    }
 
     this.attachDragListeners(canvas)
   }
