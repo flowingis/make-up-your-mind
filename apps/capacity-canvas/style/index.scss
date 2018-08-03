@@ -7,44 +7,65 @@ app-capacity-canvas {
     height: 100%;
     width: 100%;
     svg {
+        height: 100%;
         margin: auto;
         overflow: hidden;
     }
     z-index: 1;
 }
 
-.form {
-    border: 2px solid black;
-    height: 50px; 
-    display: flex; 
-    z-index: 100; 
-    position: fixed; 
-    top: 50px; 
-    left: 0;
-}
-
 .draggable {
     cursor: move;
 }
 
-app-legend {
+.app-legend-container {
     text-align: center;
     display: block;
     position: fixed;
-    bottom: 0px;
-    right: 0px;
+    bottom: 8px;
+    right: 8px;
+    border-radius: 4px;
     width: 200px;
-    background-color: white;
     border: solid 1px black;
     z-index: 10;
     overflow: hidden;
+}
+
+app-legend {
+    display: block;
+    width: 100%;
+    background-color: lightgray;
     svg {
+        height: 100%;
         margin: auto;
         overflow: hidden;
     }
     .marker{
         position: absolute;
         background-color: blue;
-        opacity: 0.5;
+        opacity: 0.3;
     }
+}
+
+.button-group{
+    width: 100%;
+    display: flex;
+    .button1 {
+        flex: 1;
+        border: 0;
+        border-radius: 0;
+        padding: inherit;
+        line-height: 25px;
+        font-size: 21px;
+    }
+}
+
+.form {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: lightgray;
+    z-index: 100; 
+    position: fixed; 
+    left: 8px;
+    bottom: 8px;
 }
