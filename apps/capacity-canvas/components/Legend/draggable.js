@@ -1,4 +1,5 @@
 import normalizeDraggablePosition from './model/normalizeDraggablePosition'
+import get from 'lodash.get'
 
 const START_EVENTS = ['mousedown', 'touchstart']
 const DRAG_EVENTS = ['mousemove', 'touchmove']
@@ -8,14 +9,17 @@ export default (node, parent, onMoveListener = () => {}) => {
   node.classList.add('draggable')
 
   const { left, top, width, height } = parent.getBoundingClientRect()
-  let offset
+  let offset = {
+    x: 0,
+    y: 0
+  }
 
   const onMove = e => {
     const { pageX, pageY } = e
     const nodeDOMRect = node.getBoundingClientRect()
 
-    let x = pageX - left - offset.x
-    let y = pageY - top - offset.y
+    const x = pageX - left - get(offset, 'x', 0)
+    const y = pageY - top - get(offset, 'y', 0)
 
     const newPosition = normalizeDraggablePosition({
       x,
@@ -34,8 +38,8 @@ export default (node, parent, onMoveListener = () => {}) => {
 
   const onStart = e => {
     offset = {
-      x: e.pageX - left,
-      y: e.pageY - top
+      x: node.getBoundingClientRect().width / 2,
+      y: node.getBoundingClientRect().height / 2
     }
     DRAG_EVENTS.forEach(envetName => {
       node.addEventListener(envetName, onMove, false)
