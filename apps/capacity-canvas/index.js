@@ -21,7 +21,8 @@ const onZoomInClick = () => {
 }
 
 const onZoomOutClick = () => {
-  canvas.zoom /= 1.1
+  let zoom = canvas.zoom / 1.1
+  canvas.zoom = Math.max(1, zoom)
 }
 
 const onMarkerPositionChange = e => {
