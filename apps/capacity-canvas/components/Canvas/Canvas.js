@@ -29,8 +29,12 @@ const setZoom = (container, zoom) => {
 }
 
 const setOffset = (container, position) => {
-  container.style.left = `${position.x}px`
-  container.style.top = `${position.y}px`
+  const { width, height } = container.getBoundingClientRect()
+  const { innerHeight, innerWidth } = window
+  const x = Math.max(position.x, innerWidth - width)
+  const y = Math.max(position.y, innerHeight - height)
+  container.style.left = `${x}px`
+  container.style.top = `${y}px`
 }
 
 class Canvas extends HTMLElement {
@@ -169,6 +173,7 @@ class Canvas extends HTMLElement {
     if (name === 'zoom') {
       window.requestAnimationFrame(() => {
         setZoom(this, this.zoom)
+        setOffset(this, this.offset)
       })
     }
 
