@@ -47,9 +47,7 @@ const onAddClick = (canvas, label) => {
   canvas.data = [
     ...data,
     {
-      label,
-      x: 100,
-      y: 75
+      label
     }
   ]
 }

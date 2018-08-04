@@ -1,5 +1,6 @@
-import postItBuilder from 'lib/postIt/builder'
+import postItBuilder, { getPostItHeight } from 'lib/postIt/builder'
 import draggable, { DRAGGABLE_EVENTS } from 'lib/draggable'
+import { convertPointToSvgCoords } from 'lib/utils/svg'
 import render from './Canvas.render'
 
 const POSTIT_WIDTH = 50
@@ -9,6 +10,22 @@ const builder = postItBuilder().withWidth(POSTIT_WIDTH)
 const EVENTS_NAMESPACE = 'OPTIONS_BOARD'
 
 const DEFAULT_ZOOM = 1
+
+const DEFAULT_POSTIT_POSTION_WITH_DOM_COORDS = {
+  x: (window.innerWidth - POSTIT_WIDTH) / 2,
+  y: (window.innerHeight - getPostItHeight(POSTIT_WIDTH)) / 2
+}
+
+const setDefaultPostItPosition = canvas => postIt => {
+  const defaultSvgPoint = convertPointToSvgCoords(
+    canvas,
+    DEFAULT_POSTIT_POSTION_WITH_DOM_COORDS
+  )
+  return {
+    ...defaultSvgPoint,
+    ...postIt
+  }
+}
 
 export const EVENTS = {
   CHANGE_POSITION: `${EVENTS_NAMESPACE}/CHANGE_POSITION`,
@@ -142,14 +159,16 @@ class Canvas extends HTMLElement {
   render () {
     const canvas = render(this)
 
-    this.postIts = this.data.map((element, index) => {
-      const node = builder.create({
-        ...element,
-        index
-      })
+    this.postIts = this.data
+      .map(setDefaultPostItPosition(canvas))
+      .map((element, index) => {
+        const node = builder.create({
+          ...element,
+          index
+        })
 
-      return draggable({ parent: canvas, node, index })
-    })
+        return draggable({ parent: canvas, node, index })
+      })
 
     this.postIts.forEach(postIt =>
       canvas.querySelector(CONTAINER_SELECTOR).appendChild(postIt.node)
