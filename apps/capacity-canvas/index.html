@@ -14,7 +14,7 @@
 
 <body>
     <div class="layout1">
-        <div class="layout1__bar elevation-z12">
+        <div class="layout1__bar elevation-z12" style="z-index: 10;">
             <div class="header1">
                 <div class="header1__title">
                     Capacity Canvas
@@ -24,17 +24,20 @@
                 </a>
             </div>
         </div>
-        <div class="layout1__page-flow">
-            <main class="layout2 padding-top-2">
-                <div class="layout2__col">
-                    <div class="padding-2">
-                        <button data-add class="button1">+ add</button>
-                        <button data-remove class="button1">- remove</button>
-                        <input class="input-text1" placeholder="Insert Label..." type="text" />
-                        <app-capacity-canvas></app-capacity-canvas>
-                    </div>
-                </div>
-            </main>
+    </div>
+    <div class="form">
+        <input class="input-text1" placeholder="Insert Label..." type="text" />
+        <div class="button-group">
+            <button data-add class="button1">add</button>
+            <button data-remove class="button1">remove</button>
+        </div>
+    </div>
+    <app-capacity-canvas></app-capacity-canvas>
+    <div class="app-legend-container">
+        <app-legend selector="app-capacity-canvas" update-on="ZOOM_CHANGE"></app-legend>
+        <div class="button-group">
+            <button data-zoom-in class="button1">+</button>
+            <button data-zoom-out class="button1">-</button>
         </div>
     </div>
 </body>

@@ -2,6 +2,11 @@ import './style/index.scss'
 import './components'
 
 import { createAttributesObserver } from 'lib/utils/dom'
+import { EVENTS } from './components/Legend/Legend'
+import markerToCanvasPostionData from './model/markerToCanvasPostionData'
+
+let canvas
+let legend
 
 const syncChartToAnchor = canvas => {
   window.requestIdleCallback(() => {
@@ -11,15 +16,38 @@ const syncChartToAnchor = canvas => {
   })
 }
 
+const onZoomInClick = () => {
+  canvas.zoom *= 1.1
+}
+
+const onZoomOutClick = () => {
+  let zoom = canvas.zoom / 1.1
+  canvas.zoom = Math.max(1, zoom)
+}
+
+const onMarkerPositionChange = e => {
+  const canvasDOMRect = canvas.getBoundingClientRect()
+  const legendDOMRect = legend.getBoundingClientRect()
+
+  const offset = markerToCanvasPostionData({
+    markerX: e.detail.x,
+    markerY: e.detail.y,
+    canvasWidth: canvasDOMRect.width,
+    canvasHeight: canvasDOMRect.height,
+    legendWidth: legendDOMRect.width,
+    legendHeight: legendDOMRect.height
+  })
+
+  canvas.offset = offset
+}
+
 const onAddClick = (canvas, label) => {
   const { data } = canvas
 
   canvas.data = [
     ...data,
     {
-      label,
-      x: 100,
-      y: 75
+      label
     }
   ]
 }
@@ -31,10 +59,18 @@ const onRemoveClick = canvas => {
 }
 
 window.requestAnimationFrame(() => {
-  const canvas = document.querySelector('app-capacity-canvas')
+  canvas = document.querySelector('app-capacity-canvas')
+  legend = document.querySelector('app-legend')
   const labelInput = document.querySelector('input')
   const addButton = document.querySelector('button[data-add]')
   const removeButton = document.querySelector('button[data-remove]')
+  const zoomInButton = document.querySelector('button[data-zoom-in]')
+  const zoomOutButton = document.querySelector('button[data-zoom-out]')
+
+  legend.addEventListener(
+    EVENTS.MARKER_POSITION_CHANGE,
+    onMarkerPositionChange
+  )
 
   addButton.addEventListener('click', () => {
     if (!labelInput.value) {
@@ -46,6 +82,14 @@ window.requestAnimationFrame(() => {
 
   removeButton.addEventListener('click', () => {
     onRemoveClick(canvas)
+  })
+
+  zoomInButton.addEventListener('click', () => {
+    onZoomInClick()
+  })
+
+  zoomOutButton.addEventListener('click', () => {
+    onZoomOutClick()
   })
 
   createAttributesObserver(canvas, () => {
