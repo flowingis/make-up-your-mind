@@ -41,24 +41,25 @@ export default (node, parent, onMoveListener = () => {}) => {
       x: node.getBoundingClientRect().width / 2,
       y: node.getBoundingClientRect().height / 2
     }
+    onMove(e)
     DRAG_EVENTS.forEach(envetName => {
-      node.addEventListener(envetName, onMove, false)
+      parent.addEventListener(envetName, onMove, false)
     })
   }
 
   const onEnd = () => {
     offset = undefined
     DRAG_EVENTS.forEach(event => {
-      node.removeEventListener(event, onMove)
+      parent.removeEventListener(event, onMove)
     })
   }
 
   START_EVENTS.forEach(event => {
-    node.addEventListener(event, onStart, false)
+    parent.addEventListener(event, onStart, false)
   })
 
   END_EVENTS.forEach(event => {
-    node.addEventListener(event, onEnd, false)
+    parent.addEventListener(event, onEnd, false)
   })
 
   return {
