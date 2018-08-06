@@ -14,6 +14,23 @@ const syncChartToAnchor = canvas => {
       'a'
     ).href = `data:image/svg+xml;base64,\n${window.btoa(canvas.innerHTML)}`
   })
+
+  const removeByIndexButtons = document.querySelectorAll(
+    'text[data-remove-by-index]'
+  )
+  removeByIndexButtons.forEach((deleteButton, i) => {
+    if (deleteButton.getAttribute('listner-added') === 'false') {
+      deleteButton.setAttribute('listner-added', 'true')
+      deleteButton.addEventListener('click', e => onRemoveItemClick(e, canvas))
+    }
+  })
+}
+
+const onRemoveItemClick = (e, canvas) => {
+  const newData = [...canvas.data]
+  const indexToRemove = e.target.getAttribute('data-remove-by-index')
+  newData.splice(indexToRemove, 1)
+  canvas.data = newData
 }
 
 const onZoomInClick = () => {

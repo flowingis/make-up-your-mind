@@ -54,6 +54,14 @@ export const factory = ({
     set(board.data)
   }
 
+  const removeOptionByIndex = (board, i) => {
+    const newData = [...board.data]
+    newData.splice(i, 1)
+    board.data = newData
+
+    set(board.data)
+  }
+
   const reset = () => {
     set(initialData)
     return initialData
@@ -83,6 +91,7 @@ export const factory = ({
     get,
     addOption,
     removeOption,
+    removeOptionByIndex,
     changePosition,
     reset
   }
