@@ -12,11 +12,27 @@ if (!window.location.hash) {
 const channel = window.location.hash.substr(1)
 let board
 
-const syncChartToAnchor = board => {
+const removePostit = e => {
+  const indexToRemove = e.target.getAttribute('data-remove-by-index')
+  optionsBoardData.removeOptionByIndex(board, indexToRemove)
+}
+
+const syncChart = board => {
   window.requestIdleCallback(() => {
     document.querySelector(
       'a'
     ).href = `data:image/svg+xml;base64,\n${window.btoa(board.innerHTML)}`
+  })
+
+  const removeByIndexButtons = document.querySelectorAll(
+    'text[data-remove-by-index]'
+  )
+
+  removeByIndexButtons.forEach((deleteButton, i) => {
+    if (deleteButton.getAttribute('listner-added') === 'false') {
+      deleteButton.setAttribute('listner-added', 'true')
+      deleteButton.addEventListener('click', removePostit)
+    }
   })
 }
 
@@ -49,14 +65,14 @@ optionsBoardData.init(channel).then(_ => {
     })
 
     createAttributesObserver(board, () => {
-      syncChartToAnchor(board)
+      syncChart(board)
     })
   })
 })
 
 const syncData = data => {
   board.data = data
-  window.requestAnimationFrame(() => syncChartToAnchor(board))
+  window.requestAnimationFrame(() => syncChart(board))
 }
 
 optionsBoardData.addOnChangeListener(syncData)
