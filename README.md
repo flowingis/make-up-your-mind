@@ -1,6 +1,6 @@
 # make-up-your-mind
 
-[![framework less](https://file-blyuofkggj.now.sh)](https://github.com/frameworkless-movement/manifesto)
+[![framework less](http://frameworklessmovement.org/img/frameworkless__badge-github.svg)](https://github.com/frameworkless-movement/manifesto)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Build Status](https://travis-ci.org/e-xtrategy/make-up-your-mind.svg?branch=master)](https://travis-ci.org/e-xtrategy/make-up-your-mind)
